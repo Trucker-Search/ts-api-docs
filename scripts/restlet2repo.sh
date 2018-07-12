@@ -9,4 +9,4 @@ git config --global user.email "$1"
 git add spec/*/*
 git commit -m "restlet2repo: $2" -a
 git push
-git config --global user.email "jondf@directfreight.com"
+git config --global user.email "jonts@directfreight.com"
