@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /var/www/dfwdbi/api/df-api-docs
+cd /var/www/dfwdbi/api/ts-api-docs
 export APIDOCS_PATH="/home/catalyst/Dropbox/directfreight/apidocs/truckersearch"
 if ! diff -q web_deploy/swagger-nocode.yaml $APIDOCS_PATH/swagger20-with-extensions.yaml; then
         cp $APIDOCS_PATH/swagger20-with-extensions.yaml web_deploy/swagger-nocode.yaml
