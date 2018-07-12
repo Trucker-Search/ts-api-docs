@@ -49,7 +49,8 @@ post:
             This will have a fully qualified API url you can call to get details
             of yoru load.
           type: string
-          x-example: 'https://directfreight.com/api/postings/loads/?posting_id=1764957218'
+          x-example: >-
+            https://truckersearchtest6.com/api/postings/loads/?posting_id=1764957218
       schema:
         properties:
           success:

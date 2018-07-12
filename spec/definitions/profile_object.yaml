@@ -2,7 +2,7 @@ example: |-
   {
     "address": "P.O. Box 131",
     "city": "Chillicothe",
-    "company": "Direct Freight",
+    "company": "Trucker Search",
     "contact_extension": "x333",
     "contact_name": "Joe Doe",
     "contact_number": "555-555-5555",
@@ -12,7 +12,7 @@ example: |-
     "mobile_carrier": "Company_X",
     "mobile_number": "555-555-1234",
     "state": "MO",
-    "web_page": "http://www.directfreight.com",
+    "web_page": "http://www.truckersearch.com",
     "zip": 55555
   }
 properties:

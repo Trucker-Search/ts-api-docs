@@ -28,7 +28,7 @@ properties:
 
       To access the report, use the key with the following url.
 
-      https://www.directfreight.com/home/credit_report?refid=$credit_report_key
+      https://www.truckersearch.com/home/credit_report?refid=$credit_report_key
     type: string
   credit_score:
     type: integer
