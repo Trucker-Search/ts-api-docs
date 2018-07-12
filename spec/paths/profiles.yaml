@@ -50,7 +50,7 @@ post:
             of yoru load.
           type: string
           x-example: >-
-            https://truckersearchtest7.com/api/postings/loads/?posting_id=1764957218
+            https://truckersearchtest8.com/api/postings/loads/?posting_id=1764957218
       schema:
         properties:
           success:
