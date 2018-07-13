@@ -4,11 +4,11 @@
 
 ## Links
 
-- Documentation (ReDoc): http://apidocs.directfreight.com/
-- Try It Out (SwaggerUI): http://apidocs.directfreight.com/swagger-ui/
+- Documentation (ReDoc): http://apidocs.truckersearch.com/
+- Try It Out (SwaggerUI): http://apidocs.truckersearch.com/swagger-ui/
 - Look at full spec:
-    + JSON http://apidocs.directfreight.com/swagger.json
-    + YAML http://apidocs.directfreight.com/swagger.yaml
+    + JSON http://apidocs.truckersearch.com/swagger.json
+    + YAML http://apidocs.truckersearch.com/swagger.yaml
 
 ### Editing specification with swagger-editor
 
@@ -20,6 +20,6 @@
 
 ### Misc
 
-- Preview spec version for branch `[branch]`: https://docs.directfreight.com/preview/[branch]
+- Preview spec version for branch `[branch]`: https://docs.truckersearch.com/preview/[branch]
 - **[Optional]** If you document public API consider adding it into [APIs.guru](https://APIs.guru) directory using [this form](https://apis.guru/add-api/).
 
