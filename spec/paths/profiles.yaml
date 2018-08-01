@@ -2,33 +2,30 @@ get:
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: query
-      items:
-        type: integer
       name: posting_id
-      required: false
-      type: array
+      required: true
+      type: integer
   responses:
     '200':
-      description: successful operation
+      description: Status 200
       schema:
-        $ref: '#/definitions/profile_object'
-  summary: STAGE=UNK Request the logged in user's profile.
+        $ref: '#/definitions/profile_response'
+  summary: Get their profile
   tags:
     - profiles
 patch:
   consumes: []
-  description: Please send in at least one field to be updated.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
       name: body
       required: true
       schema:
-        $ref: '#/definitions/profile_object'
+        $ref: '#/definitions/profile_request'
   responses:
     '204':
-      description: successful operation
-  summary: STAGE=UNK Update profile information.
+      description: Status 204
+  summary: Update a profile.
   tags:
     - profiles
 post:
@@ -39,24 +36,14 @@ post:
       name: body
       required: true
       schema:
-        $ref: '#/definitions/profile_object'
+        $ref: '#/definitions/profile_request'
   responses:
     '201':
-      description: Object created check the headers for a reference URL.
+      description: Status 201
       headers:
-        Location:
-          description: >-
-            This will have a fully qualified API url you can call to get details
-            of yoru load.
+        url:
           type: string
-          x-example: >-
-            https://truckersearchtest9.com/api/postings/loads/?posting_id=1764957218
-      schema:
-        properties:
-          success:
-            type: boolean
-        type: object
-  summary: STAGE=UNK Create a new profile.
+  summary: Create a profile
   tags:
     - profiles
 x-restlet:
