@@ -1,0 +1,111 @@
+get:
+  description: >-
+    Behind the scenes a resume goes through an appoval process before it will
+    show up on a board. This could be a few seconds, or a few days. The resume
+    poster can always se their resume, but until it is approved the resume won't
+    be displayed on the board.
+  parameters:
+    - $ref: '#/parameters/end-user-token-optional'
+    - description: If this option is included we will use the first state in the array.
+      in: query
+      maxLength: 20
+      name: city
+      required: false
+      type: string
+    - description: A list of state codes.
+      in: query
+      items:
+        maxLength: 2
+        minLength: 2
+        type: string
+      name: state
+      required: false
+      type: array
+      x-example: '?state="MO,AR,IL,KY"'
+    - default: 30
+      description: Will be set if city is.
+      in: query
+      maximum: 30
+      minimum: 1
+      name: radius
+      required: false
+      type: integer
+    - enum:
+        - student
+        - owner operator
+        - other
+        - company driver
+      in: query
+      name: drive_type
+      required: false
+      type: string
+    - enum:
+        - V
+        - F
+        - R
+        - HOP
+        - AC
+        - HOP
+        - S
+      in: query
+      name: trailer_experience
+      required: false
+      type: string
+    - enum:
+        - nationwide
+        - east coast
+        - west coast
+        - midwest
+      in: query
+      name: driver_region
+      required: false
+      type: string
+    - enum:
+        - team
+        - single
+      in: query
+      name: team_preference
+      required: false
+      type: string
+    - enum:
+        - local
+        - OTR
+      in: query
+      name: driver_distance
+      required: false
+      type: string
+    - in: query
+      minimum: 0
+      name: driver_experience
+      required: false
+      type: integer
+    - in: query
+      name: page_number
+      required: false
+      type: integer
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          list:
+            items:
+              $ref: '#/definitions/resume_board_data'
+            type: array
+          page_number:
+            type: integer
+          total_items:
+            type: integer
+          total_pages:
+            type: integer
+        required:
+          - list
+          - page_number
+          - total_items
+          - total_pages
+        type: object
+  summary: Get a list of Resumes
+  tags:
+    - resumes
+x-restlet:
+  section: RESUMES

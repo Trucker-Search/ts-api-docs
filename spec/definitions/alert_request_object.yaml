@@ -1,0 +1,39 @@
+properties:
+  driver_experience:
+    type: integer
+  driver_location:
+    type: string
+  driver_region:
+    type: string
+  driver_route:
+    type: string
+  driver_team:
+    type: boolean
+  driver_type:
+    type: string
+  frequency:
+    description: Frequency in minutes that the alert is sent.
+    enum:
+      - 15
+      - 30
+      - 60
+      - 240
+      - 480
+      - 1440
+    type: integer
+  last_sent:
+    description: Last time the alert was sent.
+    format: date-time
+    type: string
+  only_new:
+    description: 'Whether to sent both new and updated resumes, or just new resumes.'
+    type: boolean
+  trailers:
+    type: string
+required:
+  - frequency
+  - last_sent
+  - only_new
+type: object
+x-restlet:
+  section: ALERTS

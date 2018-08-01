@@ -1,0 +1,48 @@
+get:
+  description: Gets a list of other people's jobs.
+  parameters:
+    - $ref: '#/parameters/end-user-token-optional'
+    - in: query
+      name: state
+      required: false
+      type: string
+    - enum:
+        - OTR
+        - local
+      in: query
+      name: range
+      required: false
+      type: string
+    - enum:
+        - east coast
+        - west coast
+        - midwest
+        - nationwide
+        - north east
+        - north west
+        - south east
+        - south west
+        - n/a local job
+      in: query
+      name: region
+      required: false
+      type: string
+    - enum:
+        - single
+        - team
+      in: query
+      name: type
+      required: false
+      type: string
+    - in: query
+      name: page_number
+      required: false
+      type: integer
+  responses:
+    '200':
+      description: returns a list of jobs.
+      schema:
+        $ref: '#/definitions/job_list'
+  summary: Get a list of jobs
+x-restlet:
+  section: JOBS

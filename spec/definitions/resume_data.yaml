@@ -1,0 +1,169 @@
+example: A resume.
+properties:
+  comments:
+    type: string
+  contact:
+    properties:
+      address:
+        maxLength: 40
+        type: string
+      city:
+        maxLength: 30
+        type: string
+      fax_number:
+        description: Should we depricate this? How many new resumes come with this?
+        maximum: 20
+        type: integer
+      first_name:
+        maxLength: 20
+        type: string
+      home_phone:
+        description: >-
+          DEVNOTE: Look into why this is ridiculous and see if we can drop it it
+          to 11 or 13
+        maximum: 20
+        type: integer
+      last_name:
+        maxLength: 20
+        type: string
+      state:
+        maxLength: 4
+        type: string
+      website_address:
+        maxLength: 40
+        type: string
+      work_phone:
+        description: Same as home phone
+        maximum: 20
+        type: integer
+      zip:
+        maxLength: 10
+        type: string
+    required:
+      - address
+      - city
+      - fax_number
+      - first_name
+      - home_phone
+      - last_name
+      - state
+      - website_address
+      - work_phone
+      - zip
+    type: object
+  driving_record:
+    properties:
+      accidents:
+        minimum: 0
+        type: integer
+      age:
+        enum:
+          - 18-20
+          - 21-25
+          - 26-30
+          - Over 30
+        type: string
+      gender:
+        enum:
+          - male
+          - female
+        type: string
+      license:
+        enum:
+          - Class A
+          - Class B
+          - Neither
+        type: string
+      tickets:
+        minimum: 0
+        type: integer
+    required:
+      - accidents
+      - age
+      - gender
+      - license
+      - tickets
+    type: object
+  experience:
+    properties:
+      current_employer:
+        maxLength: 40
+        type: string
+      current_years_experience:
+        minimum: 0
+        type: integer
+      felony:
+        type: boolean
+      felony_reason:
+        type: string
+      previous_emplayer:
+        maxLength: 40
+        type: string
+      previous_years_experience:
+        minimum: 0
+        type: integer
+      total_years_experience:
+        minimum: 0
+        type: integer
+      trailer_experience:
+        description: >-
+          You can have up to an additional 4 custom trailers of a length of 6 or
+          less each.
+        items:
+          enum:
+            - V
+            - R
+            - F
+            - AC
+            - HOP
+            - TANK
+            - S
+          maxLength: 6
+          minLength: 1
+          type: string
+        type: array
+    required:
+      - current_employer
+      - current_years_experience
+      - felony
+      - previous_emplayer
+      - previous_years_experience
+      - total_years_experience
+    type: object
+  id:
+    type: integer
+  job_preference:
+    properties:
+      distance:
+        enum:
+          - OTR
+          - local
+        type: string
+      region:
+        enum:
+          - east coast
+          - midwest
+          - west coast
+          - nationwide
+        type: string
+      team_preference:
+        enum:
+          - single
+          - team
+        type: string
+      type:
+        enum:
+          - Other
+          - Student
+          - Company
+          - Owner/Operator
+        type: string
+    type: object
+required:
+  - contact
+  - driving_record
+  - experience
+  - id
+type: object
+x-restlet:
+  section: RESUMES

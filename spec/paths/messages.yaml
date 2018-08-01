@@ -1,0 +1,72 @@
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - description: Who the conversation is with.
+      in: query
+      name: contact_id
+      required: false
+      type: string
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          list:
+            description: conversation in chronological order
+            items:
+              properties:
+                id:
+                  description: I don't think there is a reason to expose this field.
+                  type: string
+                message:
+                  type: string
+                sender:
+                  description: 'Who sent the message, the logged in user, or the contact.'
+                  type: integer
+                sent:
+                  format: date-time
+                  type: string
+                status:
+                  enum:
+                    - read
+                    - sent
+                  type: string
+              required:
+                - id
+                - message
+                - sender
+                - sent
+                - status
+              type: object
+            type: array
+        required:
+          - list
+        type: object
+  summary: Get a conversation.
+post:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          contact:
+            description: Who the message is being sent to.
+            type: integer
+          message:
+            description: This can contain a small list of html tags.
+            type: string
+        required:
+          - contact
+          - message
+        type: object
+  responses:
+    '200':
+      description: Status 200
+  summary: Send a message
+  tags:
+    - messages
+x-restlet:
+  section: MESSAGES

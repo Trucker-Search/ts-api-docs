@@ -1,0 +1,76 @@
+delete:
+  parameters:
+    - description: The job ad to deactivate.
+      in: query
+      name: id
+      required: true
+      type: integer
+    - in: header
+      name: end-user-auth
+      required: true
+      type: string
+  responses:
+    '204':
+      description: Status 204
+  summary: Decativate a Job ad
+  tags:
+    - jobs
+get:
+  description: >-
+    This method will return back enough information to determine if a job ad is
+    runnig, and when it will stop.
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: query
+      name: id
+      required: true
+      type: integer
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          bill_method:
+            enum:
+              - manual
+              - automatic
+            type: string
+          days_left:
+            description: >-
+              If the Job is not active, this value tells how many days the Job
+              can be run for before payment.
+            type: string
+          expires_after:
+            type: string
+        required:
+          - bill_method
+          - days_left
+          - expires_after
+        type: object
+  summary: Get the status of a job ad.
+  tags:
+    - jobs
+post:
+  consumes: []
+  description: This method will only work if the add has days left of > 0.
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          id:
+            description: The id of the job ad to activate.
+            type: string
+        type: object
+  responses:
+    '201':
+      description: Status 201
+      headers:
+        url:
+          description: The board location of the active job ad.
+          type: string
+  summary: Activate a job ad.
+x-restlet:
+  section: JOBS

@@ -1,0 +1,79 @@
+delete:
+  parameters:
+    - $ref: '#/parameters/end-user-token-optional'
+    - in: query
+      name: alert_id
+      required: true
+      type: integer
+    - description: Will be ignored for logged in users.
+      in: header
+      name: email-address
+      required: false
+      type: string
+  responses:
+    '204':
+      description: Status 204
+  summary: Delete an alert.
+  tags:
+    - alerts
+get:
+  description: >-
+    Get a list of alerts. You can optionally limit the list by specifcying
+    alerts by their alert_id.
+  parameters:
+    - $ref: '#/parameters/end-user-token-optional'
+    - description: >-
+        only get a subset of alerts. As this is a get request this is specified
+        as a query string parameter
+      in: query
+      items:
+        type: integer
+      name: alert_id
+      required: false
+      type: array
+    - description: Will be ignored if there is an EUA token.
+      in: header
+      name: email-address
+      required: false
+      type: string
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          list:
+            items:
+              $ref: '#/definitions/alert_response_object'
+            type: array
+        required:
+          - list
+        type: object
+  summary: Get a list of alerts.
+  tags:
+    - alerts
+post:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token-optional'
+    - description: Will be ignored if an EUA token is supplied.
+      in: header
+      name: email-address
+      required: false
+      type: string
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/definitions/alert_request_object'
+  responses:
+    '201':
+      description: Status 201
+      headers:
+        url:
+          description: Location of the new alert.
+          type: string
+  summary: Create a new alert.
+  tags:
+    - alerts
+x-restlet:
+  section: ALERTS

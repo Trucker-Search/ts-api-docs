@@ -1,0 +1,109 @@
+properties:
+  list:
+    items:
+      properties:
+        contact:
+          description: The contact information for this ad.
+          properties:
+            address:
+              maxLength: 64
+              type: string
+            city:
+              maxLength: 45
+              type: string
+            contact:
+              maxLength: 45
+              type: string
+            email:
+              maxLength: 45
+              type: string
+            id:
+              description: >-
+                This is the id you would use to send a message to this employer.
+                Only logged in users can see this.
+              type: integer
+            name:
+              maxLength: 45
+              type: string
+            phone:
+              type: integer
+            state:
+              maxLength: 2
+              type: string
+            website:
+              maxLength: 500
+              type: string
+            zip:
+              maxLength: 10
+              type: string
+          required:
+            - address
+            - city
+            - contact
+            - name
+            - phone
+            - state
+            - zip
+          type: object
+        id:
+          type: number
+        position:
+          properties:
+            description:
+              description: This is a large text field.
+              type: string
+            image_name:
+              maxLength: 32
+              type: string
+            locations:
+              items:
+                type: string
+              type: array
+            range:
+              enum:
+                - OTR
+                - local
+              type: string
+            region:
+              enum:
+                - east coast
+                - west coast
+                - midwest
+                - nationwide
+                - north east
+                - north west
+                - south east
+                - south west
+                - n/a local job
+              type: string
+            type:
+              enum:
+                - single
+                - team
+              type: string
+          required:
+            - description
+            - range
+            - region
+            - type
+          type: object
+      required:
+        - contact
+        - id
+        - position
+      type: object
+    type: array
+  page_number:
+    type: integer
+  total_items:
+    type: integer
+  total_pages:
+    type: integer
+required:
+  - list
+  - page_number
+  - total_items
+  - total_pages
+type: object
+x-restlet:
+  section: JOBS

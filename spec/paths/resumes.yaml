@@ -1,0 +1,72 @@
+delete:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: query
+      name: id
+      required: true
+      type: integer
+  responses:
+    '204':
+      description: Status 204
+  summary: Delete the resume
+  tags:
+    - resumes
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - description: Optionally just get one resume.
+      in: query
+      name: id
+      required: false
+      type: integer
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          list:
+            items:
+              $ref: '#/definitions/resume_data'
+            type: array
+        required:
+          - list
+        type: object
+  summary: Get a list of the users resumes.
+  tags:
+    - resumes
+patch:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/definitions/resume_data_optional'
+  responses:
+    '200':
+      description: Status 200
+  summary: Update a resume.
+  tags:
+    - resumes
+post:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/definitions/resume_data'
+  responses:
+    '201':
+      description: Status 200
+      headers:
+        url:
+          description: Link to the newly created resume.
+          type: string
+  summary: Add a new resume.
+  tags:
+    - resumes
+x-restlet:
+  section: RESUMES

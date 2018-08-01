@@ -1,0 +1,23 @@
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - description: Just return a count of new messages from one contact.
+      in: query
+      name: contact
+      required: false
+      type: string
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          count:
+            type: integer
+        required:
+          - count
+        type: object
+  summary: Returns how many unread messages the logged in user has.
+  tags:
+    - messages
+x-restlet:
+  section: MESSAGES

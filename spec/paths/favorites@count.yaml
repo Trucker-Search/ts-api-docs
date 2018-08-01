@@ -1,0 +1,25 @@
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - enum:
+        - resume
+        - job
+      in: query
+      name: type
+      required: true
+      type: string
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          count:
+            type: integer
+        required:
+          - count
+        type: object
+  summary: Get a count of favorites
+  tags:
+    - favorites
+x-restlet:
+  section: FAVORITES
