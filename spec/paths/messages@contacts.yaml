@@ -67,7 +67,7 @@ patch:
       required: true
       schema:
         properties:
-          id:
+          contact_id:
             description: Contact to move.
             type: integer
           new_folder:
@@ -75,7 +75,7 @@ patch:
           old_folder:
             type: integer
         required:
-          - id
+          - contact_id
           - new_folder
           - old_folder
         type: object

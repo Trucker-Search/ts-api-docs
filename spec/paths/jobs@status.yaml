@@ -2,7 +2,7 @@ delete:
   parameters:
     - description: The job ad to deactivate.
       in: query
-      name: id
+      name: job_id
       required: true
       type: integer
     - in: header
@@ -22,7 +22,7 @@ get:
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: query
-      name: id
+      name: job_id
       required: true
       type: integer
   responses:
@@ -39,8 +39,9 @@ get:
             description: >-
               If the Job is not active, this value tells how many days the Job
               can be run for before payment.
-            type: string
+            type: integer
           expires_after:
+            format: date
             type: string
         required:
           - bill_method
@@ -52,7 +53,9 @@ get:
     - jobs
 post:
   consumes: []
-  description: This method will only work if the add has days left of > 0.
+  description: >-
+    This method will only work if the add has days left of > 0, otherwise in
+    theory it should return a url to a chargebee payment portal. 
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
@@ -60,7 +63,7 @@ post:
       required: true
       schema:
         properties:
-          id:
+          job_id:
             description: The id of the job ad to activate.
             type: string
         type: object
@@ -72,5 +75,7 @@ post:
           description: The board location of the active job ad.
           type: string
   summary: Activate a job ad.
+  tags:
+    - jobs
 x-restlet:
   section: JOBS

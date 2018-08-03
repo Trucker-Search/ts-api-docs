@@ -74,10 +74,10 @@ properties:
       current_years_experience:
         minimum: 0
         type: integer
-      felony:
-        type: boolean
       felony_reason:
         type: string
+      has_felony:
+        type: boolean
       previous_emplayer:
         maxLength: 40
         type: string
@@ -109,29 +109,33 @@ properties:
     type: integer
   job_preference:
     properties:
-      distance:
+      distance_preference:
         enum:
           - OTR
           - local
         type: string
-      region:
-        enum:
-          - east coast
-          - midwest
-          - west coast
-          - nationwide
-        type: string
-      team_preference:
-        enum:
-          - single
-          - team
-        type: string
-      type:
+      position:
         enum:
           - Other
           - Student
           - Company
           - Owner/Operator
+        type: string
+      region_preference:
+        enum:
+          - east coast
+          - midwest
+          - west coast
+          - nationwide
+          - north west
+          - north east
+          - south west
+          - south east
+        type: string
+      team_preference:
+        enum:
+          - single
+          - team
         type: string
     type: object
 required:

@@ -1,10 +1,6 @@
 get:
   parameters:
     - $ref: '#/parameters/end-user-token'
-    - in: query
-      name: posting_id
-      required: true
-      type: integer
   responses:
     '200':
       description: Status 200

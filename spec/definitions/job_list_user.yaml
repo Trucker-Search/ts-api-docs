@@ -57,26 +57,28 @@ properties:
             currently active.
           format: date
           type: string
-        id:
+        job_id:
           type: number
         position:
           properties:
             description:
               description: This is a large text field.
               type: string
-            image_name:
+            distance_preference:
+              enum:
+                - local
+                - OTR
+              type: string
+            image_url:
+              description: the uri path to the image.
+              example: 'http://df.co/job_images/ASOETUHAOSENTUHAOENUTSH.png'
               maxLength: 32
               type: string
             locations:
               items:
                 type: string
               type: array
-            range:
-              enum:
-                - OTR
-                - local
-              type: string
-            region:
+            region_preference:
               enum:
                 - east coast
                 - west coast
@@ -86,25 +88,26 @@ properties:
                 - north west
                 - south east
                 - south west
-                - n/a local job
+                - local
               type: string
-            type:
+            team_preference:
               enum:
-                - single
                 - team
+                - single
               type: string
           required:
             - description
-            - range
-            - region
-            - type
+            - distance_preference
+            - image_url
+            - region_preference
+            - team_preference
           type: object
       required:
         - bill_method
         - contact
         - days_left
         - expires_after
-        - id
+        - job_id
         - position
       type: object
     type: array

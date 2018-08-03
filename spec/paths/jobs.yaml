@@ -5,13 +5,15 @@ delete:
         You can only delete 1 job at a time, and only if that Job is both not
         active, and does not have any days left.
       in: query
-      name: id
+      name: job_id
       required: true
       type: string
   responses:
     '204':
       description: Status 204
   summary: Delete the users job ad.
+  tags:
+    - jobs
 get:
   description: Get a list of the logged in users jobs.
   parameters:
@@ -20,7 +22,7 @@ get:
       in: query
       items:
         type: integer
-      name: id
+      name: job_id
       required: false
       type: array
   responses:

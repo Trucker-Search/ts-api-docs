@@ -45,26 +45,26 @@ properties:
             - state
             - zip
           type: object
-        id:
+        job_id:
           type: number
         position:
           properties:
             description:
               description: This is a large text field.
               type: string
-            image_name:
+            distance_preference:
+              enum:
+                - OTR
+                - local
+              type: string
+            image_url:
               maxLength: 32
               type: string
             locations:
               items:
                 type: string
               type: array
-            range:
-              enum:
-                - OTR
-                - local
-              type: string
-            region:
+            region_preference:
               enum:
                 - east coast
                 - west coast
@@ -76,20 +76,20 @@ properties:
                 - south west
                 - n/a local job
               type: string
-            type:
+            team_preference:
               enum:
                 - single
                 - team
               type: string
           required:
             - description
-            - range
-            - region
-            - type
+            - distance_preference
+            - region_preference
+            - team_preference
           type: object
       required:
         - contact
-        - id
+        - job_id
         - position
       type: object
     type: array

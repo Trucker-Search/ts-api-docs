@@ -15,27 +15,23 @@ get:
             description: conversation in chronological order
             items:
               properties:
-                id:
-                  description: I don't think there is a reason to expose this field.
+                date_sent:
+                  format: date-time
                   type: string
                 message:
                   type: string
                 sender:
                   description: 'Who sent the message, the logged in user, or the contact.'
                   type: integer
-                sent:
-                  format: date-time
-                  type: string
                 status:
                   enum:
                     - read
                     - sent
                   type: string
               required:
-                - id
+                - date_sent
                 - message
                 - sender
-                - sent
                 - status
               type: object
             type: array

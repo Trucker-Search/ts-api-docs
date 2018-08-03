@@ -1,8 +1,8 @@
 properties:
   contact:
     description: >-
-      As long as 1 sub element from contact or position is filled in this will b
-      ea valid request.
+      As long as 1 sub element from contact or position is filled in this will
+      be a valid request.
     properties:
       address:
         maxLength: 64
@@ -31,40 +31,37 @@ properties:
         maxLength: 10
         type: string
     type: object
-  id:
+  job_id:
     description: The Job ad to patch.
     type: integer
   position:
     description: >-
-      As long as 1 sub element from contact or position is filled in this will b
-      ea valid request.
+      As long as 1 sub element from contact or position is filled in this will
+      be a valid request.
     properties:
       description:
         description: This can be long form text.
         type: string
-      image:
-        description: >-
-          We accept an image file of up to 1MB in size. All images will be
-          resized to 160x160.
-        format: binary
-        type: string
-      locations:
-        type: string
-      range:
-        enum:
-          - single
-          - team
-        type: string
-      region:
+      distance_preference:
         enum:
           - OTR
           - local
         type: string
+      image_url:
+        description: Sending in an empty string will cause us to regenerate a new image.
+        type: string
+      locations:
+        items:
+          type: string
+        type: array
+      team_preference:
+        enum:
+          - single
+          - team
+        type: string
     type: object
 required:
-  - contact
-  - id
-  - position
+  - job_id
 type: object
 x-restlet:
   section: JOBS

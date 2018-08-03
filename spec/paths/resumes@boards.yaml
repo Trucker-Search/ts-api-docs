@@ -6,12 +6,6 @@ get:
     be displayed on the board.
   parameters:
     - $ref: '#/parameters/end-user-token-optional'
-    - description: If this option is included we will use the first state in the array.
-      in: query
-      maxLength: 20
-      name: city
-      required: false
-      type: string
     - description: A list of state codes.
       in: query
       items:
@@ -22,6 +16,12 @@ get:
       required: false
       type: array
       x-example: '?state="MO,AR,IL,KY"'
+    - description: If this option is included we will use the first state in the array.
+      in: query
+      maxLength: 20
+      name: city
+      required: false
+      type: string
     - default: 30
       description: Will be set if city is.
       in: query
@@ -81,6 +81,13 @@ get:
       type: integer
     - in: query
       name: page_number
+      required: false
+      type: integer
+    - description: Results per page.
+      in: query
+      maximum: 100
+      minimum: 1
+      name: item_count
       required: false
       type: integer
   responses:

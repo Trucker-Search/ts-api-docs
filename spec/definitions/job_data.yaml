@@ -38,38 +38,45 @@ properties:
       - website
       - zip
     type: object
+  job_id:
+    type: integer
   position:
     properties:
+      Image_url:
+        description: >-
+          We will download the image from the URL. If no image is found we will
+          automatically generate one. We accept an image file of up to 1MB in
+          size. All images will be resized to 160x160.
+        format: binary
+        type: string
       description:
         description: This can be long form text.
         type: string
-      image:
-        description: >-
-          We accept an image file of up to 1MB in size. All images will be
-          resized to 160x160.
-        format: binary
-        type: string
-      locations:
-        items:
-          type: string
-        type: array
-      range:
-        enum:
-          - single
-          - team
-        type: string
-      region:
+      distance_preference:
+        default: OTR
         enum:
           - OTR
           - local
         type: string
+      locations:
+        description: >-
+          If included the array only accepts 2 digit state codes. MO, BC, AR,
+          and so on.
+        items:
+          type: string
+        type: array
+      team_preference:
+        default: single
+        enum:
+          - single
+          - team
+        type: string
     required:
-      - locations
-      - range
-      - region
+      - Image_url
     type: object
 required:
   - contact
+  - job_id
   - position
 type: object
 x-restlet:

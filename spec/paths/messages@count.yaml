@@ -3,7 +3,7 @@ get:
     - $ref: '#/parameters/end-user-token'
     - description: Just return a count of new messages from one contact.
       in: query
-      name: contact
+      name: contact_id
       required: false
       type: string
   responses:

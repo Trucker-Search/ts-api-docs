@@ -24,6 +24,97 @@ produces:
 security:
 - api_key: []
 paths:
+  /alerts:
+    get:
+      tags:
+      - "alerts"
+      summary: "Get a list of alerts."
+      description: "Get a list of alerts. You can optionally limit the list by specifcying\
+        \ alerts by their alert_id."
+      parameters:
+      - name: "alert_id"
+        in: "query"
+        required: false
+        type: "array"
+        description: "only get a subset of alerts. As this is a get request this is\
+          \ specified as a query string parameter"
+        items:
+          type: "integer"
+      - name: "end-user-token"
+        in: "header"
+        required: false
+        type: "string"
+        description: "TS still has anonymous login. If you don't use an EUA you must\
+          \ use an e-mail address."
+      - name: "email-address"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Will be ignored if there is an EUA token."
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "list"
+            type: "object"
+            properties:
+              list:
+                type: "array"
+                items:
+                  $ref: "#/definitions/alert_response_object"
+    post:
+      tags:
+      - "alerts"
+      summary: "Create a new alert."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: false
+        type: "string"
+        description: "This or an email-address must be supplied."
+      - name: "email-address"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Will be ignored if an EUA token is supplied."
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/alert_request_object"
+      responses:
+        201:
+          description: "Status 201"
+          headers:
+            url:
+              type: "string"
+              description: "Location of the new alert."
+    delete:
+      tags:
+      - "alerts"
+      summary: "Delete an alert."
+      parameters:
+      - name: "alert_id"
+        in: "query"
+        required: true
+        type: "integer"
+      - name: "end-user-token"
+        in: "header"
+        required: false
+        type: "string"
+        description: "This or an e-mail address for non logged in users is required."
+      - name: "email-address"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Will be ignored for logged in users."
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "ALERTS"
   /jobs:
     get:
       tags:
@@ -31,7 +122,7 @@ paths:
       summary: "Get logged in user's job ads."
       description: "Get a list of the logged in users jobs."
       parameters:
-      - name: "id"
+      - name: "job_id"
         in: "query"
         required: false
         type: "array"
@@ -72,9 +163,11 @@ paths:
               description: "A url pointing to the newly created resource."
               x-example: ".../jobs/?id=1234"
     delete:
+      tags:
+      - "jobs"
       summary: "Delete the users job ad."
       parameters:
-      - name: "id"
+      - name: "job_id"
         in: "query"
         required: true
         type: "string"
@@ -109,6 +202,8 @@ paths:
       section: "JOBS"
   /jobs/boards:
     get:
+      tags:
+      - "jobs"
       summary: "Get a list of jobs"
       description: "Gets a list of other people's jobs."
       parameters:
@@ -116,13 +211,10 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "range"
+      - name: "local"
         in: "query"
         required: false
-        type: "string"
-        enum:
-        - "OTR"
-        - "local"
+        type: "boolean"
       - name: "region"
         in: "query"
         required: false
@@ -137,17 +229,21 @@ paths:
         - "south east"
         - "south west"
         - "n/a local job"
-      - name: "type"
+      - name: "single"
         in: "query"
         required: false
-        type: "string"
-        enum:
-        - "single"
-        - "team"
+        type: "boolean"
       - name: "page_number"
         in: "query"
         required: false
         type: "integer"
+      - name: "item_count"
+        in: "query"
+        required: false
+        type: "integer"
+        description: "Results per page."
+        minimum: 1
+        maximum: 100
       - name: "end-user-token"
         in: "header"
         required: false
@@ -167,7 +263,7 @@ paths:
       description: "This method will return back enough information to determine if\
         \ a job ad is runnig, and when it will stop."
       parameters:
-      - name: "id"
+      - name: "job_id"
         in: "query"
         required: true
         type: "integer"
@@ -186,19 +282,23 @@ paths:
             type: "object"
             properties:
               days_left:
-                type: "string"
+                type: "integer"
                 description: "If the Job is not active, this value tells how many\
                   \ days the Job can be run for before payment."
               expires_after:
                 type: "string"
+                format: "date"
               bill_method:
                 type: "string"
                 enum:
                 - "manual"
                 - "automatic"
     post:
+      tags:
+      - "jobs"
       summary: "Activate a job ad."
-      description: "This method will only work if the add has days left of > 0."
+      description: "This method will only work if the add has days left of > 0, otherwise\
+        \ in theory it should return a url to a chargebee payment portal. "
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -211,7 +311,7 @@ paths:
         schema:
           type: "object"
           properties:
-            id:
+            job_id:
               type: "string"
               description: "The id of the job ad to activate."
       responses:
@@ -226,7 +326,7 @@ paths:
       - "jobs"
       summary: "Decativate a Job ad"
       parameters:
-      - name: "id"
+      - name: "job_id"
         in: "query"
         required: true
         type: "integer"
@@ -246,7 +346,7 @@ paths:
       - "resumes"
       summary: "Get a list of the users resumes."
       parameters:
-      - name: "id"
+      - name: "resume_id"
         in: "query"
         required: false
         type: "integer"
@@ -335,13 +435,6 @@ paths:
         \ The resume poster can always se their resume, but until it is approved the\
         \ resume won't be displayed on the board."
       parameters:
-      - name: "city"
-        in: "query"
-        required: false
-        type: "string"
-        description: "If this option is included we will use the first state in the\
-          \ array."
-        maxLength: 20
       - name: "state"
         in: "query"
         required: false
@@ -352,6 +445,13 @@ paths:
           minLength: 2
           maxLength: 2
         x-example: "?state=\"MO,AR,IL,KY\""
+      - name: "city"
+        in: "query"
+        required: false
+        type: "string"
+        description: "If this option is included we will use the first state in the\
+          \ array."
+        maxLength: 20
       - name: "radius"
         in: "query"
         required: false
@@ -413,6 +513,13 @@ paths:
         in: "query"
         required: false
         type: "integer"
+      - name: "item_count"
+        in: "query"
+        required: false
+        type: "integer"
+        description: "Results per page."
+        minimum: 1
+        maximum: 100
       - name: "end-user-token"
         in: "header"
         required: false
@@ -466,24 +573,19 @@ paths:
                 description: "conversation in chronological order"
                 items:
                   required:
-                  - "id"
+                  - "date_sent"
                   - "message"
                   - "sender"
-                  - "sent"
                   - "status"
                   type: "object"
                   properties:
-                    id:
-                      type: "string"
-                      description: "I don't think there is a reason to expose this\
-                        \ field."
                     sender:
                       type: "integer"
                       description: "Who sent the message, the logged in user, or the\
                         \ contact."
                     message:
                       type: "string"
-                    sent:
+                    date_sent:
                       type: "string"
                       format: "date-time"
                     status:
@@ -595,11 +697,11 @@ paths:
         schema:
           type: "object"
           required:
-          - "id"
+          - "contact_id"
           - "new_folder"
           - "old_folder"
           properties:
-            id:
+            contact_id:
               type: "integer"
               description: "Contact to move."
             old_folder:
@@ -618,7 +720,7 @@ paths:
       - "folders"
       summary: "Get a list of folders"
       parameters:
-      - name: "id"
+      - name: "folder_id"
         in: "query"
         required: false
         type: "array"
@@ -626,7 +728,7 @@ paths:
           \ count function."
         items:
           type: "integer"
-        x-example: "?id=2334&id=3324"
+        x-example: "?folder_id=2334&folder_id=3324"
       - name: "end-user-token"
         in: "header"
         required: true
@@ -647,12 +749,12 @@ paths:
                 type: "array"
                 items:
                   required:
-                  - "id"
+                  - "folder_id"
                   - "name"
                   - "new_count"
                   type: "object"
                   properties:
-                    id:
+                    folder_id:
                       type: "integer"
                       description: "folder id"
                     name:
@@ -703,7 +805,7 @@ paths:
       description: "Active, Pending, Trash, and Deleted are special folders, and this\
         \ command will ignore them."
       parameters:
-      - name: "id"
+      - name: "folder_id"
         in: "query"
         required: true
         type: "string"
@@ -732,7 +834,7 @@ paths:
           required:
           - "new_name"
           properties:
-            id:
+            folder_id:
               type: "integer"
             new_name:
               type: "string"
@@ -747,7 +849,7 @@ paths:
       - "messages"
       summary: "Returns how many unread messages the logged in user has."
       parameters:
-      - name: "contact"
+      - name: "contact_id"
         in: "query"
         required: false
         type: "string"
@@ -768,104 +870,13 @@ paths:
                 type: "integer"
     x-restlet:
       section: "MESSAGES"
-  /alerts:
-    get:
-      tags:
-      - "alerts"
-      summary: "Get a list of alerts."
-      description: "Get a list of alerts. You can optionally limit the list by specifcying\
-        \ alerts by their alert_id."
-      parameters:
-      - name: "alert_id"
-        in: "query"
-        required: false
-        type: "array"
-        description: "only get a subset of alerts. As this is a get request this is\
-          \ specified as a query string parameter"
-        items:
-          type: "integer"
-      - name: "end-user-token"
-        in: "header"
-        required: false
-        type: "string"
-        description: "TS still has anonymous login. If you don't use an EUA you must\
-          \ use an e-mail address."
-      - name: "email-address"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Will be ignored if there is an EUA token."
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "list"
-            type: "object"
-            properties:
-              list:
-                type: "array"
-                items:
-                  $ref: "#/definitions/alert_response_object"
-    post:
-      tags:
-      - "alerts"
-      summary: "Create a new alert."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: false
-        type: "string"
-        description: "This or an email-address must be supplied."
-      - name: "email-address"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Will be ignored if an EUA token is supplied."
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/alert_request_object"
-      responses:
-        201:
-          description: "Status 201"
-          headers:
-            url:
-              type: "string"
-              description: "Location of the new alert."
-    delete:
-      tags:
-      - "alerts"
-      summary: "Delete an alert."
-      parameters:
-      - name: "alert_id"
-        in: "query"
-        required: true
-        type: "integer"
-      - name: "end-user-token"
-        in: "header"
-        required: false
-        type: "string"
-        description: "This or an e-mail address for non logged in users is required."
-      - name: "email-address"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Will be ignored for logged in users."
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "ALERTS"
   /favorites:
     get:
       tags:
       - "favorites"
       summary: "Get the favorites."
       parameters:
-      - name: "type"
+      - name: "favorite_type"
         in: "query"
         required: true
         type: "string"
@@ -899,7 +910,7 @@ paths:
         schema:
           type: "object"
           required:
-          - "id"
+          - "favorite_id"
           - "type"
           properties:
             type:
@@ -907,7 +918,7 @@ paths:
               enum:
               - "job"
               - "resume"
-            id:
+            favorite_id:
               type: "integer"
               description: "The id of the favorite to add."
       responses:
@@ -918,14 +929,14 @@ paths:
       - "favorites"
       summary: "Remove  a favorite."
       parameters:
-      - name: "type"
+      - name: "favorite_type"
         in: "query"
         required: true
         type: "string"
         enum:
         - "job"
         - "resume"
-      - name: "id"
+      - name: "favorite_id"
         in: "query"
         required: true
         type: "integer"
@@ -944,7 +955,7 @@ paths:
       - "favorites"
       summary: "Get a count of favorites"
       parameters:
-      - name: "type"
+      - name: "favorite_type"
         in: "query"
         required: true
         type: "string"
@@ -973,10 +984,6 @@ paths:
       - "profiles"
       summary: "Get their profile"
       parameters:
-      - name: "posting_id"
-        in: "query"
-        required: true
-        type: "integer"
       - name: "end-user-token"
         in: "header"
         required: true
@@ -1027,9 +1034,6 @@ paths:
           description: "Status 204"
     x-restlet:
       section: "PROFILES"
-  /profiles/optins:
-    x-restlet:
-      section: "PROFILES"
   /profiles/mobile_carriers:
     get:
       tags:
@@ -1038,7 +1042,7 @@ paths:
       parameters:
       - name: "carrier_id"
         in: "query"
-        required: true
+        required: false
         type: "integer"
       responses:
         200:
@@ -1300,872 +1304,6 @@ securityDefinitions:
     name: "api-token"
     in: "header"
 definitions:
-  job_list:
-    type: "object"
-    required:
-    - "list"
-    - "page_number"
-    - "total_items"
-    - "total_pages"
-    properties:
-      list:
-        type: "array"
-        items:
-          required:
-          - "contact"
-          - "id"
-          - "position"
-          type: "object"
-          properties:
-            id:
-              type: "number"
-            position:
-              required:
-              - "description"
-              - "range"
-              - "region"
-              - "type"
-              type: "object"
-              properties:
-                type:
-                  type: "string"
-                  enum:
-                  - "single"
-                  - "team"
-                range:
-                  type: "string"
-                  enum:
-                  - "OTR"
-                  - "local"
-                region:
-                  type: "string"
-                  enum:
-                  - "east coast"
-                  - "west coast"
-                  - "midwest"
-                  - "nationwide"
-                  - "north east"
-                  - "north west"
-                  - "south east"
-                  - "south west"
-                  - "n/a local job"
-                image_name:
-                  type: "string"
-                  maxLength: 32
-                description:
-                  type: "string"
-                  description: "This is a large text field."
-                locations:
-                  type: "array"
-                  items:
-                    type: "string"
-            contact:
-              required:
-              - "address"
-              - "city"
-              - "contact"
-              - "name"
-              - "phone"
-              - "state"
-              - "zip"
-              type: "object"
-              description: "The contact information for this ad."
-              properties:
-                id:
-                  type: "integer"
-                  description: "This is the id you would use to send a message to\
-                    \ this employer. Only logged in users can see this."
-                name:
-                  type: "string"
-                  maxLength: 45
-                contact:
-                  type: "string"
-                  maxLength: 45
-                address:
-                  type: "string"
-                  maxLength: 64
-                city:
-                  type: "string"
-                  maxLength: 45
-                state:
-                  type: "string"
-                  maxLength: 2
-                zip:
-                  type: "string"
-                  maxLength: 10
-                phone:
-                  type: "integer"
-                website:
-                  type: "string"
-                  maxLength: 500
-                email:
-                  type: "string"
-                  maxLength: 45
-      page_number:
-        type: "integer"
-      total_pages:
-        type: "integer"
-      total_items:
-        type: "integer"
-    x-restlet:
-      section: "JOBS"
-  job_data:
-    type: "object"
-    required:
-    - "contact"
-    - "position"
-    properties:
-      contact:
-        required:
-        - "address"
-        - "city"
-        - "contact"
-        - "email"
-        - "name"
-        - "phone"
-        - "state"
-        - "website"
-        - "zip"
-        type: "object"
-        properties:
-          name:
-            type: "string"
-            maxLength: 45
-          contact:
-            type: "string"
-            maxLength: 45
-          address:
-            type: "string"
-            maxLength: 64
-          city:
-            type: "string"
-            maxLength: 45
-          state:
-            type: "string"
-            maxLength: 2
-          zip:
-            type: "string"
-            maxLength: 10
-          phone:
-            type: "integer"
-          website:
-            type: "string"
-            maxLength: 500
-          email:
-            type: "string"
-            maxLength: 45
-      position:
-        required:
-        - "locations"
-        - "range"
-        - "region"
-        type: "object"
-        properties:
-          range:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-          region:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          image:
-            type: "string"
-            format: "binary"
-            description: "We accept an image file of up to 1MB in size. All images\
-              \ will be resized to 160x160."
-          description:
-            type: "string"
-            description: "This can be long form text."
-          locations:
-            type: "array"
-            items:
-              type: "string"
-    x-restlet:
-      section: "JOBS"
-  job_data_patch:
-    type: "object"
-    required:
-    - "contact"
-    - "id"
-    - "position"
-    properties:
-      id:
-        type: "integer"
-        description: "The Job ad to patch."
-      contact:
-        type: "object"
-        description: "As long as 1 sub element from contact or position is filled\
-          \ in this will b ea valid request."
-        properties:
-          name:
-            type: "string"
-            maxLength: 45
-          contact:
-            type: "string"
-            maxLength: 45
-          address:
-            type: "string"
-            maxLength: 64
-          city:
-            type: "string"
-            maxLength: 45
-          state:
-            type: "string"
-            maxLength: 2
-          zip:
-            type: "string"
-            maxLength: 10
-          phone:
-            type: "integer"
-          website:
-            type: "string"
-            maxLength: 500
-          email:
-            type: "string"
-            maxLength: 45
-      position:
-        type: "object"
-        description: "As long as 1 sub element from contact or position is filled\
-          \ in this will b ea valid request."
-        properties:
-          range:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-          region:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          image:
-            type: "string"
-            format: "binary"
-            description: "We accept an image file of up to 1MB in size. All images\
-              \ will be resized to 160x160."
-          description:
-            type: "string"
-            description: "This can be long form text."
-          locations:
-            type: "string"
-    x-restlet:
-      section: "JOBS"
-  job_list_user:
-    type: "object"
-    required:
-    - "list"
-    - "page_number"
-    - "total_items"
-    - "total_pages"
-    properties:
-      list:
-        type: "array"
-        items:
-          required:
-          - "bill_method"
-          - "contact"
-          - "days_left"
-          - "expires_after"
-          - "id"
-          - "position"
-          type: "object"
-          properties:
-            id:
-              type: "number"
-            position:
-              required:
-              - "description"
-              - "range"
-              - "region"
-              - "type"
-              type: "object"
-              properties:
-                type:
-                  type: "string"
-                  enum:
-                  - "single"
-                  - "team"
-                range:
-                  type: "string"
-                  enum:
-                  - "OTR"
-                  - "local"
-                region:
-                  type: "string"
-                  enum:
-                  - "east coast"
-                  - "west coast"
-                  - "midwest"
-                  - "nationwide"
-                  - "north east"
-                  - "north west"
-                  - "south east"
-                  - "south west"
-                  - "n/a local job"
-                image_name:
-                  type: "string"
-                  maxLength: 32
-                description:
-                  type: "string"
-                  description: "This is a large text field."
-                locations:
-                  type: "array"
-                  items:
-                    type: "string"
-            contact:
-              required:
-              - "address"
-              - "city"
-              - "contact"
-              - "name"
-              - "phone"
-              - "state"
-              - "zip"
-              type: "object"
-              description: "The contact information for this ad."
-              properties:
-                name:
-                  type: "string"
-                  maxLength: 45
-                contact:
-                  type: "string"
-                  maxLength: 45
-                address:
-                  type: "string"
-                  maxLength: 64
-                city:
-                  type: "string"
-                  maxLength: 45
-                state:
-                  type: "string"
-                  maxLength: 2
-                zip:
-                  type: "string"
-                  maxLength: 10
-                phone:
-                  type: "integer"
-                website:
-                  type: "string"
-                  maxLength: 500
-                email:
-                  type: "string"
-                  maxLength: 45
-            days_left:
-              type: "integer"
-              description: "A positive value indicates the ad is both inactive, and\
-                \ can be run for that number of days."
-            expires_after:
-              type: "string"
-              format: "date"
-              description: "If this date is set for today or in the future the job\
-                \ ad is currently active."
-            bill_method:
-              type: "string"
-              description: "Whether or not the add will automatically renew."
-              enum:
-              - "manual"
-              - "automatic"
-      page_number:
-        type: "integer"
-      total_pages:
-        type: "integer"
-      total_items:
-        type: "integer"
-    x-restlet:
-      section: "JOBS"
-  resume_data:
-    type: "object"
-    required:
-    - "contact"
-    - "driving_record"
-    - "experience"
-    - "id"
-    properties:
-      id:
-        type: "integer"
-      contact:
-        required:
-        - "address"
-        - "city"
-        - "fax_number"
-        - "first_name"
-        - "home_phone"
-        - "last_name"
-        - "state"
-        - "website_address"
-        - "work_phone"
-        - "zip"
-        type: "object"
-        properties:
-          first_name:
-            type: "string"
-            maxLength: 20
-          last_name:
-            type: "string"
-            maxLength: 20
-          address:
-            type: "string"
-            maxLength: 40
-          city:
-            type: "string"
-            maxLength: 30
-          state:
-            type: "string"
-            maxLength: 4
-          zip:
-            type: "string"
-            maxLength: 10
-          home_phone:
-            type: "integer"
-            description: "DEVNOTE: Look into why this is ridiculous and see if we\
-              \ can drop it it to 11 or 13"
-            maximum: 20
-          work_phone:
-            type: "integer"
-            description: "Same as home phone"
-            maximum: 20
-          fax_number:
-            type: "integer"
-            description: "Should we depricate this? How many new resumes come with\
-              \ this?"
-            maximum: 20
-          website_address:
-            type: "string"
-            maxLength: 40
-      driving_record:
-        required:
-        - "accidents"
-        - "age"
-        - "gender"
-        - "license"
-        - "tickets"
-        type: "object"
-        properties:
-          license:
-            type: "string"
-            enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
-          age:
-            type: "string"
-            enum:
-            - "18-20"
-            - "21-25"
-            - "26-30"
-            - "Over 30"
-          gender:
-            type: "string"
-            enum:
-            - "male"
-            - "female"
-          tickets:
-            type: "integer"
-            minimum: 0
-          accidents:
-            type: "integer"
-            minimum: 0
-      job_preference:
-        type: "object"
-        properties:
-          type:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
-          distance:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          region:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
-          team_preference:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-      experience:
-        required:
-        - "current_employer"
-        - "current_years_experience"
-        - "felony"
-        - "previous_emplayer"
-        - "previous_years_experience"
-        - "total_years_experience"
-        type: "object"
-        properties:
-          total_years_experience:
-            type: "integer"
-            minimum: 0
-          current_employer:
-            type: "string"
-            maxLength: 40
-          current_years_experience:
-            type: "integer"
-            minimum: 0
-          previous_emplayer:
-            type: "string"
-            maxLength: 40
-          previous_years_experience:
-            type: "integer"
-            minimum: 0
-          trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
-          felony:
-            type: "boolean"
-          felony_reason:
-            type: "string"
-      comments:
-        type: "string"
-    example: "A resume."
-    x-restlet:
-      section: "RESUMES"
-  resume_data_optional:
-    type: "object"
-    required:
-    - "id"
-    properties:
-      id:
-        type: "integer"
-      contact:
-        type: "object"
-        properties:
-          first_name:
-            type: "string"
-            maxLength: 20
-          last_name:
-            type: "string"
-            maxLength: 20
-          address:
-            type: "string"
-            maxLength: 40
-          city:
-            type: "string"
-            maxLength: 30
-          state:
-            type: "string"
-            maxLength: 4
-          zip:
-            type: "string"
-            maxLength: 10
-          home_phone:
-            type: "integer"
-            description: "DEVNOTE: Look into why this is ridiculous and see if we\
-              \ can drop it it to 11 or 13"
-            maximum: 20
-          work_phone:
-            type: "integer"
-            description: "Same as home phone"
-            maximum: 20
-          fax_number:
-            type: "integer"
-            description: "Should we depricate this? How many new resumes come with\
-              \ this?"
-            maximum: 20
-          website_address:
-            type: "string"
-            maxLength: 40
-      driving_record:
-        type: "object"
-        properties:
-          license:
-            type: "string"
-            enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
-          age:
-            type: "string"
-            enum:
-            - "18-20"
-            - "21-25"
-            - "26-30"
-            - "Over 30"
-          gender:
-            type: "string"
-            enum:
-            - "male"
-            - "female"
-          tickets:
-            type: "integer"
-            minimum: 0
-          accidents:
-            type: "integer"
-            minimum: 0
-      job_preference:
-        type: "object"
-        properties:
-          type:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
-          distance:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          region:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
-          team_preference:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-      experience:
-        type: "object"
-        properties:
-          total_years_experience:
-            type: "integer"
-            minimum: 0
-          current_employer:
-            type: "string"
-            maxLength: 40
-          current_years_experience:
-            type: "integer"
-            minimum: 0
-          previous_emplayer:
-            type: "string"
-            maxLength: 40
-          previous_years_experience:
-            type: "integer"
-            minimum: 0
-          trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
-          felony:
-            type: "boolean"
-          felony_reason:
-            type: "string"
-      comments:
-        type: "string"
-    x-restlet:
-      section: "RESUMES"
-  resume_board_data:
-    type: "object"
-    required:
-    - "contact"
-    - "created"
-    - "driving_record"
-    - "experience"
-    - "id"
-    - "updated"
-    properties:
-      id:
-        type: "integer"
-      contact:
-        required:
-        - "city"
-        - "state"
-        type: "object"
-        properties:
-          id:
-            type: "integer"
-            description: "This is the ID you would use to send a message. Only available\
-              \ to logged in users."
-          first_name:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 20
-          last_name:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 20
-          address:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-          city:
-            type: "string"
-            maxLength: 30
-          state:
-            type: "string"
-            maxLength: 4
-          zip:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 10
-          home_phone:
-            type: "integer"
-            description: "DEVNOTE: Look into why this is ridiculous and see if we\
-              \ can drop it it to 11 or 13. Only available to subscribed users."
-            maximum: 20
-          work_phone:
-            type: "integer"
-            description: "Same as home phone. Only available to subscribed users."
-            maximum: 20
-          fax_number:
-            type: "integer"
-            description: "Should we depricate this? How many new resumes come with\
-              \ this? Only available to subscribed users."
-            maximum: 20
-          website_address:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-      driving_record:
-        required:
-        - "accidents"
-        - "age"
-        - "gender"
-        - "license"
-        - "tickets"
-        type: "object"
-        properties:
-          license:
-            type: "string"
-            enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
-          age:
-            type: "string"
-            enum:
-            - "18-20"
-            - "21-25"
-            - "26-30"
-            - "Over 30"
-          gender:
-            type: "string"
-            enum:
-            - "male"
-            - "female"
-          tickets:
-            type: "integer"
-            minimum: 0
-          accidents:
-            type: "integer"
-            minimum: 0
-      job_preference:
-        type: "object"
-        properties:
-          type:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
-          distance:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          region:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
-          team_preference:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-      experience:
-        required:
-        - "current_years_experience"
-        - "felony"
-        - "previous_years_experience"
-        - "total_years_experience"
-        type: "object"
-        properties:
-          total_years_experience:
-            type: "integer"
-            minimum: 0
-          current_employer:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-          current_years_experience:
-            type: "integer"
-            minimum: 0
-          previous_emplayer:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-          previous_years_experience:
-            type: "integer"
-            minimum: 0
-          trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
-          felony:
-            type: "boolean"
-          felony_reason:
-            type: "string"
-            description: "Only available to subscribed users."
-      comments:
-        type: "string"
-        description: "Only available to subscribed users."
-      created:
-        type: "string"
-        format: "date-time"
-      updated:
-        type: "string"
-        format: "date-time"
-    example: "A resume."
-    x-restlet:
-      section: "RESUMES"
   alert_response_object:
     type: "object"
     required:
@@ -2256,6 +1394,893 @@ definitions:
         type: "integer"
     x-restlet:
       section: "ALERTS"
+  job_list:
+    type: "object"
+    required:
+    - "list"
+    - "page_number"
+    - "total_items"
+    - "total_pages"
+    properties:
+      list:
+        type: "array"
+        items:
+          required:
+          - "contact"
+          - "job_id"
+          - "position"
+          type: "object"
+          properties:
+            job_id:
+              type: "number"
+            position:
+              required:
+              - "description"
+              - "distance_preference"
+              - "region_preference"
+              - "team_preference"
+              type: "object"
+              properties:
+                team_preference:
+                  type: "string"
+                  enum:
+                  - "single"
+                  - "team"
+                distance_preference:
+                  type: "string"
+                  enum:
+                  - "OTR"
+                  - "local"
+                region_preference:
+                  type: "string"
+                  enum:
+                  - "east coast"
+                  - "west coast"
+                  - "midwest"
+                  - "nationwide"
+                  - "north east"
+                  - "north west"
+                  - "south east"
+                  - "south west"
+                  - "n/a local job"
+                image_url:
+                  type: "string"
+                  maxLength: 32
+                description:
+                  type: "string"
+                  description: "This is a large text field."
+                locations:
+                  type: "array"
+                  items:
+                    type: "string"
+            contact:
+              required:
+              - "address"
+              - "city"
+              - "contact"
+              - "name"
+              - "phone"
+              - "state"
+              - "zip"
+              type: "object"
+              description: "The contact information for this ad."
+              properties:
+                id:
+                  type: "integer"
+                  description: "This is the id you would use to send a message to\
+                    \ this employer. Only logged in users can see this."
+                name:
+                  type: "string"
+                  maxLength: 45
+                contact:
+                  type: "string"
+                  maxLength: 45
+                address:
+                  type: "string"
+                  maxLength: 64
+                city:
+                  type: "string"
+                  maxLength: 45
+                state:
+                  type: "string"
+                  maxLength: 2
+                zip:
+                  type: "string"
+                  maxLength: 10
+                phone:
+                  type: "integer"
+                website:
+                  type: "string"
+                  maxLength: 500
+                email:
+                  type: "string"
+                  maxLength: 45
+      page_number:
+        type: "integer"
+      total_pages:
+        type: "integer"
+      total_items:
+        type: "integer"
+    x-restlet:
+      section: "JOBS"
+  job_data:
+    type: "object"
+    required:
+    - "contact"
+    - "job_id"
+    - "position"
+    properties:
+      job_id:
+        type: "integer"
+      contact:
+        required:
+        - "address"
+        - "city"
+        - "contact"
+        - "email"
+        - "name"
+        - "phone"
+        - "state"
+        - "website"
+        - "zip"
+        type: "object"
+        properties:
+          name:
+            type: "string"
+            maxLength: 45
+          contact:
+            type: "string"
+            maxLength: 45
+          address:
+            type: "string"
+            maxLength: 64
+          city:
+            type: "string"
+            maxLength: 45
+          state:
+            type: "string"
+            maxLength: 2
+          zip:
+            type: "string"
+            maxLength: 10
+          phone:
+            type: "integer"
+          website:
+            type: "string"
+            maxLength: 500
+          email:
+            type: "string"
+            maxLength: 45
+      position:
+        required:
+        - "Image_url"
+        type: "object"
+        properties:
+          team_preference:
+            type: "string"
+            default: "single"
+            enum:
+            - "single"
+            - "team"
+          distance_preference:
+            type: "string"
+            default: "OTR"
+            enum:
+            - "OTR"
+            - "local"
+          Image_url:
+            type: "string"
+            format: "binary"
+            description: "We will download the image from the URL. If no image is\
+              \ found we will automatically generate one. We accept an image file\
+              \ of up to 1MB in size. All images will be resized to 160x160."
+          description:
+            type: "string"
+            description: "This can be long form text."
+          locations:
+            type: "array"
+            description: "If included the array only accepts 2 digit state codes.\
+              \ MO, BC, AR, and so on."
+            items:
+              type: "string"
+    x-restlet:
+      section: "JOBS"
+  job_data_patch:
+    type: "object"
+    required:
+    - "job_id"
+    properties:
+      job_id:
+        type: "integer"
+        description: "The Job ad to patch."
+      contact:
+        type: "object"
+        description: "As long as 1 sub element from contact or position is filled\
+          \ in this will be a valid request."
+        properties:
+          name:
+            type: "string"
+            maxLength: 45
+          contact:
+            type: "string"
+            maxLength: 45
+          address:
+            type: "string"
+            maxLength: 64
+          city:
+            type: "string"
+            maxLength: 45
+          state:
+            type: "string"
+            maxLength: 2
+          zip:
+            type: "string"
+            maxLength: 10
+          phone:
+            type: "integer"
+          website:
+            type: "string"
+            maxLength: 500
+          email:
+            type: "string"
+            maxLength: 45
+      position:
+        type: "object"
+        description: "As long as 1 sub element from contact or position is filled\
+          \ in this will be a valid request."
+        properties:
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          image_url:
+            type: "string"
+            description: "Sending in an empty string will cause us to regenerate a\
+              \ new image."
+          description:
+            type: "string"
+            description: "This can be long form text."
+          locations:
+            type: "array"
+            items:
+              type: "string"
+    x-restlet:
+      section: "JOBS"
+  job_list_user:
+    type: "object"
+    required:
+    - "list"
+    - "page_number"
+    - "total_items"
+    - "total_pages"
+    properties:
+      list:
+        type: "array"
+        items:
+          required:
+          - "bill_method"
+          - "contact"
+          - "days_left"
+          - "expires_after"
+          - "job_id"
+          - "position"
+          type: "object"
+          properties:
+            job_id:
+              type: "number"
+            position:
+              required:
+              - "description"
+              - "distance_preference"
+              - "image_url"
+              - "region_preference"
+              - "team_preference"
+              type: "object"
+              properties:
+                team_preference:
+                  type: "string"
+                  enum:
+                  - "team"
+                  - "single"
+                distance_preference:
+                  type: "string"
+                  enum:
+                  - "local"
+                  - "OTR"
+                region_preference:
+                  type: "string"
+                  enum:
+                  - "east coast"
+                  - "west coast"
+                  - "midwest"
+                  - "nationwide"
+                  - "north east"
+                  - "north west"
+                  - "south east"
+                  - "south west"
+                  - "local"
+                image_url:
+                  type: "string"
+                  description: "the uri path to the image."
+                  maxLength: 32
+                  example: "http://df.co/job_images/ASOETUHAOSENTUHAOENUTSH.png"
+                description:
+                  type: "string"
+                  description: "This is a large text field."
+                locations:
+                  type: "array"
+                  items:
+                    type: "string"
+            contact:
+              required:
+              - "address"
+              - "city"
+              - "contact"
+              - "name"
+              - "phone"
+              - "state"
+              - "zip"
+              type: "object"
+              description: "The contact information for this ad."
+              properties:
+                name:
+                  type: "string"
+                  maxLength: 45
+                contact:
+                  type: "string"
+                  maxLength: 45
+                address:
+                  type: "string"
+                  maxLength: 64
+                city:
+                  type: "string"
+                  maxLength: 45
+                state:
+                  type: "string"
+                  maxLength: 2
+                zip:
+                  type: "string"
+                  maxLength: 10
+                phone:
+                  type: "integer"
+                website:
+                  type: "string"
+                  maxLength: 500
+                email:
+                  type: "string"
+                  maxLength: 45
+            days_left:
+              type: "integer"
+              description: "A positive value indicates the ad is both inactive, and\
+                \ can be run for that number of days."
+            expires_after:
+              type: "string"
+              format: "date"
+              description: "If this date is set for today or in the future the job\
+                \ ad is currently active."
+            bill_method:
+              type: "string"
+              description: "Whether or not the add will automatically renew."
+              enum:
+              - "manual"
+              - "automatic"
+      page_number:
+        type: "integer"
+      total_pages:
+        type: "integer"
+      total_items:
+        type: "integer"
+    x-restlet:
+      section: "JOBS"
+  resume_data:
+    type: "object"
+    required:
+    - "contact"
+    - "driving_record"
+    - "experience"
+    - "resume_id"
+    properties:
+      resume_id:
+        type: "integer"
+      contact:
+        required:
+        - "address"
+        - "city"
+        - "fax_number"
+        - "first_name"
+        - "home_phone"
+        - "last_name"
+        - "state"
+        - "website_address"
+        - "work_phone"
+        - "zip"
+        type: "object"
+        properties:
+          first_name:
+            type: "string"
+            maxLength: 20
+          last_name:
+            type: "string"
+            maxLength: 20
+          address:
+            type: "string"
+            maxLength: 40
+          city:
+            type: "string"
+            maxLength: 30
+          state:
+            type: "string"
+            maxLength: 4
+          zip:
+            type: "string"
+            maxLength: 10
+          home_phone:
+            type: "integer"
+            description: "DEVNOTE: Look into why this is ridiculous and see if we\
+              \ can drop it it to 11 or 13"
+            maximum: 20
+          work_phone:
+            type: "integer"
+            description: "Same as home phone"
+            maximum: 20
+          fax_number:
+            type: "integer"
+            description: "Should we depricate this? How many new resumes come with\
+              \ this?"
+            maximum: 20
+          website_address:
+            type: "string"
+            maxLength: 40
+      driving_record:
+        required:
+        - "accidents"
+        - "age"
+        - "gender"
+        - "license"
+        - "tickets"
+        type: "object"
+        properties:
+          license:
+            type: "string"
+            enum:
+            - "Class A"
+            - "Class B"
+            - "Neither"
+          age:
+            type: "string"
+            enum:
+            - "18-20"
+            - "21-25"
+            - "26-30"
+            - "Over 30"
+          gender:
+            type: "string"
+            enum:
+            - "male"
+            - "female"
+          tickets:
+            type: "integer"
+            minimum: 0
+          accidents:
+            type: "integer"
+            minimum: 0
+      job_preference:
+        required:
+        - "distance_preference"
+        - "position"
+        type: "object"
+        properties:
+          position:
+            type: "string"
+            enum:
+            - "Other"
+            - "Student"
+            - "Company"
+            - "Owner/Operator"
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          region_preference:
+            type: "string"
+            enum:
+            - "east coast"
+            - "midwest"
+            - "west coast"
+            - "nationwide"
+            - "north west"
+            - "north east"
+            - "south west"
+            - "south east"
+            - "local"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
+      experience:
+        required:
+        - "current_employer"
+        - "current_years_experience"
+        - "has_felony"
+        - "previous_emplayer"
+        - "previous_years_experience"
+        - "total_years_experience"
+        type: "object"
+        properties:
+          total_years_experience:
+            type: "integer"
+            minimum: 0
+          current_employer:
+            type: "string"
+            maxLength: 40
+          current_years_experience:
+            type: "integer"
+            minimum: 0
+          previous_emplayer:
+            type: "string"
+            maxLength: 40
+          previous_years_experience:
+            type: "integer"
+            minimum: 0
+          trailer_experience:
+            type: "array"
+            description: "You can have up to an additional 4 custom trailers of a\
+              \ length of 6 or less each."
+            items:
+              type: "string"
+              enum:
+              - "V"
+              - "R"
+              - "F"
+              - "AC"
+              - "HOP"
+              - "TANK"
+              - "S"
+              minLength: 1
+              maxLength: 6
+          has_felony:
+            type: "boolean"
+          felony_reason:
+            type: "string"
+      comments:
+        type: "string"
+    description: "Returned when a user wants their resume data."
+    example: "A resume."
+    x-restlet:
+      section: "RESUMES"
+  resume_data_optional:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "integer"
+      contact:
+        type: "object"
+        properties:
+          first_name:
+            type: "string"
+            maxLength: 20
+          last_name:
+            type: "string"
+            maxLength: 20
+          address:
+            type: "string"
+            maxLength: 40
+          city:
+            type: "string"
+            maxLength: 30
+          state:
+            type: "string"
+            maxLength: 4
+          zip:
+            type: "string"
+            maxLength: 10
+          home_phone:
+            type: "integer"
+            description: "DEVNOTE: Look into why this is ridiculous and see if we\
+              \ can drop it it to 11 or 13"
+            maximum: 20
+          work_phone:
+            type: "integer"
+            description: "Same as home phone"
+            maximum: 20
+          fax_number:
+            type: "integer"
+            description: "Should we depricate this? How many new resumes come with\
+              \ this?"
+            maximum: 20
+          website_address:
+            type: "string"
+            maxLength: 40
+      driving_record:
+        type: "object"
+        properties:
+          license:
+            type: "string"
+            enum:
+            - "Class A"
+            - "Class B"
+            - "Neither"
+          age:
+            type: "string"
+            enum:
+            - "18-20"
+            - "21-25"
+            - "26-30"
+            - "Over 30"
+          gender:
+            type: "string"
+            enum:
+            - "male"
+            - "female"
+          tickets:
+            type: "integer"
+            minimum: 0
+          accidents:
+            type: "integer"
+            minimum: 0
+      job_preference:
+        type: "object"
+        properties:
+          position:
+            type: "string"
+            enum:
+            - "Other"
+            - "Student"
+            - "Company"
+            - "Owner/Operator"
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          region_preference:
+            type: "string"
+            enum:
+            - "east coast"
+            - "midwest"
+            - "west coast"
+            - "nationwide"
+            - "north west"
+            - "north east"
+            - "south west"
+            - "south east"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
+      experience:
+        type: "object"
+        properties:
+          total_years_experience:
+            type: "integer"
+            minimum: 0
+          current_employer:
+            type: "string"
+            maxLength: 40
+          current_years_experience:
+            type: "integer"
+            minimum: 0
+          previous_emplayer:
+            type: "string"
+            maxLength: 40
+          previous_years_experience:
+            type: "integer"
+            minimum: 0
+          trailer_experience:
+            type: "array"
+            description: "You can have up to an additional 4 custom trailers of a\
+              \ length of 6 or less each."
+            items:
+              type: "string"
+              enum:
+              - "V"
+              - "R"
+              - "F"
+              - "AC"
+              - "HOP"
+              - "TANK"
+              - "S"
+              minLength: 1
+              maxLength: 6
+          has_felony:
+            type: "boolean"
+          felony_reason:
+            type: "string"
+      comments:
+        type: "string"
+    x-restlet:
+      section: "RESUMES"
+  resume_board_data:
+    type: "object"
+    required:
+    - "contact"
+    - "created"
+    - "driving_record"
+    - "experience"
+    - "resume_id"
+    - "updated"
+    properties:
+      resume_id:
+        type: "integer"
+      contact:
+        required:
+        - "city"
+        - "state"
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+            description: "This is the ID you would use to send a message. Only available\
+              \ to logged in users."
+          first_name:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 20
+          last_name:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 20
+          address:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          city:
+            type: "string"
+            maxLength: 30
+          state:
+            type: "string"
+            maxLength: 4
+          zip:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 10
+          home_phone:
+            type: "integer"
+            description: "DEVNOTE: Look into why this is ridiculous and see if we\
+              \ can drop it it to 11 or 13. Only available to subscribed users."
+            maximum: 20
+          work_phone:
+            type: "integer"
+            description: "Same as home phone. Only available to subscribed users."
+            maximum: 20
+          fax_number:
+            type: "integer"
+            description: "Should we depricate this? How many new resumes come with\
+              \ this? Only available to subscribed users."
+            maximum: 20
+          website_address:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+      driving_record:
+        required:
+        - "accidents"
+        - "age"
+        - "gender"
+        - "license"
+        - "tickets"
+        type: "object"
+        properties:
+          license:
+            type: "string"
+            enum:
+            - "Class A"
+            - "Class B"
+            - "Neither"
+          age:
+            type: "string"
+            enum:
+            - "18-20"
+            - "21-25"
+            - "26-30"
+            - "Over 30"
+          gender:
+            type: "string"
+            enum:
+            - "male"
+            - "female"
+          tickets:
+            type: "integer"
+            minimum: 0
+          accidents:
+            type: "integer"
+            minimum: 0
+      job_preference:
+        type: "object"
+        properties:
+          position:
+            type: "string"
+            enum:
+            - "Other"
+            - "Student"
+            - "Company"
+            - "Owner/Operator"
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          region_preference:
+            type: "string"
+            enum:
+            - "east coast"
+            - "midwest"
+            - "west coast"
+            - "nationwide"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
+      experience:
+        required:
+        - "current_years_experience"
+        - "has_felony"
+        - "previous_years_experience"
+        - "total_years_experience"
+        type: "object"
+        properties:
+          total_years_experience:
+            type: "integer"
+            minimum: 0
+          current_employer:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          current_years_experience:
+            type: "integer"
+            minimum: 0
+          previous_employer:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          previous_years_experience:
+            type: "integer"
+            minimum: 0
+          trailer_experience:
+            type: "array"
+            description: "You can have up to an additional 4 custom trailers of a\
+              \ length of 6 or less each."
+            items:
+              type: "string"
+              enum:
+              - "V"
+              - "R"
+              - "F"
+              - "AC"
+              - "HOP"
+              - "TANK"
+              - "S"
+              minLength: 1
+              maxLength: 6
+          has_felony:
+            type: "boolean"
+          felony_reason:
+            type: "string"
+            description: "Only available to subscribed users."
+      comments:
+        type: "string"
+        description: "Only available to subscribed users."
+      created:
+        type: "string"
+        format: "date-time"
+      updated:
+        type: "string"
+        format: "date-time"
+    example: "A resume."
+    x-restlet:
+      section: "RESUMES"
   profile_response:
     type: "object"
     required:
@@ -2333,10 +2358,10 @@ definitions:
       section: "END_USER_AUTHENTICATIONS"
 x-restlet:
   sections:
+    ALERTS: {}
     JOBS: {}
     RESUMES: {}
     MESSAGES: {}
-    ALERTS: {}
     FAVORITES: {}
     PROFILES: {}
     END_USER_AUTHENTICATIONS: {}

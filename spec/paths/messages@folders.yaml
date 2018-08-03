@@ -6,7 +6,7 @@ delete:
     - $ref: '#/parameters/end-user-token'
     - description: Deletes one folder at a time.
       in: query
-      name: id
+      name: folder_id
       required: true
       type: string
   responses:
@@ -25,10 +25,10 @@ get:
       in: query
       items:
         type: integer
-      name: id
+      name: folder_id
       required: false
       type: array
-      x-example: '?id=2334&id=3324'
+      x-example: '?folder_id=2334&folder_id=3324'
   responses:
     '200':
       description: Status 200
@@ -44,7 +44,7 @@ get:
           list:
             items:
               properties:
-                id:
+                folder_id:
                   description: folder id
                   type: integer
                 name:
@@ -54,7 +54,7 @@ get:
                   description: How many new messages in that folder.
                   type: integer
               required:
-                - id
+                - folder_id
                 - name
                 - new_count
               type: object
@@ -76,7 +76,7 @@ patch:
       required: true
       schema:
         properties:
-          id:
+          folder_id:
             type: integer
           new_name:
             type: string

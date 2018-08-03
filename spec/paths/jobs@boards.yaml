@@ -6,13 +6,10 @@ get:
       name: state
       required: false
       type: string
-    - enum:
-        - OTR
-        - local
-      in: query
-      name: range
+    - in: query
+      name: local
       required: false
-      type: string
+      type: boolean
     - enum:
         - east coast
         - west coast
@@ -27,15 +24,19 @@ get:
       name: region
       required: false
       type: string
-    - enum:
-        - single
-        - team
-      in: query
-      name: type
+    - in: query
+      name: single
       required: false
-      type: string
+      type: boolean
     - in: query
       name: page_number
+      required: false
+      type: integer
+    - description: Results per page.
+      in: query
+      maximum: 100
+      minimum: 1
+      name: item_count
       required: false
       type: integer
   responses:
@@ -44,5 +45,7 @@ get:
       schema:
         $ref: '#/definitions/job_list'
   summary: Get a list of jobs
+  tags:
+    - jobs
 x-restlet:
   section: JOBS

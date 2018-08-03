@@ -5,11 +5,11 @@ delete:
         - job
         - resume
       in: query
-      name: type
+      name: favorite_type
       required: true
       type: string
     - in: query
-      name: id
+      name: favorite_id
       required: true
       type: integer
   responses:
@@ -25,7 +25,7 @@ get:
         - resume
         - job
       in: query
-      name: type
+      name: favorite_type
       required: true
       type: string
   responses:
@@ -48,7 +48,7 @@ post:
       required: true
       schema:
         properties:
-          id:
+          favorite_id:
             description: The id of the favorite to add.
             type: integer
           type:
@@ -57,7 +57,7 @@ post:
               - resume
             type: string
         required:
-          - id
+          - favorite_id
           - type
         type: object
   responses:

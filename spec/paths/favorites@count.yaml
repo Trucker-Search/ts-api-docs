@@ -5,7 +5,7 @@ get:
         - resume
         - job
       in: query
-      name: type
+      name: favorite_type
       required: true
       type: string
   responses:
