@@ -45,7 +45,6 @@ get:
         - R
         - HOP
         - AC
-        - HOP
         - S
       in: query
       name: trailer_experience

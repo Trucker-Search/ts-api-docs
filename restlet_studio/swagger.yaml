@@ -12,7 +12,8 @@ info:
     \ information.\n\nBoth Tokens are stateless, and delivered via the HTTP headers."
   version: "1.0.0"
   title: "Trucker Search API"
-  contact: {}
+  contact:
+    email: ""
 host: "www.truckersearch.com"
 basePath: "/api"
 schemes:
@@ -242,6 +243,7 @@ paths:
         required: false
         type: "integer"
         description: "Results per page."
+        default: 50
         minimum: 1
         maximum: 100
       - name: "end-user-token"
@@ -479,7 +481,6 @@ paths:
         - "R"
         - "HOP"
         - "AC"
-        - "HOP"
         - "S"
       - name: "driver_region"
         in: "query"

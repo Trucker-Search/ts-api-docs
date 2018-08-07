@@ -65,6 +65,7 @@ Object.keys(swagger).forEach(function(level1) {
                                 {
                                 swagger[level1][level2][level3]['responses']['201'] = { '$ref': '#/responses/object_created' };
                                 }
+                                
                         if(swagger[level1][level2][level3]['responses'] && 
                            swagger[level1][level2][level3]['responses']['422'] &&
                            swagger[level1][level2][level3]['responses']['422']['schema'] &&

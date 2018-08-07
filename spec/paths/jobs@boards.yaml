@@ -32,7 +32,8 @@ get:
       name: page_number
       required: false
       type: integer
-    - description: Results per page.
+    - default: 50
+      description: Results per page.
       in: query
       maximum: 100
       minimum: 1
