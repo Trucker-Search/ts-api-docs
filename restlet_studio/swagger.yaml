@@ -13,7 +13,7 @@ info:
   version: "1.0.0"
   title: "Trucker Search API"
   contact:
-    email: ""
+    email: "api@truckersearch.com"
 host: "www.truckersearch.com"
 basePath: "/api"
 schemes:
@@ -1325,13 +1325,6 @@ definitions:
       frequency:
         type: "integer"
         description: "Frequency in minutes that the alert is sent."
-        enum:
-        - 15
-        - 30
-        - 60
-        - 240
-        - 480
-        - 1440
       last_sent:
         type: "string"
         format: "date-time"
@@ -1365,13 +1358,6 @@ definitions:
       frequency:
         type: "integer"
         description: "Frequency in minutes that the alert is sent."
-        enum:
-        - 15
-        - 30
-        - 60
-        - 240
-        - 480
-        - 1440
       last_sent:
         type: "string"
         format: "date-time"

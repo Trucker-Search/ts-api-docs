@@ -15,13 +15,6 @@ properties:
     type: string
   frequency:
     description: Frequency in minutes that the alert is sent.
-    enum:
-      - 15
-      - 30
-      - 60
-      - 240
-      - 480
-      - 1440
     type: integer
   last_sent:
     description: Last time the alert was sent.
