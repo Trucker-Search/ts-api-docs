@@ -1,5 +1,6 @@
 post:
   consumes: []
+  description: Create a new user
   parameters:
     - in: body
       name: body

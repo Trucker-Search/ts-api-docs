@@ -1272,6 +1272,7 @@ paths:
       tags:
       - "end_user_authentications"
       summary: "Create user"
+      description: "Create a new user"
       consumes: []
       parameters:
       - name: "body"
