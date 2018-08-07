@@ -2348,6 +2348,13 @@ definitions:
         type: "string"
     x-restlet:
       section: "END_USER_AUTHENTICATIONS"
+  create_status:
+    type: "object"
+    properties:
+      success:
+        type: "integer"
+    x-restlet:
+      section: "common_definitions"
 x-restlet:
   sections:
     ALERTS: {}
@@ -2357,3 +2364,4 @@ x-restlet:
     FAVORITES: {}
     PROFILES: {}
     END_USER_AUTHENTICATIONS: {}
+    common_definitions: {}
