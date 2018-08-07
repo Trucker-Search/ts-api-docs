@@ -67,11 +67,7 @@ post:
         $ref: '#/definitions/alert_request_object'
   responses:
     '201':
-      description: Status 201
-      headers:
-        url:
-          description: Location of the new alert.
-          type: string
+      $ref: '#/responses/object_created'
   summary: Create a new alert.
   tags:
     - alerts

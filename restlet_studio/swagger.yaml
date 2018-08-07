@@ -88,6 +88,8 @@ paths:
       responses:
         201:
           description: "Status 201"
+          schema:
+            $ref: "#/definitions/create_status"
           headers:
             url:
               type: "string"
