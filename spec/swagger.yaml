@@ -32,7 +32,7 @@ info:
   title: Trucker Search API
   version: 1.0.0
   x-logo:
-    url: 'https://www.directfreight.com/home/images/logo-direct-freight.png'
+    url: 'https://www.truckersearch.com/home/images/logo-2015.png'
 produces:
   - application/json
 schemes:
