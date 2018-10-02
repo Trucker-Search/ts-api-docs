@@ -1,10 +1,7 @@
 delete:
+  description: No extra information is needed because we only allow one resume per account.
   parameters:
     - $ref: '#/parameters/end-user-token'
-    - in: query
-      name: id
-      required: true
-      type: integer
   responses:
     '204':
       description: Status 204
@@ -14,24 +11,12 @@ delete:
 get:
   parameters:
     - $ref: '#/parameters/end-user-token'
-    - description: Optionally just get one resume.
-      in: query
-      name: resume_id
-      required: false
-      type: integer
   responses:
     '200':
       description: Status 200
       schema:
-        properties:
-          list:
-            items:
-              $ref: '#/definitions/resume_data'
-            type: array
-        required:
-          - list
-        type: object
-  summary: Get a list of the users resumes.
+        $ref: '#/definitions/resume_data'
+  summary: Get user's resume.
   tags:
     - resumes
 patch:
@@ -42,7 +27,7 @@ patch:
       name: body
       required: true
       schema:
-        $ref: '#/definitions/resume_data_optional'
+        $ref: '#/definitions/resume_data_optional_with_id'
   responses:
     '200':
       description: Status 200

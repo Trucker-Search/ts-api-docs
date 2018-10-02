@@ -348,13 +348,8 @@ paths:
     get:
       tags:
       - "resumes"
-      summary: "Get a list of the users resumes."
+      summary: "Get user's resume."
       parameters:
-      - name: "resume_id"
-        in: "query"
-        required: false
-        type: "integer"
-        description: "Optionally just get one resume."
       - name: "end-user-token"
         in: "header"
         required: true
@@ -363,14 +358,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            required:
-            - "list"
-            type: "object"
-            properties:
-              list:
-                type: "array"
-                items:
-                  $ref: "#/definitions/resume_data"
+            $ref: "#/definitions/resume_data"
     post:
       tags:
       - "resumes"
@@ -397,11 +385,9 @@ paths:
       tags:
       - "resumes"
       summary: "Delete the resume"
+      description: "No extra information is needed because we only allow one resume\
+        \ per account."
       parameters:
-      - name: "id"
-        in: "query"
-        required: true
-        type: "integer"
       - name: "end-user-token"
         in: "header"
         required: true
@@ -423,7 +409,7 @@ paths:
         in: "body"
         required: true
         schema:
-          $ref: "#/definitions/resume_data_optional"
+          $ref: "#/definitions/resume_data_optional_with_id"
       responses:
         200:
           description: "Status 200"
@@ -1775,62 +1761,10 @@ definitions:
   resume_data:
     type: "object"
     required:
-    - "contact"
     - "driving_record"
     - "experience"
-    - "resume_id"
+    - "job_preference"
     properties:
-      resume_id:
-        type: "integer"
-      contact:
-        required:
-        - "address"
-        - "city"
-        - "fax_number"
-        - "first_name"
-        - "home_phone"
-        - "last_name"
-        - "state"
-        - "website_address"
-        - "work_phone"
-        - "zip"
-        type: "object"
-        properties:
-          first_name:
-            type: "string"
-            maxLength: 20
-          last_name:
-            type: "string"
-            maxLength: 20
-          address:
-            type: "string"
-            maxLength: 40
-          city:
-            type: "string"
-            maxLength: 30
-          state:
-            type: "string"
-            maxLength: 4
-          zip:
-            type: "string"
-            maxLength: 10
-          home_phone:
-            type: "integer"
-            description: "DEVNOTE: Look into why this is ridiculous and see if we\
-              \ can drop it it to 11 or 13"
-            maximum: 20
-          work_phone:
-            type: "integer"
-            description: "Same as home phone"
-            maximum: 20
-          fax_number:
-            type: "integer"
-            description: "Should we depricate this? How many new resumes come with\
-              \ this?"
-            maximum: 20
-          website_address:
-            type: "string"
-            maxLength: 40
       driving_record:
         required:
         - "accidents"
@@ -1953,9 +1887,9 @@ definitions:
   resume_data_optional:
     type: "object"
     required:
-    - "id"
+    - "resume_id"
     properties:
-      id:
+      resume_id:
         type: "integer"
       contact:
         type: "object"
@@ -1980,18 +1914,11 @@ definitions:
             maxLength: 10
           home_phone:
             type: "integer"
-            description: "DEVNOTE: Look into why this is ridiculous and see if we\
-              \ can drop it it to 11 or 13"
-            maximum: 20
+            maximum: 11
           work_phone:
             type: "integer"
             description: "Same as home phone"
-            maximum: 20
-          fax_number:
-            type: "integer"
-            description: "Should we depricate this? How many new resumes come with\
-              \ this?"
-            maximum: 20
+            maximum: 11
           website_address:
             type: "string"
             maxLength: 40
@@ -2273,6 +2200,113 @@ definitions:
         type: "string"
         format: "date-time"
     example: "A resume."
+    x-restlet:
+      section: "RESUMES"
+  resume_data_optional_with_id:
+    type: "object"
+    required:
+    - "resume_id"
+    properties:
+      resume_id:
+        type: "integer"
+      driving_record:
+        type: "object"
+        properties:
+          license:
+            type: "string"
+            enum:
+            - "Class A"
+            - "Class B"
+            - "Neither"
+          age:
+            type: "string"
+            enum:
+            - "18-20"
+            - "21-25"
+            - "26-30"
+            - "Over 30"
+          gender:
+            type: "string"
+            enum:
+            - "male"
+            - "female"
+          tickets:
+            type: "integer"
+            minimum: 0
+          accidents:
+            type: "integer"
+            minimum: 0
+      job_preference:
+        type: "object"
+        properties:
+          position:
+            type: "string"
+            enum:
+            - "Other"
+            - "Student"
+            - "Company"
+            - "Owner/Operator"
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          region_preference:
+            type: "string"
+            enum:
+            - "east coast"
+            - "midwest"
+            - "west coast"
+            - "nationwide"
+            - "north west"
+            - "north east"
+            - "south west"
+            - "south east"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
+      experience:
+        type: "object"
+        properties:
+          total_years_experience:
+            type: "integer"
+            minimum: 0
+          current_employer:
+            type: "string"
+            maxLength: 40
+          current_years_experience:
+            type: "integer"
+            minimum: 0
+          previous_emplayer:
+            type: "string"
+            maxLength: 40
+          previous_years_experience:
+            type: "integer"
+            minimum: 0
+          trailer_experience:
+            type: "array"
+            description: "You can have up to an additional 4 custom trailers of a\
+              \ length of 6 or less each."
+            items:
+              type: "string"
+              enum:
+              - "V"
+              - "R"
+              - "F"
+              - "AC"
+              - "HOP"
+              - "TANK"
+              - "S"
+              minLength: 1
+              maxLength: 6
+          has_felony:
+            type: "boolean"
+          felony_reason:
+            type: "string"
+      comments:
+        type: "string"
     x-restlet:
       section: "RESUMES"
   profile_response:

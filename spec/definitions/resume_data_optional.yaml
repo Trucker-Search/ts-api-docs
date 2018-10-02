@@ -9,18 +9,11 @@ properties:
       city:
         maxLength: 30
         type: string
-      fax_number:
-        description: Should we depricate this? How many new resumes come with this?
-        maximum: 20
-        type: integer
       first_name:
         maxLength: 20
         type: string
       home_phone:
-        description: >-
-          DEVNOTE: Look into why this is ridiculous and see if we can drop it it
-          to 11 or 13
-        maximum: 20
+        maximum: 11
         type: integer
       last_name:
         maxLength: 20
@@ -33,7 +26,7 @@ properties:
         type: string
       work_phone:
         description: Same as home phone
-        maximum: 20
+        maximum: 11
         type: integer
       zip:
         maxLength: 10
@@ -105,8 +98,6 @@ properties:
           type: string
         type: array
     type: object
-  id:
-    type: integer
   job_preference:
     properties:
       distance_preference:
@@ -138,8 +129,10 @@ properties:
           - team
         type: string
     type: object
+  resume_id:
+    type: integer
 required:
-  - id
+  - resume_id
 type: object
 x-restlet:
   section: RESUMES

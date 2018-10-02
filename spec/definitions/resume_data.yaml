@@ -3,55 +3,6 @@ example: A resume.
 properties:
   comments:
     type: string
-  contact:
-    properties:
-      address:
-        maxLength: 40
-        type: string
-      city:
-        maxLength: 30
-        type: string
-      fax_number:
-        description: Should we depricate this? How many new resumes come with this?
-        maximum: 20
-        type: integer
-      first_name:
-        maxLength: 20
-        type: string
-      home_phone:
-        description: >-
-          DEVNOTE: Look into why this is ridiculous and see if we can drop it it
-          to 11 or 13
-        maximum: 20
-        type: integer
-      last_name:
-        maxLength: 20
-        type: string
-      state:
-        maxLength: 4
-        type: string
-      website_address:
-        maxLength: 40
-        type: string
-      work_phone:
-        description: Same as home phone
-        maximum: 20
-        type: integer
-      zip:
-        maxLength: 10
-        type: string
-    required:
-      - address
-      - city
-      - fax_number
-      - first_name
-      - home_phone
-      - last_name
-      - state
-      - website_address
-      - work_phone
-      - zip
-    type: object
   driving_record:
     properties:
       accidents:
@@ -166,13 +117,10 @@ properties:
       - distance_preference
       - position
     type: object
-  resume_id:
-    type: integer
 required:
-  - contact
   - driving_record
   - experience
-  - resume_id
+  - job_preference
 type: object
 x-restlet:
   section: RESUMES
