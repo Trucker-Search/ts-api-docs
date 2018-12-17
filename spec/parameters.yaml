@@ -1,0 +1,10 @@
+end-user-token:
+  in: header
+  name: end-user-token
+  required: true
+  type: string
+end-user-token-optional:
+  in: header
+  name: end-user-token
+  required: false
+  type: string
