@@ -13,7 +13,7 @@ info:
   version: "1.0.0"
   title: "Trucker Search API"
   contact:
-    email: "api@truckersearch.com"
+    email: "support@truckersearch.com"
 host: "www.truckersearch.com"
 basePath: "/api"
 schemes:
