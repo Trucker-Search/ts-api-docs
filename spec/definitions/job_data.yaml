@@ -61,7 +61,12 @@ properties:
       locations:
         description: >-
           If included the array only accepts 2 digit state codes. MO, BC, AR,
-          and so on.
+          and so on. 
+
+
+          How did Jon implement country level coding? I think at the time I said
+          it should be done by the "front end", I am still for that, but if the
+          hack is already in place in the backend I am open to leveraging it.
         items:
           type: string
         type: array
@@ -71,8 +76,6 @@ properties:
           - single
           - team
         type: string
-    required:
-      - Image_url
     type: object
 required:
   - contact

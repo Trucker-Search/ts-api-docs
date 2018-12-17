@@ -1,15 +1,10 @@
 delete:
   parameters:
-    - $ref: '#/parameters/end-user-token-optional'
+    - $ref: '#/parameters/end-user-token'
     - in: query
       name: alert_id
       required: true
       type: integer
-    - description: Will be ignored for logged in users.
-      in: header
-      name: email-address
-      required: false
-      type: string
   responses:
     '204':
       description: Status 204
@@ -21,7 +16,7 @@ get:
     Get a list of alerts. You can optionally limit the list by specifcying
     alerts by their alert_id.
   parameters:
-    - $ref: '#/parameters/end-user-token-optional'
+    - $ref: '#/parameters/end-user-token'
     - description: >-
         only get a subset of alerts. As this is a get request this is specified
         as a query string parameter
@@ -31,10 +26,21 @@ get:
       name: alert_id
       required: false
       type: array
-    - description: Will be ignored if there is an EUA token.
-      in: header
-      name: email-address
-      required: false
+    - description: >-
+        Rather than having this as an option in the query parameter or json body
+        we could add it to the url like we do with df stuff. it would look
+        something like /alerts/jobs/ or /alerts/resumes
+
+
+        I'm ok with either option. The reason I picked this one is beacause
+        favorites already follows this convention. It obviously could be changed
+        to match as well.
+      enum:
+        - job
+        - resume
+      in: query
+      name: alert_type
+      required: true
       type: string
   responses:
     '200':
@@ -54,12 +60,7 @@ get:
 post:
   consumes: []
   parameters:
-    - $ref: '#/parameters/end-user-token-optional'
-    - description: Will be ignored if an EUA token is supplied.
-      in: header
-      name: email-address
-      required: false
-      type: string
+    - $ref: '#/parameters/end-user-token'
     - in: body
       name: body
       required: true

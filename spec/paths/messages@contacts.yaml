@@ -1,5 +1,8 @@
 get:
-  description: There is no get all contacts.
+  description: >-
+    This method provides the information nedeed to display all the contacts
+    within a folder. There is no get all contacts. Currently there is no public
+    context where that information is needed.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: query
@@ -34,7 +37,7 @@ get:
                   type: integer
                 contact_name:
                   type: string
-                last_message:
+                last_received:
                   description: >-
                     If they have sent you a message the newest one's sent date
                     will appear, otherwise it will be null.
@@ -44,7 +47,7 @@ get:
                 - contact_company
                 - contact_id
                 - contact_name
-                - last_message
+                - last_received
               type: object
             type: array
         required:

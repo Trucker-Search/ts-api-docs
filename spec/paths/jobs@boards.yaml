@@ -6,20 +6,27 @@ get:
       name: state
       required: false
       type: string
-    - in: query
-      name: local
+    - description: Only return adverts with the local region selected.
+      in: query
+      name: local_only
       required: false
       type: boolean
-    - enum:
-        - east coast
+    - description: >-
+        This is a list of possible regions. This matches the regions from
+        searching and posting a job ad on our website. I am adding it to the API
+        with the assumption that we can expand our resume regions to match. This
+        should aviod some confusion and weirdness. An example would be alert
+        options. 
+      enum:
+        - east caost
         - west coast
-        - midwest
-        - nationwide
+        - mid west
+        - nation wide
         - north east
         - north west
         - south east
         - south west
-        - n/a local job
+        - local
       in: query
       name: region
       required: false

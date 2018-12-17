@@ -5,7 +5,7 @@ delete:
   responses:
     '204':
       description: Status 204
-  summary: Delete the resume
+  summary: Delete the user's resume
   tags:
     - resumes
 get:
@@ -16,22 +16,23 @@ get:
       description: Status 200
       schema:
         $ref: '#/definitions/resume_data'
-  summary: Get user's resume.
+  summary: Get the user's resume.
   tags:
     - resumes
 patch:
   consumes: []
+  description: each user only has 1 resume.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
       name: body
       required: true
       schema:
-        $ref: '#/definitions/resume_data_optional_with_id'
+        $ref: '#/definitions/resume_data_optional'
   responses:
     '200':
       description: Status 200
-  summary: Update a resume.
+  summary: Update the user's resume.
   tags:
     - resumes
 post:
@@ -50,7 +51,7 @@ post:
         url:
           description: Link to the newly created resume.
           type: string
-  summary: Add a new resume.
+  summary: Submit the user's resume.
   tags:
     - resumes
 x-restlet:

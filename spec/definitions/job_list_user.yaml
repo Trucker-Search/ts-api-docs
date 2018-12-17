@@ -79,17 +79,7 @@ properties:
                 type: string
               type: array
             region_preference:
-              enum:
-                - east coast
-                - west coast
-                - midwest
-                - nationwide
-                - north east
-                - north west
-                - south east
-                - south west
-                - local
-              type: string
+              $ref: '#/definitions/regions'
             team_preference:
               enum:
                 - team

@@ -31,30 +31,49 @@ get:
       required: false
       type: integer
     - enum:
-        - student
-        - owner operator
         - other
-        - company driver
+        - student
+        - company
+        - owner/operator
       in: query
       name: drive_type
       required: false
       type: string
-    - enum:
-        - V
-        - F
-        - R
-        - HOP
-        - AC
-        - S
+    - description: >-
+        You can have up to an additional 4 custom trailers of a length of 6 or
+        less each.
       in: query
+      items:
+        enum:
+          - V
+          - R
+          - F
+          - AC
+          - HOP
+          - TANK
+          - S
+        type: string
+      maxItems: 6
+      minItems: 1
       name: trailer_experience
       required: false
-      type: string
-    - enum:
-        - nationwide
-        - east coast
+      type: array
+    - description: >-
+        This is a list of possible regions. This matches the regions from
+        searching and posting a job ad on our website. I am adding it to the API
+        with the assumption that we can expand our resume regions to match. This
+        should aviod some confusion and weirdness. An example would be alert
+        options. 
+      enum:
+        - east caost
         - west coast
-        - midwest
+        - mid west
+        - nation wide
+        - north east
+        - north west
+        - south east
+        - south west
+        - local
       in: query
       name: driver_region
       required: false

@@ -1,4 +1,13 @@
 get:
+  description: >-
+    This is a coneniene method provided for pages like the driver/recruiter
+    dasboard. The same information could be obtained by getting the folder list,
+    and adding the new count. 
+
+
+    It can also be used to update individual contacts new count. An example of
+    this is the page automatically checking for new messages every once in a
+    while, on a per user basis. 
   parameters:
     - $ref: '#/parameters/end-user-token'
     - description: Just return a count of new messages from one contact.
@@ -16,7 +25,7 @@ get:
         required:
           - count
         type: object
-  summary: Returns how many unread messages the logged in user has.
+  summary: Returns how many unread messages the user has.
   tags:
     - messages
 x-restlet:

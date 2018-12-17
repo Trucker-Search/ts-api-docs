@@ -21,10 +21,10 @@ properties:
           - female
         type: string
       license:
+        description: If they have a licence type they can specify the class here.
         enum:
-          - Class A
-          - Class B
-          - Neither
+          - A
+          - B
         type: string
       tickets:
         minimum: 0
@@ -32,8 +32,6 @@ properties:
     required:
       - accidents
       - age
-      - gender
-      - license
       - tickets
     type: object
   experience:
@@ -58,28 +56,8 @@ properties:
         minimum: 0
         type: integer
       trailer_experience:
-        description: >-
-          You can have up to an additional 4 custom trailers of a length of 6 or
-          less each.
-        items:
-          enum:
-            - V
-            - R
-            - F
-            - AC
-            - HOP
-            - TANK
-            - S
-          maxLength: 6
-          minLength: 1
-          type: string
-        type: array
+        $ref: '#/definitions/trailers'
     required:
-      - current_employer
-      - current_years_experience
-      - has_felony
-      - previous_emplayer
-      - previous_years_experience
       - total_years_experience
     type: object
   job_preference:
@@ -90,24 +68,9 @@ properties:
           - local
         type: string
       position:
-        enum:
-          - Other
-          - Student
-          - Company
-          - Owner/Operator
-        type: string
+        $ref: '#/definitions/positions'
       region_preference:
-        enum:
-          - east coast
-          - midwest
-          - west coast
-          - nationwide
-          - north west
-          - north east
-          - south west
-          - south east
-          - local
-        type: string
+        $ref: '#/definitions/regions'
       team_preference:
         enum:
           - single

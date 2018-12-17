@@ -17,6 +17,10 @@ delete:
     - folders
     - messages
 get:
+  description: >-
+    This returns a list of all folders for this user, along with how many unread
+    messages each folder contains. I belive the website's behavior is 0 or 1 per
+    contact, but it could be 1 per total messages. 
   parameters:
     - $ref: '#/parameters/end-user-token'
     - description: >-
@@ -89,6 +93,9 @@ patch:
   summary: Update a folder name.
 post:
   consumes: []
+  description: >-
+    This method allows a user to add custom folders. These folders must have
+    unique names.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body

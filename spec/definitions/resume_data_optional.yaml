@@ -1,37 +1,6 @@
 properties:
   comments:
     type: string
-  contact:
-    properties:
-      address:
-        maxLength: 40
-        type: string
-      city:
-        maxLength: 30
-        type: string
-      first_name:
-        maxLength: 20
-        type: string
-      home_phone:
-        maximum: 11
-        type: integer
-      last_name:
-        maxLength: 20
-        type: string
-      state:
-        maxLength: 4
-        type: string
-      website_address:
-        maxLength: 40
-        type: string
-      work_phone:
-        description: Same as home phone
-        maximum: 11
-        type: integer
-      zip:
-        maxLength: 10
-        type: string
-    type: object
   driving_record:
     properties:
       accidents:
@@ -51,9 +20,8 @@ properties:
         type: string
       license:
         enum:
-          - Class A
-          - Class B
-          - Neither
+          - A
+          - B
         type: string
       tickets:
         minimum: 0
@@ -81,22 +49,7 @@ properties:
         minimum: 0
         type: integer
       trailer_experience:
-        description: >-
-          You can have up to an additional 4 custom trailers of a length of 6 or
-          less each.
-        items:
-          enum:
-            - V
-            - R
-            - F
-            - AC
-            - HOP
-            - TANK
-            - S
-          maxLength: 6
-          minLength: 1
-          type: string
-        type: array
+        $ref: '#/definitions/trailers'
     type: object
   job_preference:
     properties:
@@ -106,33 +59,15 @@ properties:
           - local
         type: string
       position:
-        enum:
-          - Other
-          - Student
-          - Company
-          - Owner/Operator
-        type: string
+        $ref: '#/definitions/positions'
       region_preference:
-        enum:
-          - east coast
-          - midwest
-          - west coast
-          - nationwide
-          - north west
-          - north east
-          - south west
-          - south east
-        type: string
+        $ref: '#/definitions/regions'
       team_preference:
         enum:
           - single
           - team
         type: string
     type: object
-  resume_id:
-    type: integer
-required:
-  - resume_id
 type: object
 x-restlet:
   section: RESUMES

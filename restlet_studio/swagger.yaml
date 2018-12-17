@@ -41,17 +41,24 @@ paths:
           \ specified as a query string parameter"
         items:
           type: "integer"
+      - name: "alert_type"
+        in: "query"
+        required: true
+        type: "string"
+        description: "Rather than having this as an option in the query parameter\
+          \ or json body we could add it to the url like we do with df stuff. it would\
+          \ look something like /alerts/jobs/ or /alerts/resumes\n\nI'm ok with either\
+          \ option. The reason I picked this one is beacause favorites already follows\
+          \ this convention. It obviously could be changed to match as well."
+        enum:
+        - "job"
+        - "resume"
       - name: "end-user-token"
         in: "header"
-        required: false
+        required: true
         type: "string"
         description: "TS still has anonymous login. If you don't use an EUA you must\
           \ use an e-mail address."
-      - name: "email-address"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Will be ignored if there is an EUA token."
       responses:
         200:
           description: "Status 200"
@@ -72,14 +79,9 @@ paths:
       parameters:
       - name: "end-user-token"
         in: "header"
-        required: false
+        required: true
         type: "string"
         description: "This or an email-address must be supplied."
-      - name: "email-address"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Will be ignored if an EUA token is supplied."
       - name: "body"
         in: "body"
         required: true
@@ -105,14 +107,9 @@ paths:
         type: "integer"
       - name: "end-user-token"
         in: "header"
-        required: false
+        required: true
         type: "string"
         description: "This or an e-mail address for non logged in users is required."
-      - name: "email-address"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Will be ignored for logged in users."
       responses:
         204:
           description: "Status 204"
@@ -214,24 +211,30 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "local"
+      - name: "local_only"
         in: "query"
         required: false
         type: "boolean"
+        description: "Only return adverts with the local region selected."
       - name: "region"
         in: "query"
         required: false
         type: "string"
+        description: "This is a list of possible regions. This matches the regions\
+          \ from searching and posting a job ad on our website. I am adding it to\
+          \ the API with the assumption that we can expand our resume regions to match.\
+          \ This should aviod some confusion and weirdness. An example would be alert\
+          \ options. "
         enum:
-        - "east coast"
+        - "east caost"
         - "west coast"
-        - "midwest"
-        - "nationwide"
+        - "mid west"
+        - "nation wide"
         - "north east"
         - "north west"
         - "south east"
         - "south west"
-        - "n/a local job"
+        - "local"
       - name: "single"
         in: "query"
         required: false
@@ -348,7 +351,7 @@ paths:
     get:
       tags:
       - "resumes"
-      summary: "Get user's resume."
+      summary: "Get the user's resume."
       parameters:
       - name: "end-user-token"
         in: "header"
@@ -362,7 +365,7 @@ paths:
     post:
       tags:
       - "resumes"
-      summary: "Add a new resume."
+      summary: "Submit the user's resume."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -384,7 +387,7 @@ paths:
     delete:
       tags:
       - "resumes"
-      summary: "Delete the resume"
+      summary: "Delete the user's resume"
       description: "No extra information is needed because we only allow one resume\
         \ per account."
       parameters:
@@ -398,7 +401,8 @@ paths:
     patch:
       tags:
       - "resumes"
-      summary: "Update a resume."
+      summary: "Update the user's resume."
+      description: "each user only has 1 resume."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -409,7 +413,7 @@ paths:
         in: "body"
         required: true
         schema:
-          $ref: "#/definitions/resume_data_optional_with_id"
+          $ref: "#/definitions/resume_data_optional"
       responses:
         200:
           description: "Status 200"
@@ -455,30 +459,47 @@ paths:
         required: false
         type: "string"
         enum:
-        - "student"
-        - "owner operator"
         - "other"
-        - "company driver"
+        - "student"
+        - "company"
+        - "owner/operator"
       - name: "trailer_experience"
         in: "query"
         required: false
-        type: "string"
-        enum:
-        - "V"
-        - "F"
-        - "R"
-        - "HOP"
-        - "AC"
-        - "S"
+        type: "array"
+        description: "You can have up to an additional 4 custom trailers of a length\
+          \ of 6 or less each."
+        items:
+          type: "string"
+          enum:
+          - "V"
+          - "R"
+          - "F"
+          - "AC"
+          - "HOP"
+          - "TANK"
+          - "S"
+        minItems: 1
+        maxItems: 6
       - name: "driver_region"
         in: "query"
         required: false
         type: "string"
+        description: "This is a list of possible regions. This matches the regions\
+          \ from searching and posting a job ad on our website. I am adding it to\
+          \ the API with the assumption that we can expand our resume regions to match.\
+          \ This should aviod some confusion and weirdness. An example would be alert\
+          \ options. "
         enum:
-        - "nationwide"
-        - "east coast"
+        - "east caost"
         - "west coast"
-        - "midwest"
+        - "mid west"
+        - "nation wide"
+        - "north east"
+        - "north west"
+        - "south east"
+        - "south west"
+        - "local"
       - name: "team_preference"
         in: "query"
         required: false
@@ -539,6 +560,10 @@ paths:
   /messages:
     get:
       summary: "Get a conversation."
+      description: "This is the method that pulls down a conversation. For our site\
+        \ this is the main portion of the page. Internally we have other statuses\
+        \ like pending, and rejected, but a public users of our API doesn t have access\
+        \ to them."
       parameters:
       - name: "contact_id"
         in: "query"
@@ -586,6 +611,10 @@ paths:
       tags:
       - "messages"
       summary: "Send a message"
+      description: "This will send a message to any other user. Currently there are\
+        \ no blocks or set restrictions if an API user just started guessing. In order\
+        \ to get a contact_id a contact user would need to pull that info from a resume,\
+        \ or a job ad."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -618,7 +647,9 @@ paths:
       - "messages"
       - "contacts"
       summary: "Get a list of contacts."
-      description: "There is no get all contacts."
+      description: "This method provides the information nedeed to display all the\
+        \ contacts within a folder. There is no get all contacts. Currently there\
+        \ is no public context where that information is needed."
       parameters:
       - name: "folder_id"
         in: "query"
@@ -652,7 +683,7 @@ paths:
                   - "contact_company"
                   - "contact_id"
                   - "contact_name"
-                  - "last_message"
+                  - "last_received"
                   type: "object"
                   properties:
                     contact_id:
@@ -661,7 +692,7 @@ paths:
                       type: "string"
                     contact_company:
                       type: "string"
-                    last_message:
+                    last_received:
                       type: "string"
                       format: "date-time"
                       description: "If they have sent you a message the newest one's\
@@ -708,6 +739,9 @@ paths:
       - "messages"
       - "folders"
       summary: "Get a list of folders"
+      description: "This returns a list of all folders for this user, along with how\
+        \ many unread messages each folder contains. I belive the website's behavior\
+        \ is 0 or 1 per contact, but it could be 1 per total messages. "
       parameters:
       - name: "folder_id"
         in: "query"
@@ -757,6 +791,8 @@ paths:
       - "messages"
       - "folders"
       summary: "Add a folder"
+      description: "This method allows a user to add custom folders. These folders\
+        \ must have unique names."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -836,7 +872,12 @@ paths:
     get:
       tags:
       - "messages"
-      summary: "Returns how many unread messages the logged in user has."
+      summary: "Returns how many unread messages the user has."
+      description: "This is a coneniene method provided for pages like the driver/recruiter\
+        \ dasboard. The same information could be obtained by getting the folder list,\
+        \ and adding the new count. \n\nIt can also be used to update individual contacts\
+        \ new count. An example of this is the page automatically checking for new\
+        \ messages every once in a while, on a per user basis. "
       parameters:
       - name: "contact_id"
         in: "query"
@@ -1303,75 +1344,111 @@ definitions:
     required:
     - "alert_id"
     - "driver_experience"
-    - "driver_location"
     - "driver_region"
     - "driver_route"
     - "driver_team"
-    - "driver_type"
-    - "frequency"
     - "last_sent"
     - "only_new"
-    - "trailers"
+    - "search_state"
+    - "send_frequency"
     properties:
       alert_id:
         type: "integer"
-      frequency:
+      send_frequency:
         type: "integer"
         description: "Frequency in minutes that the alert is sent."
+      only_new:
+        type: "boolean"
+        description: "Whether to sent both new and updated resumes, or just new resumes."
       last_sent:
         type: "string"
         format: "date-time"
         description: "Last time the alert was sent."
-      only_new:
-        type: "boolean"
-        description: "Whether to sent both new and updated resumes, or just new resumes."
-      driver_location:
+      search_state:
+        type: "array"
+        items:
+          type: "string"
+      search_city:
         type: "string"
-      driver_type:
-        type: "string"
-      trailers:
-        type: "string"
+        description: "Won't be returned on a job search."
+        default: "null"
+      search_radius:
+        type: "integer"
+        description: "Won't be returned on a job search."
+        minimum: 1
+        maximum: 300
+        example: "null"
+      position:
+        $ref: "#/definitions/positions"
+      trailer_experience:
+        $ref: "#/definitions/trailers"
+      driver_experience:
+        type: "integer"
+        description: "Won’t be returned on a job search."
+        minimum: 0
+        maximum: 19
       driver_route:
         type: "string"
       driver_team:
         type: "boolean"
       driver_region:
-        type: "string"
-      driver_experience:
-        type: "integer"
+        $ref: "#/definitions/regions"
     x-restlet:
       section: "ALERTS"
   alert_request_object:
     type: "object"
     required:
-    - "frequency"
-    - "last_sent"
     - "only_new"
+    - "search_state"
+    - "send_frequency"
     properties:
-      frequency:
-        type: "integer"
-        description: "Frequency in minutes that the alert is sent."
-      last_sent:
+      alert_type:
         type: "string"
-        format: "date-time"
-        description: "Last time the alert was sent."
+        default: "resume"
+        enum:
+        - "job"
+        - "resume"
+      send_frequency:
+        type: "integer"
+        description: "Frequency in minutes that the alert is sent. We stop sending\
+          \ alerts between 12am and 3am CST."
       only_new:
         type: "boolean"
         description: "Whether to sent both new and updated resumes, or just new resumes."
-      driver_location:
+      search_state:
+        type: "array"
+        description: "Please enter one or more valid state abbreviations."
+        items:
+          type: "string"
+      search_city:
         type: "string"
-      driver_type:
-        type: "string"
-      trailers:
-        type: "string"
+        description: "Ignored on job searches."
+      search_radius:
+        type: "integer"
+        description: "Ignored for job searches."
+      position:
+        $ref: "#/definitions/positions"
+      driver_experience:
+        type: "integer"
+        description: "Ignored on job searches."
+      trailer_experience:
+        type: "array"
+        description: "Ignored on job searches."
+        items:
+          type: "string"
+          enum:
+          - "V"
+          - "F"
+          - "R"
+          - "HOP"
+          - "AC"
+          - "S"
       driver_route:
         type: "string"
       driver_team:
         type: "boolean"
       driver_region:
-        type: "string"
-      driver_experience:
-        type: "integer"
+        $ref: "#/definitions/regions"
     x-restlet:
       section: "ALERTS"
   job_list:
@@ -1412,17 +1489,7 @@ definitions:
                   - "OTR"
                   - "local"
                 region_preference:
-                  type: "string"
-                  enum:
-                  - "east coast"
-                  - "west coast"
-                  - "midwest"
-                  - "nationwide"
-                  - "north east"
-                  - "north west"
-                  - "south east"
-                  - "south west"
-                  - "n/a local job"
+                  $ref: "#/definitions/regions"
                 image_url:
                   type: "string"
                   maxLength: 32
@@ -1532,8 +1599,6 @@ definitions:
             type: "string"
             maxLength: 45
       position:
-        required:
-        - "Image_url"
         type: "object"
         properties:
           team_preference:
@@ -1560,7 +1625,10 @@ definitions:
           locations:
             type: "array"
             description: "If included the array only accepts 2 digit state codes.\
-              \ MO, BC, AR, and so on."
+              \ MO, BC, AR, and so on. \n\nHow did Jon implement country level coding?\
+              \ I think at the time I said it should be done by the \"front end\"\
+              , I am still for that, but if the hack is already in place in the backend\
+              \ I am open to leveraging it."
             items:
               type: "string"
     x-restlet:
@@ -1674,17 +1742,7 @@ definitions:
                   - "local"
                   - "OTR"
                 region_preference:
-                  type: "string"
-                  enum:
-                  - "east coast"
-                  - "west coast"
-                  - "midwest"
-                  - "nationwide"
-                  - "north east"
-                  - "north west"
-                  - "south east"
-                  - "south west"
-                  - "local"
+                  $ref: "#/definitions/regions"
                 image_url:
                   type: "string"
                   description: "the uri path to the image."
@@ -1769,17 +1827,15 @@ definitions:
         required:
         - "accidents"
         - "age"
-        - "gender"
-        - "license"
         - "tickets"
         type: "object"
         properties:
           license:
             type: "string"
+            description: "If they have a licence type they can specify the class here."
             enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
+            - "A"
+            - "B"
           age:
             type: "string"
             enum:
@@ -1805,29 +1861,14 @@ definitions:
         type: "object"
         properties:
           position:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
+            $ref: "#/definitions/positions"
           distance_preference:
             type: "string"
             enum:
             - "OTR"
             - "local"
           region_preference:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
-            - "north west"
-            - "north east"
-            - "south west"
-            - "south east"
-            - "local"
+            $ref: "#/definitions/regions"
           team_preference:
             type: "string"
             enum:
@@ -1835,11 +1876,6 @@ definitions:
             - "team"
       experience:
         required:
-        - "current_employer"
-        - "current_years_experience"
-        - "has_felony"
-        - "previous_emplayer"
-        - "previous_years_experience"
         - "total_years_experience"
         type: "object"
         properties:
@@ -1859,21 +1895,7 @@ definitions:
             type: "integer"
             minimum: 0
           trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
+            $ref: "#/definitions/trailers"
           has_felony:
             type: "boolean"
           felony_reason:
@@ -1882,144 +1904,6 @@ definitions:
         type: "string"
     description: "Returned when a user wants their resume data."
     example: "A resume."
-    x-restlet:
-      section: "RESUMES"
-  resume_data_optional:
-    type: "object"
-    required:
-    - "resume_id"
-    properties:
-      resume_id:
-        type: "integer"
-      contact:
-        type: "object"
-        properties:
-          first_name:
-            type: "string"
-            maxLength: 20
-          last_name:
-            type: "string"
-            maxLength: 20
-          address:
-            type: "string"
-            maxLength: 40
-          city:
-            type: "string"
-            maxLength: 30
-          state:
-            type: "string"
-            maxLength: 4
-          zip:
-            type: "string"
-            maxLength: 10
-          home_phone:
-            type: "integer"
-            maximum: 11
-          work_phone:
-            type: "integer"
-            description: "Same as home phone"
-            maximum: 11
-          website_address:
-            type: "string"
-            maxLength: 40
-      driving_record:
-        type: "object"
-        properties:
-          license:
-            type: "string"
-            enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
-          age:
-            type: "string"
-            enum:
-            - "18-20"
-            - "21-25"
-            - "26-30"
-            - "Over 30"
-          gender:
-            type: "string"
-            enum:
-            - "male"
-            - "female"
-          tickets:
-            type: "integer"
-            minimum: 0
-          accidents:
-            type: "integer"
-            minimum: 0
-      job_preference:
-        type: "object"
-        properties:
-          position:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
-          distance_preference:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          region_preference:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
-            - "north west"
-            - "north east"
-            - "south west"
-            - "south east"
-          team_preference:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-      experience:
-        type: "object"
-        properties:
-          total_years_experience:
-            type: "integer"
-            minimum: 0
-          current_employer:
-            type: "string"
-            maxLength: 40
-          current_years_experience:
-            type: "integer"
-            minimum: 0
-          previous_emplayer:
-            type: "string"
-            maxLength: 40
-          previous_years_experience:
-            type: "integer"
-            minimum: 0
-          trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
-          has_felony:
-            type: "boolean"
-          felony_reason:
-            type: "string"
-      comments:
-        type: "string"
     x-restlet:
       section: "RESUMES"
   resume_board_data:
@@ -2068,8 +1952,10 @@ definitions:
             maxLength: 10
           home_phone:
             type: "integer"
-            description: "DEVNOTE: Look into why this is ridiculous and see if we\
-              \ can drop it it to 11 or 13. Only available to subscribed users."
+            description: "DEVNOTE: Look into why this is 20 chars and see if we can\
+              \ drop it it to 11 or 13. Only available to subscribed users. We could\
+              \ also split this like we do with DF and have an ext section, but that\
+              \ doesn't make a lot of sense for the home phone."
             maximum: 20
           work_phone:
             type: "integer"
@@ -2088,17 +1974,14 @@ definitions:
         required:
         - "accidents"
         - "age"
-        - "gender"
-        - "license"
         - "tickets"
         type: "object"
         properties:
           license:
             type: "string"
             enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
+            - "A"
+            - "B"
           age:
             type: "string"
             enum:
@@ -2121,24 +2004,14 @@ definitions:
         type: "object"
         properties:
           position:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
+            $ref: "#/definitions/positions"
           distance_preference:
             type: "string"
             enum:
             - "OTR"
             - "local"
           region_preference:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
+            $ref: "#/definitions/regions"
           team_preference:
             type: "string"
             enum:
@@ -2146,9 +2019,6 @@ definitions:
             - "team"
       experience:
         required:
-        - "current_years_experience"
-        - "has_felony"
-        - "previous_years_experience"
         - "total_years_experience"
         type: "object"
         properties:
@@ -2170,21 +2040,7 @@ definitions:
             type: "integer"
             minimum: 0
           trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
+            $ref: "#/definitions/trailers"
           has_felony:
             type: "boolean"
           felony_reason:
@@ -2202,22 +2058,17 @@ definitions:
     example: "A resume."
     x-restlet:
       section: "RESUMES"
-  resume_data_optional_with_id:
+  resume_data_optional:
     type: "object"
-    required:
-    - "resume_id"
     properties:
-      resume_id:
-        type: "integer"
       driving_record:
         type: "object"
         properties:
           license:
             type: "string"
             enum:
-            - "Class A"
-            - "Class B"
-            - "Neither"
+            - "A"
+            - "B"
           age:
             type: "string"
             enum:
@@ -2240,28 +2091,14 @@ definitions:
         type: "object"
         properties:
           position:
-            type: "string"
-            enum:
-            - "Other"
-            - "Student"
-            - "Company"
-            - "Owner/Operator"
+            $ref: "#/definitions/positions"
           distance_preference:
             type: "string"
             enum:
             - "OTR"
             - "local"
           region_preference:
-            type: "string"
-            enum:
-            - "east coast"
-            - "midwest"
-            - "west coast"
-            - "nationwide"
-            - "north west"
-            - "north east"
-            - "south west"
-            - "south east"
+            $ref: "#/definitions/regions"
           team_preference:
             type: "string"
             enum:
@@ -2286,21 +2123,7 @@ definitions:
             type: "integer"
             minimum: 0
           trailer_experience:
-            type: "array"
-            description: "You can have up to an additional 4 custom trailers of a\
-              \ length of 6 or less each."
-            items:
-              type: "string"
-              enum:
-              - "V"
-              - "R"
-              - "F"
-              - "AC"
-              - "HOP"
-              - "TANK"
-              - "S"
-              minLength: 1
-              maxLength: 6
+            $ref: "#/definitions/trailers"
           has_felony:
             type: "boolean"
           felony_reason:
@@ -2389,6 +2212,49 @@ definitions:
     properties:
       success:
         type: "integer"
+    x-restlet:
+      section: "common_definitions"
+  regions:
+    type: "string"
+    description: "This is a list of possible regions. This matches the regions from\
+      \ searching and posting a job ad on our website. I am adding it to the API with\
+      \ the assumption that we can expand our resume regions to match. This should\
+      \ aviod some confusion and weirdness. An example would be alert options. "
+    enum:
+    - "east caost"
+    - "west coast"
+    - "mid west"
+    - "nation wide"
+    - "north east"
+    - "north west"
+    - "south east"
+    - "south west"
+    - "local"
+    x-restlet:
+      section: "common_definitions"
+  positions:
+    type: "string"
+    enum:
+    - "other"
+    - "student"
+    - "company"
+    - "owner/operator"
+    x-restlet:
+      section: "common_definitions"
+  trailers:
+    type: "array"
+    items:
+      type: "string"
+      enum:
+      - "V"
+      - "R"
+      - "F"
+      - "AC"
+      - "HOP"
+      - "TANK"
+      - "S"
+    minItems: 1
+    maxItems: 6
     x-restlet:
       section: "common_definitions"
 x-restlet:

@@ -1,4 +1,8 @@
 get:
+  description: >-
+    This is the method that pulls down a conversation. For our site this is the
+    main portion of the page. Internally we have other statuses like pending,
+    and rejected, but a public users of our API doesn t have access to them.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - description: Who the conversation is with.
@@ -41,6 +45,11 @@ get:
   summary: Get a conversation.
 post:
   consumes: []
+  description: >-
+    This will send a message to any other user. Currently there are no blocks or
+    set restrictions if an API user just started guessing. In order to get a
+    contact_id a contact user would need to pull that info from a resume, or a
+    job ad.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
