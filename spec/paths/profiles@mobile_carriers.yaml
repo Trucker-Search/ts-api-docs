@@ -1,23 +1,18 @@
 get:
+  description: Retrieve a list of supported carriers.
   parameters:
-    - in: query
+    - description: A way to just get back the info for just one carrier.
+      format: int32
+      in: query
       name: carrier_id
       required: false
       type: integer
   responses:
     '200':
-      description: Status 200
+      description: successful operation
       schema:
-        properties:
-          carrier_id:
-            type: integer
-          carrier_name:
-            type: string
-        required:
-          - carrier_id
-          - carrier_name
-        type: object
-  summary: Get a list of mobile_carriers.
+        $ref: '#/definitions/mobile_carrier_response'
+  summary: 'STAGE=UNK Retrieve one or more mobile carriers. '
   tags:
     - profiles
 x-restlet:
