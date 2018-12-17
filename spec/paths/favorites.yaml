@@ -1,0 +1,70 @@
+delete:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - enum:
+        - job
+        - resume
+      in: query
+      name: favorite_type
+      required: true
+      type: string
+    - in: query
+      name: favorite_id
+      required: true
+      type: integer
+  responses:
+    '204':
+      description: Status 204
+  summary: Remove  a favorite.
+  tags:
+    - favorites
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - enum:
+        - resume
+        - job
+      in: query
+      name: favorite_type
+      required: true
+      type: string
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        description: >-
+          I don't know what this object should look like. It isn't complete in
+          it's sandbox.
+        type: object
+  summary: Get the favorites.
+  tags:
+    - favorites
+post:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          favorite_id:
+            description: The id of the favorite to add.
+            type: integer
+          type:
+            enum:
+              - job
+              - resume
+            type: string
+        required:
+          - favorite_id
+          - type
+        type: object
+  responses:
+    '201':
+      description: Status 201
+  summary: Add a favorite
+  tags:
+    - favorites
+x-restlet:
+  section: FAVORITES

@@ -1,0 +1,8 @@
+properties:
+  end-user-token:
+    type: string
+required:
+  - end-user-token
+type: object
+x-restlet:
+  section: END_USER_AUTHENTICATIONS

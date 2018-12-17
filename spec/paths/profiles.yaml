@@ -1,0 +1,46 @@
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        $ref: '#/definitions/profile_response'
+  summary: Get their profile
+  tags:
+    - profiles
+patch:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/definitions/profile_request'
+  responses:
+    '204':
+      description: Status 204
+  summary: Update a profile.
+  tags:
+    - profiles
+post:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        $ref: '#/definitions/profile_request'
+  responses:
+    '201':
+      description: Status 201
+      headers:
+        url:
+          type: string
+  summary: Create a profile
+  tags:
+    - profiles
+x-restlet:
+  section: PROFILES

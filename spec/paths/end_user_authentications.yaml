@@ -1,0 +1,76 @@
+delete:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+  responses:
+    '204':
+      description: Status 204
+  summary: Log out.
+  tags:
+    - end_user_authentications
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          status:
+            enum:
+              - employer
+              - driver
+              - trial
+              - not logged in
+              - overdue
+            type: string
+        required:
+          - status
+        type: object
+  summary: Get a users status.
+  tags:
+    - end_user_authentications
+post:
+  consumes: []
+  parameters:
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          login:
+            type: string
+          realm:
+            description: 'email, username.'
+            type: string
+          secret:
+            type: string
+        required:
+          - login
+          - realm
+          - secret
+        type: object
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        $ref: '#/definitions/error_object'
+    '422':
+      description: Status 422
+      schema:
+        properties:
+          code:
+            type: integer
+          description:
+            type: string
+          error:
+            type: string
+        required:
+          - code
+          - description
+          - error
+        type: object
+  summary: Log in.
+  tags:
+    - end_user_authentications
+x-restlet:
+  section: END_USER_AUTHENTICATIONS
