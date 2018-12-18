@@ -265,7 +265,7 @@ paths:
   /jobs/status:
     get:
       tags:
-      - "jobs"
+      - "jobs_status"
       summary: "Get the status of a job ad."
       description: "This method will return back enough information to determine if\
         \ a job ad is runnig, and when it will stop."
@@ -302,7 +302,7 @@ paths:
                 - "automatic"
     post:
       tags:
-      - "jobs"
+      - "jobs_status"
       summary: "Activate a job ad."
       description: "This method will only work if the add has days left of > 0, otherwise\
         \ in theory it should return a url to a chargebee payment portal. "
@@ -330,7 +330,7 @@ paths:
               description: "The board location of the active job ad."
     delete:
       tags:
-      - "jobs"
+      - "jobs_status"
       summary: "Decativate a Job ad"
       parameters:
       - name: "job_id"
@@ -646,7 +646,7 @@ paths:
   /messages/contacts:
     get:
       tags:
-      - "messages"
+      - "messages_contacts"
       summary: "Get a list of contacts for that folder."
       description: "This method provides the information nedeed to display all the\
         \ contacts within a folder. There is no get all contacts. Currently there\
@@ -700,7 +700,7 @@ paths:
                         \ sent date will appear, otherwise it will be null."
     patch:
       tags:
-      - "messages"
+      - "messages_contacts"
       summary: "Move a contact from one folder to another."
       description: "By default all new contacts end up in Active, or Pending depending\
         \ on who sent a message. Also users are unable to \"delete\" contacts, but\
@@ -736,7 +736,7 @@ paths:
   /messages/folders:
     get:
       tags:
-      - "messages"
+      - "messages_folders"
       summary: "Get a list of folders"
       description: "This returns a list of all folders for this user, along with how\
         \ many unread messages each folder contains. I belive the website's behavior\
@@ -787,7 +787,7 @@ paths:
                       description: "How many new messages in that folder."
     post:
       tags:
-      - "messages"
+      - "messages_folders"
       summary: "Add a folder"
       description: "This method allows a user to add custom folders. These folders\
         \ must have unique names."
@@ -822,7 +822,7 @@ paths:
               description: "Location of the new folder."
     delete:
       tags:
-      - "messages"
+      - "messages_folders"
       summary: "Remove a custom folder."
       description: "Active, Pending, Trash, and Deleted are special folders, and this\
         \ command will ignore them."
@@ -841,7 +841,7 @@ paths:
           description: "Status 204"
     patch:
       tags:
-      - "messages"
+      - "messages_folders"
       summary: "Update a folder name."
       description: "Special folders will ignore this."
       consumes: []
@@ -1061,31 +1061,6 @@ paths:
       responses:
         204:
           description: "Status 204"
-    x-restlet:
-      section: "PROFILES"
-  /profiles/mobile_carriers:
-    get:
-      tags:
-      - "profiles"
-      summary: "Get a list of mobile_carriers."
-      parameters:
-      - name: "carrier_id"
-        in: "query"
-        required: false
-        type: "integer"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "carrier_id"
-            - "carrier_name"
-            type: "object"
-            properties:
-              carrier_id:
-                type: "integer"
-              carrier_name:
-                type: "string"
     x-restlet:
       section: "PROFILES"
   /profiles/options:
@@ -2137,6 +2112,7 @@ definitions:
     - "contact_name"
     - "contact_number"
     - "fax_number"
+    - "mobile_carrier"
     - "mobile_number"
     - "state"
     - "web_page"
@@ -2160,6 +2136,8 @@ definitions:
         type: "integer"
       mobile_number:
         type: "integer"
+      mobile_carrier:
+        $ref: "#/definitions/mobile_carriers"
       fax_number:
         type: "integer"
       web_page:
@@ -2187,6 +2165,8 @@ definitions:
         type: "integer"
       mobile_number:
         type: "integer"
+      mobile_carrier:
+        $ref: "#/definitions/mobile_carriers"
       fax_number:
         type: "integer"
       web_page:
@@ -2250,6 +2230,32 @@ definitions:
       - "S"
     minItems: 1
     maxItems: 6
+    x-restlet:
+      section: "common_definitions"
+  mobile_carriers:
+    type: "string"
+    enum:
+    - "Other/Unknown"
+    - "AT&T"
+    - "Verizon"
+    - "Sprint"
+    - "T-Mobile"
+    - "US Cellular"
+    - "Nextel"
+    - "Virgin Mobile"
+    - "Boost Mobile"
+    - "Straight Talk"
+    - "Tracfone"
+    - "NET10"
+    - "Metro PCS"
+    - "Cricket"
+    - "Rogers"
+    - "Fido"
+    - "Bell Mobility"
+    - "Telus"
+    - "Clearnet"
+    - "Solo Mobile"
+    - "Koodo Mobile"
     x-restlet:
       section: "common_definitions"
 x-restlet:
