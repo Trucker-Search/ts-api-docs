@@ -647,7 +647,6 @@ paths:
     get:
       tags:
       - "messages"
-      - "contacts"
       summary: "Get a list of contacts."
       description: "This method provides the information nedeed to display all the\
         \ contacts within a folder. There is no get all contacts. Currently there\
@@ -702,7 +701,6 @@ paths:
     patch:
       tags:
       - "messages"
-      - "contacts"
       summary: "Move a contact from one folder to another."
       description: "By default all new contacts end up in Active, or Pending depending\
         \ on who sent a message. Also users are unable to \"delete\" contacts, but\
@@ -739,7 +737,6 @@ paths:
     get:
       tags:
       - "messages"
-      - "folders"
       summary: "Get a list of folders"
       description: "This returns a list of all folders for this user, along with how\
         \ many unread messages each folder contains. I belive the website's behavior\
@@ -791,7 +788,6 @@ paths:
     post:
       tags:
       - "messages"
-      - "folders"
       summary: "Add a folder"
       description: "This method allows a user to add custom folders. These folders\
         \ must have unique names."
@@ -826,7 +822,6 @@ paths:
               description: "Location of the new folder."
     delete:
       tags:
-      - "folders"
       - "messages"
       summary: "Remove a custom folder."
       description: "Active, Pending, Trash, and Deleted are special folders, and this\
@@ -847,7 +842,6 @@ paths:
     patch:
       tags:
       - "messages"
-      - "folders"
       summary: "Update a folder name."
       description: "Special folders will ignore this."
       consumes: []
@@ -1098,7 +1092,6 @@ paths:
     get:
       tags:
       - "profiles"
-      - "optins"
       summary: "Returns the users optin status."
       parameters:
       - name: "end-user-token"
@@ -1121,7 +1114,6 @@ paths:
                 - "optout"
     post:
       tags:
-      - "optins"
       - "profiles"
       summary: "Creates and sends an optin code."
       consumes: []
@@ -1146,7 +1138,6 @@ paths:
           description: "Status 200"
     delete:
       tags:
-      - "optins"
       - "profiles"
       summary: "Marks the user as opted out."
       parameters:
@@ -1159,7 +1150,6 @@ paths:
           description: "Status 204"
     patch:
       tags:
-      - "optins"
       - "profiles"
       summary: "Mark a profile as opted in."
       parameters:
