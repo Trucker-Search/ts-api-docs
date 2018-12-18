@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /var/www/dfwdbi/api/df-api-docs/
+cd /var/www/dfwdbi/api/ts-api-docs/
 git pull --no-edit
 npm run build
 cp -f web_deploy/swagger-nocode.yaml /home/catalyst/Dropbox/directfreight/apidocs/truckersearch/swagger20-with-extensions.yaml 
