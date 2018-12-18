@@ -647,7 +647,7 @@ paths:
     get:
       tags:
       - "messages"
-      summary: "Get a list of contacts."
+      summary: "Get a list of contacts for that folder."
       description: "This method provides the information nedeed to display all the\
         \ contacts within a folder. There is no get all contacts. Currently there\
         \ is no public context where that information is needed."
