@@ -5,51 +5,30 @@ properties:
       - job
       - resume
     type: string
-  driver_experience:
-    description: Ignored on job searches.
-    type: integer
-  driver_region:
-    $ref: '#/definitions/regions'
-  driver_route:
+  notification_medium:
+    description: Push is not yet implemented.
+    enum:
+      - email
+      - text
+      - push
     type: string
-  driver_team:
-    type: boolean
   only_new:
     description: 'Whether to sent both new and updated resumes, or just new resumes.'
     type: boolean
-  position:
-    $ref: '#/definitions/positions'
-  search_city:
-    description: Ignored on job searches.
-    type: string
-  search_radius:
-    description: Ignored for job searches.
-    type: integer
-  search_state:
-    description: Please enter one or more valid state abbreviations.
-    items:
-      type: string
-    type: array
+  search_parameters:
+    description: >-
+      Please look at /resume/boards or /jobs/boards for a reference of accepted
+      parameters.
+    type: object
   send_frequency:
     description: >-
       Frequency in minutes that the alert is sent. We stop sending alerts
       between 12am and 3am CST.
     type: integer
-  trailer_experience:
-    description: Ignored on job searches.
-    items:
-      enum:
-        - V
-        - F
-        - R
-        - HOP
-        - AC
-        - S
-      type: string
-    type: array
 required:
+  - notification_medium
   - only_new
-  - search_state
+  - search_parameters
   - send_frequency
 type: object
 x-restlet:

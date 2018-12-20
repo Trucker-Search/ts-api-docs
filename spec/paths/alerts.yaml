@@ -42,6 +42,15 @@ get:
       name: alert_type
       required: true
       type: string
+    - description: Limit to just alerts for e-mail. Push is not yet implemented.
+      enum:
+        - email
+        - text
+        - push
+      in: query
+      name: notification_medium
+      required: false
+      type: string
   responses:
     '200':
       description: Status 200

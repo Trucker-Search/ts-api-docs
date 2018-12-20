@@ -53,6 +53,15 @@ paths:
         enum:
         - "job"
         - "resume"
+      - name: "notification_medium"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Limit to just alerts for e-mail. Push is not yet implemented."
+        enum:
+        - "email"
+        - "text"
+        - "push"
       - name: "end-user-token"
         in: "header"
         required: true
@@ -1063,7 +1072,7 @@ paths:
           description: "Status 204"
     x-restlet:
       section: "PROFILES"
-  /profiles/options:
+  /profiles/optins:
     get:
       tags:
       - "profiles"
@@ -1073,6 +1082,14 @@ paths:
         in: "header"
         required: true
         type: "string"
+      - name: "notification_medium"
+        in: "header"
+        required: true
+        type: "string"
+        enum:
+        - "email"
+        - "text"
+        - "push"
       responses:
         200:
           description: "Status 200"
@@ -1085,12 +1102,16 @@ paths:
                 type: "string"
                 enum:
                 - "optin"
-                - "noresponse"
                 - "optout"
+                - "no response"
+                - "no record"
     post:
       tags:
       - "profiles"
       summary: "Creates and sends an optin code."
+      description: "By using this endpoint the user's optin status will change to\
+        \ \"no response\", and a notification with the optin code will be sent to\
+        \ them via the notification_medium that they selected."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -1103,14 +1124,17 @@ paths:
         schema:
           type: "object"
           required:
-          - "optin_code"
+          - "notification_medium"
           properties:
-            optin_code:
+            notification_medium:
               type: "string"
-              description: "A text string with the code sent."
+              enum:
+              - "email"
+              - "text"
+              - "push"
       responses:
-        200:
-          description: "Status 200"
+        201:
+          description: "Status 201"
     delete:
       tags:
       - "profiles"
@@ -1127,11 +1151,29 @@ paths:
       tags:
       - "profiles"
       summary: "Mark a profile as opted in."
+      consumes: []
       parameters:
       - name: "end-user-token"
         in: "header"
         required: true
         type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "notification_medium"
+          - "optin_code"
+          properties:
+            notification_medium:
+              type: "string"
+              enum:
+              - "email"
+              - "text"
+              - "push"
+            optin_code:
+              type: "string"
       responses:
         204:
           description: "Status 204"
@@ -1158,11 +1200,11 @@ paths:
               status:
                 type: "string"
                 enum:
-                - "employer"
+                - "premium employer"
                 - "driver"
-                - "trial"
+                - "employer"
                 - "not logged in"
-                - "overdue"
+                - "overdue employer"
     post:
       tags:
       - "end_user_authentications"
@@ -1313,13 +1355,10 @@ definitions:
     type: "object"
     required:
     - "alert_id"
-    - "driver_experience"
-    - "driver_region"
-    - "driver_route"
-    - "driver_team"
     - "last_sent"
+    - "notification_medium"
     - "only_new"
-    - "search_state"
+    - "search_parameters"
     - "send_frequency"
     properties:
       alert_id:
@@ -1334,42 +1373,24 @@ definitions:
         type: "string"
         format: "date-time"
         description: "Last time the alert was sent."
-      search_state:
-        type: "array"
-        items:
-          type: "string"
-      search_city:
+      notification_medium:
         type: "string"
-        description: "Won't be returned on a job search."
-        default: "null"
-      search_radius:
-        type: "integer"
-        description: "Won't be returned on a job search."
-        minimum: 1
-        maximum: 300
-        example: "null"
-      position:
-        $ref: "#/definitions/positions"
-      trailer_experience:
-        $ref: "#/definitions/trailers"
-      driver_experience:
-        type: "integer"
-        description: "Won’t be returned on a job search."
-        minimum: 0
-        maximum: 19
-      driver_route:
-        type: "string"
-      driver_team:
-        type: "boolean"
-      driver_region:
-        $ref: "#/definitions/regions"
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      search_parameters:
+        type: "object"
+        description: "Please look at /resume/boards or /jobs/boards for a reference\
+          \ of accepted parameters."
     x-restlet:
       section: "ALERTS"
   alert_request_object:
     type: "object"
     required:
+    - "notification_medium"
     - "only_new"
-    - "search_state"
+    - "search_parameters"
     - "send_frequency"
     properties:
       alert_type:
@@ -1385,40 +1406,17 @@ definitions:
       only_new:
         type: "boolean"
         description: "Whether to sent both new and updated resumes, or just new resumes."
-      search_state:
-        type: "array"
-        description: "Please enter one or more valid state abbreviations."
-        items:
-          type: "string"
-      search_city:
+      notification_medium:
         type: "string"
-        description: "Ignored on job searches."
-      search_radius:
-        type: "integer"
-        description: "Ignored for job searches."
-      position:
-        $ref: "#/definitions/positions"
-      driver_experience:
-        type: "integer"
-        description: "Ignored on job searches."
-      trailer_experience:
-        type: "array"
-        description: "Ignored on job searches."
-        items:
-          type: "string"
-          enum:
-          - "V"
-          - "F"
-          - "R"
-          - "HOP"
-          - "AC"
-          - "S"
-      driver_route:
-        type: "string"
-      driver_team:
-        type: "boolean"
-      driver_region:
-        $ref: "#/definitions/regions"
+        description: "Push is not yet implemented."
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      search_parameters:
+        type: "object"
+        description: "Please look at /resume/boards or /jobs/boards for a reference\
+          \ of accepted parameters."
     x-restlet:
       section: "ALERTS"
   job_list:

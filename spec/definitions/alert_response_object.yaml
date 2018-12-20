@@ -1,54 +1,33 @@
 properties:
   alert_id:
     type: integer
-  driver_experience:
-    description: Won’t be returned on a job search.
-    maximum: 19
-    minimum: 0
-    type: integer
-  driver_region:
-    $ref: '#/definitions/regions'
-  driver_route:
-    type: string
-  driver_team:
-    type: boolean
   last_sent:
     description: Last time the alert was sent.
     format: date-time
     type: string
+  notification_medium:
+    enum:
+      - email
+      - text
+      - push
+    type: string
   only_new:
     description: 'Whether to sent both new and updated resumes, or just new resumes.'
     type: boolean
-  position:
-    $ref: '#/definitions/positions'
-  search_city:
-    default: 'null'
-    description: Won't be returned on a job search.
-    type: string
-  search_radius:
-    description: Won't be returned on a job search.
-    example: 'null'
-    maximum: 300
-    minimum: 1
-    type: integer
-  search_state:
-    items:
-      type: string
-    type: array
+  search_parameters:
+    description: >-
+      Please look at /resume/boards or /jobs/boards for a reference of accepted
+      parameters.
+    type: object
   send_frequency:
     description: Frequency in minutes that the alert is sent.
     type: integer
-  trailer_experience:
-    $ref: '#/definitions/trailers'
 required:
   - alert_id
-  - driver_experience
-  - driver_region
-  - driver_route
-  - driver_team
   - last_sent
+  - notification_medium
   - only_new
-  - search_state
+  - search_parameters
   - send_frequency
 type: object
 x-restlet:
