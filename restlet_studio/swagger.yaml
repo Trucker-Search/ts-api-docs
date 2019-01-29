@@ -1132,6 +1132,10 @@ paths:
               - "email"
               - "text"
               - "push"
+            subscription_channel:
+              type: "string"
+              description: "Not currently set up, but leaving the placeholder for\
+                \ now."
       responses:
         201:
           description: "Status 201"
