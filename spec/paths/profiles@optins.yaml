@@ -1,0 +1,98 @@
+delete:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+  responses:
+    '204':
+      description: Status 204
+  summary: Marks the user as opted out.
+  tags:
+    - profiles
+get:
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - enum:
+        - email
+        - text
+        - push
+      in: header
+      name: notification_medium
+      required: true
+      type: string
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          status:
+            enum:
+              - optin
+              - optout
+              - no response
+              - no record
+            type: string
+        required:
+          - status
+        type: object
+  summary: Returns the users optin status.
+  tags:
+    - profiles
+patch:
+  consumes: []
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          notification_medium:
+            enum:
+              - email
+              - text
+              - push
+            type: string
+          optin_code:
+            type: string
+        required:
+          - notification_medium
+          - optin_code
+        type: object
+  responses:
+    '204':
+      description: Status 204
+  summary: Mark a profile as opted in.
+  tags:
+    - profiles
+post:
+  consumes: []
+  description: >-
+    By using this endpoint the user's optin status will change to "no response",
+    and a notification with the optin code will be sent to them via the
+    notification_medium that they selected.
+  parameters:
+    - $ref: '#/parameters/end-user-token'
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          notification_medium:
+            enum:
+              - email
+              - text
+              - push
+            type: string
+          subscription_channel:
+            description: 'Not currently set up, but leaving the placeholder for now.'
+            type: string
+        required:
+          - notification_medium
+        type: object
+  responses:
+    '201':
+      description: Status 201
+  summary: Creates and sends an optin code.
+  tags:
+    - profiles
+x-restlet:
+  section: PROFILES
