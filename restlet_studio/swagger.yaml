@@ -1860,7 +1860,7 @@ definitions:
           current_years_experience:
             type: "integer"
             minimum: 0
-          previous_emplayer:
+          previous_employer:
             type: "string"
             maxLength: 40
           previous_years_experience:
