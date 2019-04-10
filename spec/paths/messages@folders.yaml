@@ -68,29 +68,6 @@ get:
   summary: Get a list of folders
   tags:
     - messages_folders
-patch:
-  consumes: []
-  description: Special folders will ignore this.
-  parameters:
-    - $ref: '#/parameters/end-user-token'
-    - in: body
-      name: body
-      required: true
-      schema:
-        properties:
-          folder_id:
-            type: integer
-          new_name:
-            type: string
-        required:
-          - new_name
-        type: object
-  responses:
-    '204':
-      description: Status 204
-  summary: Update a folder name.
-  tags:
-    - messages_folders
 post:
   consumes: []
   description: >-
