@@ -50,8 +50,8 @@ post:
           - secret
         type: object
   responses:
-    '200':
-      description: Status 200
+    '201':
+      description: Status 201
       schema:
         $ref: '#/definitions/error_object'
     '422':
