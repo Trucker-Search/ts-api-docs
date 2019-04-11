@@ -1278,12 +1278,8 @@ paths:
             old_password:
               type: "string"
       responses:
-        200:
-          description: "Status 200"
-        422:
-          description: "Status 422"
-          schema:
-            $ref: "#/definitions/error_object"
+        204:
+          description: "Status 204"
     x-restlet:
       section: "END_USER_AUTHENTICATIONS"
   /end_user_authentications/users:
