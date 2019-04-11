@@ -1304,8 +1304,8 @@ paths:
             password:
               type: "string"
       responses:
-        200:
-          description: "Status 200"
+        201:
+          description: "Status 201"
           schema:
             required:
             - "end-user-token"

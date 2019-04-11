@@ -16,8 +16,8 @@ post:
           - password
         type: object
   responses:
-    '200':
-      description: Status 200
+    '201':
+      description: Status 201
       schema:
         description: 'Will automatically log them in, and return the needed token.'
         properties:
