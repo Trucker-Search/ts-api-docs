@@ -1178,11 +1178,11 @@ paths:
               status:
                 type: "string"
                 enum:
-                - "premium employer"
-                - "driver"
-                - "employer"
-                - "not logged in"
-                - "overdue employer"
+                - "Premium Employer"
+                - "Driver"
+                - "Employer"
+                - "Not Logged in"
+                - "Overdue Employer"
     post:
       tags:
       - "end_user_authentications"
