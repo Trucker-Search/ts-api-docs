@@ -97,10 +97,16 @@ post:
   responses:
     '201':
       description: Status 201
-      headers:
-        url:
-          description: Location of the new folder.
-          type: string
+      schema:
+        properties:
+          folder_id:
+            type: integer
+          name:
+            type: string
+        required:
+          - folder_id
+          - name
+        type: object
   summary: Add a folder
   tags:
     - messages_folders

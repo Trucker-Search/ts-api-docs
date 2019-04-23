@@ -825,10 +825,16 @@ paths:
       responses:
         201:
           description: "Status 201"
-          headers:
-            url:
-              type: "string"
-              description: "Location of the new folder."
+          schema:
+            required:
+            - "folder_id"
+            - "name"
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              folder_id:
+                type: "integer"
     delete:
       tags:
       - "messages_folders"
