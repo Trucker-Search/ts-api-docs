@@ -638,13 +638,13 @@ paths:
         schema:
           type: "object"
           required:
-          - "contact"
+          - "contact_id"
           - "message"
           properties:
             message:
               type: "string"
               description: "This can contain a small list of html tags."
-            contact:
+            contact_id:
               type: "integer"
               description: "Who the message is being sent to."
       responses:

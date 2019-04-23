@@ -59,14 +59,14 @@ post:
       required: true
       schema:
         properties:
-          contact:
+          contact_id:
             description: Who the message is being sent to.
             type: integer
           message:
             description: This can contain a small list of html tags.
             type: string
         required:
-          - contact
+          - contact_id
           - message
         type: object
   responses:
