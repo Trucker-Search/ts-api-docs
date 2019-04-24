@@ -589,35 +589,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            required:
-            - "list"
-            type: "object"
-            properties:
-              list:
-                type: "array"
-                description: "conversation in chronological order"
-                items:
-                  required:
-                  - "date_sent"
-                  - "message"
-                  - "sender"
-                  - "status"
-                  type: "object"
-                  properties:
-                    sender:
-                      type: "integer"
-                      description: "Who sent the message, the logged in user, or the\
-                        \ contact."
-                    message:
-                      type: "string"
-                    date_sent:
-                      type: "string"
-                      format: "date-time"
-                    status:
-                      type: "string"
-                      enum:
-                      - "read"
-                      - "sent"
+            $ref: "#/definitions/conversation_list"
     post:
       tags:
       - "messages"
@@ -648,8 +620,10 @@ paths:
               type: "integer"
               description: "Who the message is being sent to."
       responses:
-        200:
-          description: "Status 200"
+        202:
+          description: "Status 202"
+          schema:
+            $ref: "#/definitions/conversation_list"
     x-restlet:
       section: "MESSAGES"
   /messages/contacts:
@@ -2080,6 +2054,37 @@ definitions:
         type: "string"
     x-restlet:
       section: "RESUMES"
+  conversation_list:
+    type: "object"
+    required:
+    - "list"
+    properties:
+      list:
+        type: "array"
+        description: "conversation in chronological order"
+        items:
+          required:
+          - "date_sent"
+          - "message"
+          - "sender"
+          - "status"
+          type: "object"
+          properties:
+            sender:
+              type: "integer"
+              description: "Who sent the message, the logged in user, or the contact."
+            message:
+              type: "string"
+            date_sent:
+              type: "string"
+              format: "date-time"
+            status:
+              type: "string"
+              enum:
+              - "read"
+              - "sent"
+    x-restlet:
+      section: "MESSAGES"
   profile_response:
     type: "object"
     required:

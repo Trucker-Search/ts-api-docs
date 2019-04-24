@@ -14,34 +14,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          list:
-            description: conversation in chronological order
-            items:
-              properties:
-                date_sent:
-                  format: date-time
-                  type: string
-                message:
-                  type: string
-                sender:
-                  description: 'Who sent the message, the logged in user, or the contact.'
-                  type: integer
-                status:
-                  enum:
-                    - read
-                    - sent
-                  type: string
-              required:
-                - date_sent
-                - message
-                - sender
-                - status
-              type: object
-            type: array
-        required:
-          - list
-        type: object
+        $ref: '#/definitions/conversation_list'
   summary: Get a conversation.
   tags:
     - messages
@@ -70,8 +43,10 @@ post:
           - message
         type: object
   responses:
-    '200':
-      description: Status 200
+    '202':
+      description: Status 202
+      schema:
+        $ref: '#/definitions/conversation_list'
   summary: Send a message
   tags:
     - messages
