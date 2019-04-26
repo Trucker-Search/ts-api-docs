@@ -632,8 +632,7 @@ paths:
       - "messages_contacts"
       summary: "Get a list of contacts for that folder."
       description: "This method provides the information nedeed to display all the\
-        \ contacts within a folder. There is no get all contacts. Currently there\
-        \ is no public context where that information is needed."
+        \ contacts within a folder."
       parameters:
       - name: "folder_id"
         in: "query"
@@ -645,16 +644,7 @@ paths:
         type: "string"
       responses:
         200:
-          description: "The old return type looked like this.\n\n{\"contacts\":[{\"\
-            id\":84997,\"company\":\"TEST\",\"newest_date\":\"2018-06-19 00:17:52\"\
-            ,\"contactname\":\"TEST\"},{\"contactname\":\"GLEN HAVEMAN\",\"newest_date\"\
-            :\"\",\"company\":\"GLEN HAVEMAN\",\"id\":501819},{\"id\":487630,\"company\"\
-            :\"BRAD PAULSON\",\"newest_date\":\"\",\"contactname\":\"BRAD PAULSON\"\
-            },{\"id\":471873,\"company\":\"EDUARDO SANTOS\",\"newest_date\":\"\",\"\
-            contactname\":\"EDUARDO SANTOS\"},{\"contactname\":\"ABUBAKAR ALI\",\"\
-            newest_date\":\"\",\"company\":\"ABUBAKAR ALI\",\"id\":487392},{\"company\"\
-            :\"HARPREET BRAR\",\"newest_date\":\"\",\"id\":548467,\"contactname\"\
-            :\"HARPREET BRAR\"}]}"
+          description: "Status 200"
           schema:
             required:
             - "list"
@@ -667,7 +657,6 @@ paths:
                   - "contact_company"
                   - "contact_id"
                   - "contact_name"
-                  - "last_received"
                   type: "object"
                   properties:
                     contact_id:
@@ -679,8 +668,19 @@ paths:
                     last_received:
                       type: "string"
                       format: "date-time"
-                      description: "If they have sent you a message the newest one's\
-                        \ sent date will appear, otherwise it will be null."
+                      description: "If the contact has sent your logged in user a\
+                        \ message, then the newest message's sent date will appear,\
+                        \ otherwise it will be null."
+                    conversation_status:
+                      type: "string"
+                      description: "Sent means that the contact sent your user a message,\
+                        \ but it has not yet been read by them. Messages are automatically\
+                        \ marked as read when the GET /messages endpoint is called\
+                        \ for that conversation. This will return null when the contact\
+                        \ has not yet sent a message back to your user."
+                      enum:
+                      - "sent"
+                      - "read"
     patch:
       tags:
       - "messages_contacts"
