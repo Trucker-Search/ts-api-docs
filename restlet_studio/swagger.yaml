@@ -29,7 +29,7 @@ paths:
     get:
       tags:
       - "alerts"
-      summary: "Get a list of alerts."
+      summary: "STAGE=UNK Get a list of alerts."
       description: "Get a list of alerts. You can optionally limit the list by specifcying\
         \ alerts by their alert_id."
       parameters:
@@ -83,7 +83,7 @@ paths:
     post:
       tags:
       - "alerts"
-      summary: "Create a new alert."
+      summary: "STAGE=UNK Create a new alert."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -108,7 +108,7 @@ paths:
     delete:
       tags:
       - "alerts"
-      summary: "Delete an alert."
+      summary: "STAGE=UNK Delete an alert."
       parameters:
       - name: "alert_id"
         in: "query"
