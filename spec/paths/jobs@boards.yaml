@@ -31,10 +31,11 @@ get:
       name: region
       required: false
       type: string
-    - in: query
-      name: single
+    - description: This will return just 1 job.
+      in: query
+      name: job_id
       required: false
-      type: boolean
+      type: integer
     - in: query
       name: page_number
       required: false
