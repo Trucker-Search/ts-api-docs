@@ -11,7 +11,7 @@ delete:
   responses:
     '204':
       description: Status 204
-  summary: Delete the users job ad.
+  summary: STAGE=UNK Delete the users job ad.
   tags:
     - jobs
 get:
@@ -30,7 +30,7 @@ get:
       description: Status 200
       schema:
         $ref: '#/definitions/job_list_user'
-  summary: Get logged in user's job ads.
+  summary: STAGE=UNK Get logged in user's job ads.
   tags:
     - jobs
 patch:
@@ -45,7 +45,7 @@ patch:
   responses:
     '204':
       description: Status 204
-  summary: Update a Job ad.
+  summary: STAGE=UNK Update a Job ad.
   tags:
     - jobs
 post:
@@ -66,7 +66,7 @@ post:
           description: A url pointing to the newly created resource.
           type: string
           x-example: .../jobs/?id=1234
-  summary: Post a new job ad.
+  summary: STAGE=UNK Post a new job ad.
   tags:
     - jobs
 x-restlet:

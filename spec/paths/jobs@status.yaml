@@ -12,7 +12,7 @@ delete:
   responses:
     '204':
       description: Status 204
-  summary: Decativate a Job ad
+  summary: STAGE=UNK Decativate a Job ad
   tags:
     - jobs_status
 get:
@@ -48,7 +48,7 @@ get:
           - days_left
           - expires_after
         type: object
-  summary: Get the status of a job ad.
+  summary: STAGE=UNK Get the status of a job ad.
   tags:
     - jobs_status
 post:
@@ -74,7 +74,7 @@ post:
         url:
           description: The board location of the active job ad.
           type: string
-  summary: Activate a job ad.
+  summary: STAGE=UNK Activate a job ad.
   tags:
     - jobs_status
 x-restlet:

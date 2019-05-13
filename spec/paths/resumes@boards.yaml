@@ -129,7 +129,7 @@ get:
           - total_items
           - total_pages
         type: object
-  summary: Get a list of Resumes
+  summary: STAGE=UNK Get a list of Resumes
   tags:
     - resumes
 x-restlet:

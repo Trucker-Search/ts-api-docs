@@ -4,7 +4,7 @@ delete:
   responses:
     '204':
       description: Status 204
-  summary: Marks the user as opted out.
+  summary: STAGE=UNK Marks the user as opted out.
   tags:
     - profiles
 get:
@@ -33,7 +33,7 @@ get:
         required:
           - status
         type: object
-  summary: Returns the users optin status.
+  summary: STAGE=UNK Returns the users optin status.
   tags:
     - profiles
 patch:
@@ -60,7 +60,7 @@ patch:
   responses:
     '204':
       description: Status 204
-  summary: Mark a profile as opted in.
+  summary: STAGE=UNK Mark a profile as opted in.
   tags:
     - profiles
 post:
@@ -91,7 +91,7 @@ post:
   responses:
     '201':
       description: Status 201
-  summary: Creates and sends an optin code.
+  summary: STAGE=UNK Creates and sends an optin code.
   tags:
     - profiles
 x-restlet:

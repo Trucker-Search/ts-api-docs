@@ -18,7 +18,7 @@ get:
         required:
           - count
         type: object
-  summary: Get a count of favorites
+  summary: STAGE=UNK Get a count of favorites
   tags:
     - favorites
 x-restlet:

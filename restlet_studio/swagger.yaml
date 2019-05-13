@@ -128,7 +128,7 @@ paths:
     get:
       tags:
       - "jobs"
-      summary: "Get logged in user's job ads."
+      summary: "STAGE=UNK Get logged in user's job ads."
       description: "Get a list of the logged in users jobs."
       parameters:
       - name: "job_id"
@@ -150,7 +150,7 @@ paths:
     post:
       tags:
       - "jobs"
-      summary: "Post a new job ad."
+      summary: "STAGE=UNK Post a new job ad."
       description: "Create a new Job ad for the currently logged in user."
       consumes: []
       parameters:
@@ -174,7 +174,7 @@ paths:
     delete:
       tags:
       - "jobs"
-      summary: "Delete the users job ad."
+      summary: "STAGE=UNK Delete the users job ad."
       parameters:
       - name: "job_id"
         in: "query"
@@ -192,7 +192,7 @@ paths:
     patch:
       tags:
       - "jobs"
-      summary: "Update a Job ad."
+      summary: "STAGE=UNK Update a Job ad."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -275,7 +275,7 @@ paths:
     get:
       tags:
       - "jobs_status"
-      summary: "Get the status of a job ad."
+      summary: "STAGE=UNK Get the status of a job ad."
       description: "This method will return back enough information to determine if\
         \ a job ad is runnig, and when it will stop."
       parameters:
@@ -312,7 +312,7 @@ paths:
     post:
       tags:
       - "jobs_status"
-      summary: "Activate a job ad."
+      summary: "STAGE=UNK Activate a job ad."
       description: "This method will only work if the add has days left of > 0, otherwise\
         \ in theory it should return a url to a chargebee payment portal. "
       consumes: []
@@ -340,7 +340,7 @@ paths:
     delete:
       tags:
       - "jobs_status"
-      summary: "Decativate a Job ad"
+      summary: "STAGE=UNK Decativate a Job ad"
       parameters:
       - name: "job_id"
         in: "query"
@@ -432,7 +432,7 @@ paths:
     get:
       tags:
       - "resumes"
-      summary: "Get a list of Resumes"
+      summary: "STAGE=UNK Get a list of Resumes"
       description: "Behind the scenes a resume goes through an appoval process before\
         \ it will show up on a board. This could be a few seconds, or a few days.\
         \ The resume poster can always se their resume, but until it is approved the\
@@ -866,7 +866,7 @@ paths:
     get:
       tags:
       - "favorites"
-      summary: "Get the favorites."
+      summary: "STAGE=UNK Get the favorites."
       parameters:
       - name: "favorite_type"
         in: "query"
@@ -889,7 +889,7 @@ paths:
     post:
       tags:
       - "favorites"
-      summary: "Add a favorite"
+      summary: "STAGE=UNK Add a favorite"
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -919,7 +919,7 @@ paths:
     delete:
       tags:
       - "favorites"
-      summary: "Remove  a favorite."
+      summary: "STAGE=UNK Remove  a favorite."
       parameters:
       - name: "favorite_type"
         in: "query"
@@ -945,7 +945,7 @@ paths:
     get:
       tags:
       - "favorites"
-      summary: "Get a count of favorites"
+      summary: "STAGE=UNK Get a count of favorites"
       parameters:
       - name: "favorite_type"
         in: "query"
@@ -974,7 +974,7 @@ paths:
     get:
       tags:
       - "profiles"
-      summary: "Get their profile"
+      summary: "STAGE=UNK Get their profile"
       parameters:
       - name: "end-user-token"
         in: "header"
@@ -988,7 +988,7 @@ paths:
     post:
       tags:
       - "profiles"
-      summary: "Create a profile"
+      summary: "STAGE=UNK Create a profile"
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -1009,7 +1009,7 @@ paths:
     patch:
       tags:
       - "profiles"
-      summary: "Update a profile."
+      summary: "STAGE=UNK Update a profile."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -1030,7 +1030,7 @@ paths:
     get:
       tags:
       - "profiles"
-      summary: "Returns the users optin status."
+      summary: "STAGE=UNK Returns the users optin status."
       parameters:
       - name: "end-user-token"
         in: "header"
@@ -1062,7 +1062,7 @@ paths:
     post:
       tags:
       - "profiles"
-      summary: "Creates and sends an optin code."
+      summary: "STAGE=UNK Creates and sends an optin code."
       description: "By using this endpoint the user's optin status will change to\
         \ \"no response\", and a notification with the optin code will be sent to\
         \ them via the notification_medium that they selected."
@@ -1096,7 +1096,7 @@ paths:
     delete:
       tags:
       - "profiles"
-      summary: "Marks the user as opted out."
+      summary: "STAGE=UNK Marks the user as opted out."
       parameters:
       - name: "end-user-token"
         in: "header"
@@ -1108,7 +1108,7 @@ paths:
     patch:
       tags:
       - "profiles"
-      summary: "Mark a profile as opted in."
+      summary: "STAGE=UNK Mark a profile as opted in."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -1224,7 +1224,7 @@ paths:
     get:
       tags:
       - "end_user_authentications"
-      summary: "Forgot password"
+      summary: "STAGE=UNK Forgot password"
       parameters:
       - name: "email_address"
         in: "query"

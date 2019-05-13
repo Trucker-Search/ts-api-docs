@@ -15,7 +15,7 @@ delete:
   responses:
     '204':
       description: Status 204
-  summary: Remove  a favorite.
+  summary: STAGE=UNK Remove  a favorite.
   tags:
     - favorites
 get:
@@ -36,7 +36,7 @@ get:
           I don't know what this object should look like. It isn't complete in
           it's sandbox.
         type: object
-  summary: Get the favorites.
+  summary: STAGE=UNK Get the favorites.
   tags:
     - favorites
 post:
@@ -63,7 +63,7 @@ post:
   responses:
     '201':
       description: Status 201
-  summary: Add a favorite
+  summary: STAGE=UNK Add a favorite
   tags:
     - favorites
 x-restlet:

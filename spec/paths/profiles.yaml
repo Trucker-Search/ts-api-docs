@@ -6,7 +6,7 @@ get:
       description: Status 200
       schema:
         $ref: '#/definitions/profile_response'
-  summary: Get their profile
+  summary: STAGE=UNK Get their profile
   tags:
     - profiles
 patch:
@@ -21,7 +21,7 @@ patch:
   responses:
     '204':
       description: Status 204
-  summary: Update a profile.
+  summary: STAGE=UNK Update a profile.
   tags:
     - profiles
 post:
@@ -39,7 +39,7 @@ post:
       headers:
         url:
           type: string
-  summary: Create a profile
+  summary: STAGE=UNK Create a profile
   tags:
     - profiles
 x-restlet:
