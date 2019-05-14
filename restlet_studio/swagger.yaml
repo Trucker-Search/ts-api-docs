@@ -235,7 +235,7 @@ paths:
           \ This should aviod some confusion and weirdness. An example would be alert\
           \ options. "
         enum:
-        - "east caost"
+        - "east coast"
         - "west coast"
         - "mid west"
         - "nation wide"
@@ -501,7 +501,7 @@ paths:
           \ This should aviod some confusion and weirdness. An example would be alert\
           \ options. "
         enum:
-        - "east caost"
+        - "east coast"
         - "west coast"
         - "mid west"
         - "nation wide"
@@ -2183,7 +2183,7 @@ definitions:
       \ the assumption that we can expand our resume regions to match. This should\
       \ aviod some confusion and weirdness. An example would be alert options. "
     enum:
-    - "east caost"
+    - "east coast"
     - "west coast"
     - "mid west"
     - "nation wide"
