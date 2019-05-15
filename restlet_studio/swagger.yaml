@@ -224,7 +224,9 @@ paths:
         in: "query"
         required: false
         type: "boolean"
-        description: "Only return adverts with the local region selected."
+        description: "Only return adverts with the local region selected when true."
+        default: false
+        x-example: false
       - name: "region"
         in: "query"
         required: false

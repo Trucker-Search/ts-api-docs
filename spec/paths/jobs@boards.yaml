@@ -6,11 +6,13 @@ get:
       name: state
       required: false
       type: string
-    - description: Only return adverts with the local region selected.
+    - default: false
+      description: Only return adverts with the local region selected when true.
       in: query
       name: local_only
       required: false
       type: boolean
+      x-example: false
     - description: >-
         This is a list of possible regions. This matches the regions from
         searching and posting a job ad on our website. I am adding it to the API
