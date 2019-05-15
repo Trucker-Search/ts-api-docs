@@ -261,6 +261,13 @@ paths:
         default: 50
         minimum: 1
         maximum: 100
+      - name: "end-user-token"
+        in: "header"
+        required: false
+        type: "string"
+        description: "This is only needed to retrieve a contact_id from a job. The\
+          \ contact id can be used with the messaging endpoint to communicate with\
+          \ the job poster."
       responses:
         200:
           description: "returns a list of jobs."
