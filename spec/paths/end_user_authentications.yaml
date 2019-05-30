@@ -17,11 +17,11 @@ get:
         properties:
           status:
             enum:
-              - Premium Employer
-              - Driver
-              - Employer
-              - Not Logged in
-              - Overdue Employer
+              - premium_employer
+              - driver
+              - employer
+              - not_logged_in
+              - overdue_employer
             type: string
         required:
           - status
