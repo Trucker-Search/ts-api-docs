@@ -263,6 +263,14 @@ paths:
         default: 50
         minimum: 1
         maximum: 100
+      - name: "team_preference"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Only return a team or a single driver"
+        enum:
+        - "single"
+        - "team"
       - name: "end-user-token"
         in: "header"
         required: false

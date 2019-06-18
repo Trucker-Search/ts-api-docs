@@ -50,6 +50,14 @@ get:
       name: item_count
       required: false
       type: integer
+    - description: Only return a team or a single driver
+      enum:
+        - single
+        - team
+      in: query
+      name: team_preference
+      required: false
+      type: string
   responses:
     '200':
       description: returns a list of jobs.
