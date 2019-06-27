@@ -2109,18 +2109,21 @@ definitions:
     - "city"
     - "company"
     - "contact_extension"
-    - "contact_name"
     - "contact_number"
     - "fax_number"
+    - "first_name"
+    - "last_name"
     - "mobile_carrier"
     - "mobile_number"
     - "state"
     - "web_page"
     - "zip"
     properties:
-      contact_name:
-        type: "string"
       company:
+        type: "string"
+      first_name:
+        type: "string"
+      last_name:
         type: "string"
       address:
         type: "string"
@@ -2130,6 +2133,8 @@ definitions:
         type: "string"
       zip:
         type: "string"
+      fax_number:
+        type: "integer"
       contact_number:
         type: "integer"
       contact_extension:
@@ -2138,8 +2143,6 @@ definitions:
         type: "integer"
       mobile_carrier:
         $ref: "#/definitions/mobile_carriers"
-      fax_number:
-        type: "integer"
       web_page:
         type: "string"
     x-restlet:
@@ -2147,9 +2150,11 @@ definitions:
   profile_request:
     type: "object"
     properties:
-      contact_name:
-        type: "string"
       company:
+        type: "string"
+      first_name:
+        type: "string"
+      last_name:
         type: "string"
       address:
         type: "string"
@@ -2159,6 +2164,8 @@ definitions:
         type: "string"
       zip:
         type: "string"
+      fax_number:
+        type: "integer"
       contact_number:
         type: "integer"
       contact_extension:
@@ -2167,8 +2174,6 @@ definitions:
         type: "integer"
       mobile_carrier:
         $ref: "#/definitions/mobile_carriers"
-      fax_number:
-        type: "integer"
       web_page:
         type: "string"
     x-restlet:

@@ -7,12 +7,14 @@ properties:
     type: string
   contact_extension:
     type: integer
-  contact_name:
-    type: string
   contact_number:
     type: integer
   fax_number:
     type: integer
+  first_name:
+    type: string
+  last_name:
+    type: string
   mobile_carrier:
     $ref: '#/definitions/mobile_carriers'
   mobile_number:
@@ -28,9 +30,10 @@ required:
   - city
   - company
   - contact_extension
-  - contact_name
   - contact_number
   - fax_number
+  - first_name
+  - last_name
   - mobile_carrier
   - mobile_number
   - state
