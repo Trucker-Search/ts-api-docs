@@ -1796,7 +1796,6 @@ definitions:
       job_preference:
         required:
         - "distance_preference"
-        - "position"
         type: "object"
         properties:
           position:
@@ -2112,6 +2111,7 @@ definitions:
     - "contact_number"
     - "fax_number"
     - "first_name"
+    - "id"
     - "last_name"
     - "mobile_carrier"
     - "mobile_number"
@@ -2119,6 +2119,9 @@ definitions:
     - "web_page"
     - "zip"
     properties:
+      id:
+        type: "integer"
+        description: "This is their ID in messages."
       company:
         type: "string"
       first_name:

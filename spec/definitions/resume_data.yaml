@@ -78,7 +78,6 @@ properties:
         type: string
     required:
       - distance_preference
-      - position
     type: object
 required:
   - driving_record
