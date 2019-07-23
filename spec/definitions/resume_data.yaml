@@ -76,8 +76,6 @@ properties:
           - single
           - team
         type: string
-    required:
-      - distance_preference
     type: object
 required:
   - driving_record
