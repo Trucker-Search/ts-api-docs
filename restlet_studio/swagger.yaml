@@ -134,10 +134,8 @@ paths:
       - name: "job_id"
         in: "query"
         required: false
-        type: "array"
+        type: "string"
         description: "Optionally just return a few jobs."
-        items:
-          type: "integer"
       - name: "end-user-token"
         in: "header"
         required: true
@@ -897,9 +895,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-            description: "I don't know what this object should look like. It isn't\
-              \ complete in it's sandbox."
+            $ref: "#/definitions/get_favorite_ids"
     post:
       tags:
       - "favorites"
@@ -2262,6 +2258,16 @@ definitions:
     - "Clearnet"
     - "Solo Mobile"
     - "Koodo Mobile"
+    x-restlet:
+      section: "common_definitions"
+  get_favorite_ids:
+    type: "object"
+    properties:
+      favorite_id:
+        type: "array"
+        description: "A subset of this users favorite resumes or job ids"
+        items:
+          type: "string"
     x-restlet:
       section: "common_definitions"
 x-restlet:

@@ -32,10 +32,7 @@ get:
     '200':
       description: Status 200
       schema:
-        description: >-
-          I don't know what this object should look like. It isn't complete in
-          it's sandbox.
-        type: object
+        $ref: '#/definitions/get_favorite_ids'
   summary: STAGE=UNK Get the favorites.
   tags:
     - favorites

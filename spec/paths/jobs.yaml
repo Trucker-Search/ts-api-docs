@@ -20,11 +20,9 @@ get:
     - $ref: '#/parameters/end-user-token'
     - description: Optionally just return a few jobs.
       in: query
-      items:
-        type: integer
       name: job_id
       required: false
-      type: array
+      type: string
   responses:
     '200':
       description: Status 200
