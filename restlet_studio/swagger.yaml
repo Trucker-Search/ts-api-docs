@@ -1032,8 +1032,8 @@ paths:
         schema:
           $ref: "#/definitions/profile_request"
       responses:
-        204:
-          description: "Status 204"
+        200:
+          description: "Status 200"
     x-restlet:
       section: "PROFILES"
   /profiles/optins:

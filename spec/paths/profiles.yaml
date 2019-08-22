@@ -19,8 +19,8 @@ patch:
       schema:
         $ref: '#/definitions/profile_request'
   responses:
-    '204':
-      description: Status 204
+    '200':
+      description: Status 200
   summary: STAGE=UNK Update a profile.
   tags:
     - profiles
