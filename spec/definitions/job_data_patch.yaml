@@ -54,6 +54,8 @@ properties:
         items:
           type: string
         type: array
+      region_preference:
+        $ref: '#/definitions/regions'
       team_preference:
         enum:
           - single

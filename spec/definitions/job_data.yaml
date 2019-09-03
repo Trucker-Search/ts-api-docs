@@ -46,8 +46,8 @@ properties:
         description: >-
           We will download the image from the URL. If no image is found we will
           automatically generate one. We accept an image file of up to 1MB in
-          size. All images will be resized to 160x160.
-        format: binary
+          size. All images will be resized to 200x200. If this value is
+          specified image_data cannot be used.
         type: string
       description:
         description: This can be long form text.
@@ -57,6 +57,12 @@ properties:
         enum:
           - OTR
           - local
+        type: string
+      image_data:
+        description: >-
+          Base64 string of image. Base64 data must decode into a valid jpg or
+          png file no more than 1MB in size. All images will be resized to
+          200x200. If this value is specified image_url cannot be used.
         type: string
       locations:
         description: >-
@@ -70,6 +76,8 @@ properties:
         items:
           type: string
         type: array
+      region_preference:
+        $ref: '#/definitions/regions'
       team_preference:
         default: single
         enum:

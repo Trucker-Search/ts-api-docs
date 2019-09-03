@@ -238,7 +238,7 @@ paths:
         - "east coast"
         - "west coast"
         - "mid west"
-        - "nation wide"
+        - "nationwide"
         - "north east"
         - "north west"
         - "south east"
@@ -515,7 +515,7 @@ paths:
         - "east coast"
         - "west coast"
         - "mid west"
-        - "nation wide"
+        - "nationwide"
         - "north east"
         - "north west"
         - "south east"
@@ -1032,8 +1032,8 @@ paths:
         schema:
           $ref: "#/definitions/profile_request"
       responses:
-        200:
-          description: "Status 200"
+        202:
+          description: "Status 202"
     x-restlet:
       section: "PROFILES"
   /profiles/optins:
@@ -1548,12 +1548,6 @@ definitions:
             enum:
             - "OTR"
             - "local"
-          Image_url:
-            type: "string"
-            format: "binary"
-            description: "We will download the image from the URL. If no image is\
-              \ found we will automatically generate one. We accept an image file\
-              \ of up to 1MB in size. All images will be resized to 160x160."
           description:
             type: "string"
             description: "This can be long form text."
@@ -1566,6 +1560,19 @@ definitions:
               \ I am open to leveraging it."
             items:
               type: "string"
+          Image_url:
+            type: "string"
+            description: "We will download the image from the URL. If no image is\
+              \ found we will automatically generate one. We accept an image file\
+              \ of up to 1MB in size. All images will be resized to 200x200. If this\
+              \ value is specified image_data cannot be used."
+          image_data:
+            type: "string"
+            description: "Base64 string of image. Base64 data must decode into a valid\
+              \ jpg or png file no more than 1MB in size. All images will be resized\
+              \ to 200x200. If this value is specified image_url cannot be used."
+          region_preference:
+            $ref: "#/definitions/regions"
     x-restlet:
       section: "JOBS"
   job_data_patch:
@@ -1633,6 +1640,8 @@ definitions:
             type: "array"
             items:
               type: "string"
+          region_preference:
+            $ref: "#/definitions/regions"
     x-restlet:
       section: "JOBS"
   job_list_user:
@@ -2136,6 +2145,7 @@ definitions:
         type: "integer"
       contact_extension:
         type: "integer"
+        description: "Limited to 3 digits."
       mobile_number:
         type: "integer"
       mobile_carrier:
@@ -2149,16 +2159,23 @@ definitions:
     properties:
       company:
         type: "string"
+        maxLength: 50
       first_name:
         type: "string"
+        maxLength: 50
       last_name:
         type: "string"
+        maxLength: 50
       address:
         type: "string"
+        maxLength: 50
       city:
         type: "string"
+        maxLength: 30
       state:
         type: "string"
+        description: "Please use an Abbreviation not a full name."
+        maxLength: 3
       zip:
         type: "string"
       fax_number:
@@ -2167,12 +2184,14 @@ definitions:
         type: "integer"
       contact_extension:
         type: "integer"
+        description: "Limited to 3 digits."
       mobile_number:
         type: "integer"
       mobile_carrier:
         $ref: "#/definitions/mobile_carriers"
       web_page:
         type: "string"
+        maxLength: 120
     x-restlet:
       section: "PROFILES"
   error_object:
@@ -2201,7 +2220,7 @@ definitions:
     - "east coast"
     - "west coast"
     - "mid west"
-    - "nation wide"
+    - "nationwide"
     - "north east"
     - "north west"
     - "south east"
