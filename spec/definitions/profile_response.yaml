@@ -6,6 +6,7 @@ properties:
   company:
     type: string
   contact_extension:
+    description: Limited to 3 digits.
     type: integer
   contact_number:
     type: integer
