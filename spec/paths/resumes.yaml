@@ -15,13 +15,15 @@ get:
     '200':
       description: Status 200
       schema:
-        $ref: '#/definitions/resume_data'
+        $ref: '#/definitions/resume_data_optional'
   summary: Get the user's resume.
   tags:
     - resumes
 patch:
   consumes: []
-  description: each user only has 1 resume.
+  description: >-
+    Each user only has 1 resume. Setting any field to null will set it to a null
+    or for a number 0.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
@@ -37,13 +39,23 @@ patch:
     - resumes
 post:
   consumes: []
+  description: >-
+    You must send in at least one valid request parameter in the body. It
+    doesn't matter which one, but at least one.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
       name: body
       required: true
       schema:
-        $ref: '#/definitions/resume_data'
+        $ref: '#/definitions/resume_data_optional'
+      x-examples:
+        application/json: |-
+          {
+            "experience": {
+              "current_employer": "Jim Swift's Logistics"
+            }
+          }
   responses:
     '201':
       description: Status 200
