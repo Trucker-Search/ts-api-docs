@@ -405,7 +405,7 @@ paths:
             Jim Swift's Logistics\"\n  }\n}"
       responses:
         201:
-          description: "Status 200"
+          description: "Object created"
           headers:
             url:
               type: "string"
@@ -1038,8 +1038,10 @@ paths:
         schema:
           $ref: "#/definitions/profile_request"
       responses:
-        202:
-          description: "Status 202"
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/profile_patch_response"
     x-restlet:
       section: "PROFILES"
   /profiles/optins:
@@ -2111,6 +2113,52 @@ definitions:
       web_page:
         type: "string"
         maxLength: 120
+    x-restlet:
+      section: "PROFILES"
+  profile_patch_response:
+    type: "object"
+    required:
+    - "address"
+    - "city"
+    - "company"
+    - "contact_extension"
+    - "contact_number"
+    - "fax_number"
+    - "first_name"
+    - "last_name"
+    - "mobile_carrier"
+    - "mobile_number"
+    - "state"
+    - "web_page"
+    - "zip"
+    properties:
+      company:
+        type: "string"
+      first_name:
+        type: "string"
+      last_name:
+        type: "string"
+      address:
+        type: "string"
+      city:
+        type: "string"
+      state:
+        type: "string"
+      zip:
+        type: "string"
+      fax_number:
+        type: "integer"
+      contact_number:
+        type: "integer"
+      contact_extension:
+        type: "integer"
+        description: "Limited to 3 digits."
+      mobile_number:
+        type: "integer"
+      mobile_carrier:
+        $ref: "#/definitions/mobile_carriers"
+      web_page:
+        type: "string"
     x-restlet:
       section: "PROFILES"
   error_object:

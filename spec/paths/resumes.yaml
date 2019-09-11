@@ -58,7 +58,7 @@ post:
           }
   responses:
     '201':
-      description: Status 200
+      description: Object created
       headers:
         url:
           description: Link to the newly created resume.
