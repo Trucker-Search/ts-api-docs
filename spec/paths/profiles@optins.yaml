@@ -65,10 +65,6 @@ patch:
     - profiles
 post:
   consumes: []
-  description: >-
-    By using this endpoint the user's optin status will change to "no response",
-    and a notification with the optin code will be sent to them via the
-    notification_medium that they selected.
   parameters:
     - $ref: '#/parameters/end-user-token'
     - in: body
@@ -82,16 +78,23 @@ post:
               - text
               - push
             type: string
-          subscription_channel:
-            description: 'Not currently set up, but leaving the placeholder for now.'
+          subscription_category:
+            description: 'category like newsletter, messages, load alerts, etc...'
+            type: string
+          tokens:
+            description: required if notification_medium is push.   maximum 250 characters
+            example: 'ios=XXXXXXXXXX,firebase=XXXXXXXXX'
+            maxLength: 250
+            minLength: 1
             type: string
         required:
           - notification_medium
+          - tokens
         type: object
   responses:
     '201':
       description: Status 201
-  summary: STAGE=UNK Creates and sends an optin code.
+  summary: STAGE=UNK Create a new optin
   tags:
     - profiles
 x-restlet:

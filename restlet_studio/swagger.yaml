@@ -1080,10 +1080,7 @@ paths:
     post:
       tags:
       - "profiles"
-      summary: "STAGE=UNK Creates and sends an optin code."
-      description: "By using this endpoint the user's optin status will change to\
-        \ \"no response\", and a notification with the optin code will be sent to\
-        \ them via the notification_medium that they selected."
+      summary: "STAGE=UNK Create a new optin"
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -1097,6 +1094,7 @@ paths:
           type: "object"
           required:
           - "notification_medium"
+          - "tokens"
           properties:
             notification_medium:
               type: "string"
@@ -1104,10 +1102,16 @@ paths:
               - "email"
               - "text"
               - "push"
-            subscription_channel:
+            subscription_category:
               type: "string"
-              description: "Not currently set up, but leaving the placeholder for\
-                \ now."
+              description: "category like newsletter, messages, load alerts, etc..."
+            tokens:
+              type: "string"
+              description: "required if notification_medium is push.   maximum 250\
+                \ characters"
+              minLength: 1
+              maxLength: 250
+              example: "ios=XXXXXXXXXX,firebase=XXXXXXXXX"
       responses:
         201:
           description: "Status 201"
