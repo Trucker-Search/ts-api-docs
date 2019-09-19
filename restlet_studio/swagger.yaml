@@ -218,13 +218,15 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "local_only"
+      - name: "range_preference"
         in: "query"
         required: false
-        type: "boolean"
-        description: "Only return adverts with the local region selected when true."
-        default: false
-        x-example: false
+        type: "string"
+        description: "If specified it will return either only local jobs, or only\
+          \ OTR jobs."
+        enum:
+        - "local"
+        - "OTR"
       - name: "region"
         in: "query"
         required: false
@@ -1104,7 +1106,8 @@ paths:
               - "push"
             subscription_category:
               type: "string"
-              description: "category like newsletter, messages, load alerts, etc..."
+              description: "category like newsletter, messages, load alerts, android,\
+                \ ios, etc..."
             tokens:
               type: "string"
               description: "required if notification_medium is push.   maximum 250\

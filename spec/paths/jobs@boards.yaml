@@ -6,13 +6,14 @@ get:
       name: state
       required: false
       type: string
-    - default: false
-      description: Only return adverts with the local region selected when true.
+    - description: 'If specified it will return either only local jobs, or only OTR jobs.'
+      enum:
+        - local
+        - OTR
       in: query
-      name: local_only
+      name: range_preference
       required: false
-      type: boolean
-      x-example: false
+      type: string
     - description: >-
         This is a list of possible regions. This matches the regions from
         searching and posting a job ad on our website. I am adding it to the API

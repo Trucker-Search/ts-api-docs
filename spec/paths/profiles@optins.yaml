@@ -79,7 +79,9 @@ post:
               - push
             type: string
           subscription_category:
-            description: 'category like newsletter, messages, load alerts, etc...'
+            description: >-
+              category like newsletter, messages, load alerts, android, ios,
+              etc...
             type: string
           tokens:
             description: required if notification_medium is push.   maximum 250 characters
