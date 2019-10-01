@@ -54,7 +54,10 @@ x-restlet:
     END_USER_AUTHENTICATIONS: {}
     FAVORITES: {}
     JOBS: {}
+    LOCATIONS: {}
     MESSAGES: {}
+    Mobile Update: {}
+    Optins: {}
     PROFILES: {}
     RESUMES: {}
     common_definitions: {}

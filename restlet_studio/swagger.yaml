@@ -25,6 +25,204 @@ produces:
 security:
 - api_key: []
 paths:
+  /mobile_updates:
+    get:
+      summary: "Get any available update information."
+      parameters:
+      - name: "email_address"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "bullet_points"
+            - "information_url"
+            - "message"
+            - "title"
+            - "update_url"
+            type: "object"
+            properties:
+              title:
+                type: "string"
+                default: "null"
+              message:
+                type: "string"
+                default: "null"
+              bullet_points:
+                type: "array"
+                items:
+                  type: "string"
+                  default: "[]"
+              update_url:
+                type: "string"
+                default: "null"
+              information_url:
+                type: "string"
+                default: "null"
+    x-restlet:
+      section: "Mobile Update"
+  /optins:
+    get:
+      summary: "STAGE=UNK Get the optin status of a user."
+      parameters:
+      - name: "notification_medium"
+        in: "query"
+        required: false
+        type: "string"
+        description: "To limit your list to just one medium."
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "list"
+            type: "object"
+            properties:
+              list:
+                type: "array"
+                items:
+                  required:
+                  - "notification_channel"
+                  - "notification_medium"
+                  - "status"
+                  type: "object"
+                  properties:
+                    notification_medium:
+                      type: "string"
+                      enum:
+                      - "email"
+                      - "text"
+                      - "push"
+                    notification_channel:
+                      type: "string"
+                      default: "all"
+                    status:
+                      type: "string"
+                      enum:
+                      - "optin"
+                      - "optout"
+                      - "no response"
+                      - "no record"
+    post:
+      summary: "STAGE=UNK Submit a request to be opted in."
+      description: "Currently only Push notifications are implemneted. With them a\
+        \ post creates and approves the optin. Later on when text/email is ported\
+        \ post will create the optin with the status of 'no response' meaning they\
+        \ haven't replied with the propper code, or clicked an authorization link."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "notification_medium"
+          properties:
+            notification_medium:
+              type: "string"
+              description: "We currently only accept push"
+              enum:
+              - "email"
+              - "text"
+              - "push"
+            notification_channel:
+              type: "string"
+              description: "Currently defaults to all, and is ignored. When we start\
+                \ using it it will be for opting people out or in one list like alerts,\
+                \ or messages, but not others."
+              default: "all"
+            tokens:
+              required:
+              - "$SERVICE_OR_KEY_NAME"
+              type: "object"
+              description: "This is how you can add multiple push notifications at\
+                \ once, or for systems that have multiple tokens required."
+              properties:
+                $SERVICE_OR_KEY_NAME:
+                  type: "string"
+                  description: "Fill in the key in the value, and the service in the\
+                    \ name. Look at our examples for clarification."
+              example: "\"tokens\": { \"ios\": \"12345678\", \"android\": \"5432344\"\
+                \ } "
+      responses:
+        201:
+          description: "Status 201"
+    delete:
+      summary: "STAGE=UNK Opt someone out of one or more mediums and channels."
+      description: "By only sending in their EUA token you would be requesting to\
+        \ opt them out of everything."
+      parameters:
+      - name: "notification_medium"
+        in: "query"
+        required: false
+        type: "string"
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      - name: "notification_channel"
+        in: "query"
+        required: false
+        type: "string"
+        description: "This would allow granular optouts. Currently ignored."
+        default: "all"
+        enum:
+        - "all"
+        - "alerts"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      summary: "STAGE=UNK Confirm an optin."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "notification_medium"
+          - "verification_code"
+          properties:
+            notification_medium:
+              type: "string"
+              enum:
+              - "email"
+              - "text"
+            verification_code:
+              type: "string"
+              description: "This code is generated on a POST, and will arrive via\
+                \ the same medium it was designated for."
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "Optins"
   /alerts:
     get:
       tags:
@@ -1044,122 +1242,6 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/profile_patch_response"
-    x-restlet:
-      section: "PROFILES"
-  /profiles/optins:
-    get:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Returns the users optin status."
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "notification_medium"
-        in: "header"
-        required: true
-        type: "string"
-        enum:
-        - "email"
-        - "text"
-        - "push"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "status"
-            type: "object"
-            properties:
-              status:
-                type: "string"
-                enum:
-                - "optin"
-                - "optout"
-                - "no response"
-                - "no record"
-    post:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Create a new optin"
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "notification_medium"
-          - "tokens"
-          properties:
-            notification_medium:
-              type: "string"
-              enum:
-              - "email"
-              - "text"
-              - "push"
-            subscription_category:
-              type: "string"
-              description: "category like newsletter, messages, load alerts, android,\
-                \ ios, etc..."
-            tokens:
-              type: "string"
-              description: "required if notification_medium is push.   maximum 250\
-                \ characters"
-              minLength: 1
-              maxLength: 250
-              example: "ios=XXXXXXXXXX,firebase=XXXXXXXXX"
-      responses:
-        201:
-          description: "Status 201"
-    delete:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Marks the user as opted out."
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        204:
-          description: "Status 204"
-    patch:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Mark a profile as opted in."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "notification_medium"
-          - "optin_code"
-          properties:
-            notification_medium:
-              type: "string"
-              enum:
-              - "email"
-              - "text"
-              - "push"
-            optin_code:
-              type: "string"
-      responses:
-        204:
-          description: "Status 204"
     x-restlet:
       section: "PROFILES"
   /end_user_authentications:
@@ -2267,6 +2349,9 @@ x-restlet:
   sections:
     ALERTS: {}
     JOBS: {}
+    LOCATIONS: {}
+    Mobile Update: {}
+    Optins: {}
     RESUMES: {}
     MESSAGES: {}
     FAVORITES: {}
