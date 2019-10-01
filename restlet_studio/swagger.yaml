@@ -25,204 +25,6 @@ produces:
 security:
 - api_key: []
 paths:
-  /mobile_updates:
-    get:
-      summary: "Get any available update information."
-      parameters:
-      - name: "email_address"
-        in: "query"
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "bullet_points"
-            - "information_url"
-            - "message"
-            - "title"
-            - "update_url"
-            type: "object"
-            properties:
-              title:
-                type: "string"
-                default: "null"
-              message:
-                type: "string"
-                default: "null"
-              bullet_points:
-                type: "array"
-                items:
-                  type: "string"
-                  default: "[]"
-              update_url:
-                type: "string"
-                default: "null"
-              information_url:
-                type: "string"
-                default: "null"
-    x-restlet:
-      section: "Mobile Update"
-  /optins:
-    get:
-      summary: "STAGE=UNK Get the optin status of a user."
-      parameters:
-      - name: "notification_medium"
-        in: "query"
-        required: false
-        type: "string"
-        description: "To limit your list to just one medium."
-        enum:
-        - "email"
-        - "text"
-        - "push"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "list"
-            type: "object"
-            properties:
-              list:
-                type: "array"
-                items:
-                  required:
-                  - "notification_channel"
-                  - "notification_medium"
-                  - "status"
-                  type: "object"
-                  properties:
-                    notification_medium:
-                      type: "string"
-                      enum:
-                      - "email"
-                      - "text"
-                      - "push"
-                    notification_channel:
-                      type: "string"
-                      default: "all"
-                    status:
-                      type: "string"
-                      enum:
-                      - "optin"
-                      - "optout"
-                      - "no response"
-                      - "no record"
-    post:
-      summary: "STAGE=UNK Submit a request to be opted in."
-      description: "Currently only Push notifications are implemneted. With them a\
-        \ post creates and approves the optin. Later on when text/email is ported\
-        \ post will create the optin with the status of 'no response' meaning they\
-        \ haven't replied with the propper code, or clicked an authorization link."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "notification_medium"
-          properties:
-            notification_medium:
-              type: "string"
-              description: "We currently only accept push"
-              enum:
-              - "email"
-              - "text"
-              - "push"
-            notification_channel:
-              type: "string"
-              description: "Currently defaults to all, and is ignored. When we start\
-                \ using it it will be for opting people out or in one list like alerts,\
-                \ or messages, but not others."
-              default: "all"
-            tokens:
-              required:
-              - "$SERVICE_OR_KEY_NAME"
-              type: "object"
-              description: "This is how you can add multiple push notifications at\
-                \ once, or for systems that have multiple tokens required."
-              properties:
-                $SERVICE_OR_KEY_NAME:
-                  type: "string"
-                  description: "Fill in the key in the value, and the service in the\
-                    \ name. Look at our examples for clarification."
-              example: "\"tokens\": { \"ios\": \"12345678\", \"android\": \"5432344\"\
-                \ } "
-      responses:
-        201:
-          description: "Status 201"
-    delete:
-      summary: "STAGE=UNK Opt someone out of one or more mediums and channels."
-      description: "By only sending in their EUA token you would be requesting to\
-        \ opt them out of everything."
-      parameters:
-      - name: "notification_medium"
-        in: "query"
-        required: false
-        type: "string"
-        enum:
-        - "email"
-        - "text"
-        - "push"
-      - name: "notification_channel"
-        in: "query"
-        required: false
-        type: "string"
-        description: "This would allow granular optouts. Currently ignored."
-        default: "all"
-        enum:
-        - "all"
-        - "alerts"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        204:
-          description: "Status 204"
-    patch:
-      summary: "STAGE=UNK Confirm an optin."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "notification_medium"
-          - "verification_code"
-          properties:
-            notification_medium:
-              type: "string"
-              enum:
-              - "email"
-              - "text"
-            verification_code:
-              type: "string"
-              description: "This code is generated on a POST, and will arrive via\
-                \ the same medium it was designated for."
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "Optins"
   /alerts:
     get:
       tags:
@@ -264,8 +66,6 @@ paths:
         in: "header"
         required: true
         type: "string"
-        description: "TS still has anonymous login. If you don't use an EUA you must\
-          \ use an e-mail address."
       responses:
         200:
           description: "Status 200"
@@ -288,7 +88,6 @@ paths:
         in: "header"
         required: true
         type: "string"
-        description: "This or an email-address must be supplied."
       - name: "body"
         in: "body"
         required: true
@@ -296,13 +95,9 @@ paths:
           $ref: "#/definitions/alert_request_object"
       responses:
         201:
-          description: "Status 201"
+          description: "Object created check the headers for a reference URL."
           schema:
             $ref: "#/definitions/create_status"
-          headers:
-            url:
-              type: "string"
-              description: "Location of the new alert."
     delete:
       tags:
       - "alerts"
@@ -316,12 +111,277 @@ paths:
         in: "header"
         required: true
         type: "string"
-        description: "This or an e-mail address for non logged in users is required."
       responses:
         204:
           description: "Status 204"
     x-restlet:
       section: "ALERTS"
+  /end_user_authentications:
+    get:
+      tags:
+      - "end_user_authentications"
+      summary: "Get a users status."
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "status"
+            type: "object"
+            properties:
+              status:
+                type: "string"
+                enum:
+                - "premium_employer"
+                - "driver"
+                - "employer"
+                - "not_logged_in"
+                - "overdue_employer"
+    post:
+      tags:
+      - "end_user_authentications"
+      summary: "Log in."
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "login"
+          - "realm"
+          - "secret"
+          properties:
+            login:
+              type: "string"
+            realm:
+              type: "string"
+              description: "email, username."
+            secret:
+              type: "string"
+      responses:
+        201:
+          description: "Status 201"
+          schema:
+            $ref: "#/definitions/error_object"
+        422:
+          description: "Status 422"
+          schema:
+            required:
+            - "code"
+            - "description"
+            - "error"
+            type: "object"
+            properties:
+              code:
+                type: "integer"
+              description:
+                type: "string"
+              error:
+                type: "string"
+    delete:
+      tags:
+      - "end_user_authentications"
+      summary: "Log out."
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "END_USER_AUTHENTICATIONS"
+  /end_user_authentications/passwords:
+    get:
+      tags:
+      - "end_user_authentications"
+      summary: "STAGE=UNK Forgot password"
+      parameters:
+      - name: "email_address"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "This will return successful even if we do not have the e-mail\
+            \ address in our records."
+    patch:
+      tags:
+      - "end_user_authentications"
+      summary: "Update Password"
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "new_password"
+          - "old_password"
+          properties:
+            new_password:
+              type: "string"
+            old_password:
+              type: "string"
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "END_USER_AUTHENTICATIONS"
+  /end_user_authentications/users:
+    post:
+      tags:
+      - "end_user_authentications"
+      summary: "Create user"
+      description: "Create a new user"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "email"
+          - "password"
+          properties:
+            email:
+              type: "string"
+            password:
+              type: "string"
+      responses:
+        201:
+          description: "Status 201"
+          schema:
+            required:
+            - "end-user-token"
+            type: "object"
+            description: "Will automatically log them in, and return the needed token."
+            properties:
+              end-user-token:
+                type: "string"
+                description: "Their token to show they are logged in."
+    x-restlet:
+      section: "END_USER_AUTHENTICATIONS"
+  /favorites:
+    get:
+      tags:
+      - "favorites"
+      summary: "STAGE=UNK Get the favorites."
+      parameters:
+      - name: "favorite_type"
+        in: "query"
+        required: true
+        type: "string"
+        enum:
+        - "resume"
+        - "job"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/get_favorite_ids"
+    post:
+      tags:
+      - "favorites"
+      summary: "STAGE=UNK Add a favorite"
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "favorite_id"
+          - "type"
+          properties:
+            favorite_id:
+              type: "integer"
+              description: "The id of the favorite to add."
+            type:
+              type: "string"
+              enum:
+              - "job"
+              - "resume"
+      responses:
+        201:
+          description: "Status 201"
+    delete:
+      tags:
+      - "favorites"
+      summary: "STAGE=UNK Remove  a favorite."
+      parameters:
+      - name: "favorite_type"
+        in: "query"
+        required: true
+        type: "string"
+        enum:
+        - "job"
+        - "resume"
+      - name: "favorite_id"
+        in: "query"
+        required: true
+        type: "integer"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "FAVORITES"
+  /favorites/count:
+    get:
+      tags:
+      - "favorites"
+      summary: "STAGE=UNK Get a count of favorites"
+      parameters:
+      - name: "favorite_type"
+        in: "query"
+        required: true
+        type: "string"
+        enum:
+        - "resume"
+        - "job"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "count"
+            type: "object"
+            properties:
+              count:
+                type: "integer"
+    x-restlet:
+      section: "FAVORITES"
   /jobs:
     get:
       tags:
@@ -473,9 +533,6 @@ paths:
         in: "header"
         required: false
         type: "string"
-        description: "This is only needed to retrieve a contact_id from a job. The\
-          \ contact id can be used with the messaging endpoint to communicate with\
-          \ the job poster."
       responses:
         200:
           description: "returns a list of jobs."
@@ -498,7 +555,7 @@ paths:
       - name: "end-user-token"
         in: "header"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "Status 200"
@@ -509,6 +566,11 @@ paths:
             - "expires_after"
             type: "object"
             properties:
+              bill_method:
+                type: "string"
+                enum:
+                - "manual"
+                - "automatic"
               days_left:
                 type: "integer"
                 description: "If the Job is not active, this value tells how many\
@@ -516,11 +578,6 @@ paths:
               expires_after:
                 type: "string"
                 format: "date"
-              bill_method:
-                type: "string"
-                enum:
-                - "manual"
-                - "automatic"
     post:
       tags:
       - "jobs_status"
@@ -568,6 +625,558 @@ paths:
           description: "Status 204"
     x-restlet:
       section: "JOBS"
+  /messages:
+    get:
+      tags:
+      - "messages"
+      summary: "Get a conversation."
+      description: "This is the method that pulls down a conversation. For our site\
+        \ this is the main portion of the page. Internally we have other statuses\
+        \ like pending, and rejected, but a public users of our API doesn t have access\
+        \ to them."
+      parameters:
+      - name: "contact_id"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Who the conversation is with."
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/conversation_list"
+    post:
+      tags:
+      - "messages"
+      summary: "Send a message"
+      description: "This will send a message to any other user. Currently there are\
+        \ no blocks or set restrictions if an API user just started guessing. In order\
+        \ to get a contact_id a contact user would need to pull that info from a resume,\
+        \ or a job ad."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "contact_id"
+          - "message"
+          properties:
+            contact_id:
+              type: "integer"
+              description: "Who the message is being sent to."
+            message:
+              type: "string"
+              description: "This can contain a small list of html tags."
+      responses:
+        202:
+          description: "Status 202"
+          schema:
+            $ref: "#/definitions/conversation_list"
+    x-restlet:
+      section: "MESSAGES"
+  /messages/contacts:
+    get:
+      tags:
+      - "messages_contacts"
+      summary: "Get a list of contacts for that folder."
+      description: "This method provides the information nedeed to display all the\
+        \ contacts within a folder."
+      parameters:
+      - name: "folder_id"
+        in: "query"
+        required: true
+        type: "integer"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "list"
+            type: "object"
+            properties:
+              list:
+                type: "array"
+                items:
+                  required:
+                  - "contact_company"
+                  - "contact_id"
+                  - "contact_name"
+                  type: "object"
+                  properties:
+                    contact_company:
+                      type: "string"
+                    contact_id:
+                      type: "integer"
+                    contact_name:
+                      type: "string"
+                    conversation_status:
+                      type: "string"
+                      description: "Sent means that the contact sent your user a message,\
+                        \ but it has not yet been read by them. Messages are automatically\
+                        \ marked as read when the GET /messages endpoint is called\
+                        \ for that conversation. This will return null when the contact\
+                        \ has not yet sent a message back to your user."
+                      enum:
+                      - "sent"
+                      - "read"
+                    last_received:
+                      type: "string"
+                      format: "date-time"
+                      description: "If the contact has sent your logged in user a\
+                        \ message, then the newest message's sent date will appear,\
+                        \ otherwise it will be null."
+    patch:
+      tags:
+      - "messages_contacts"
+      summary: "Move a contact from one folder to another."
+      description: "By default all new contacts end up in Active, or Pending depending\
+        \ on who sent a message. Also users are unable to \"delete\" contacts, but\
+        \ you can simulate that using this endpoint to move to Trash."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "contact_id"
+          - "new_folder"
+          - "old_folder"
+          properties:
+            contact_id:
+              type: "integer"
+              description: "Contact to move."
+            new_folder:
+              type: "integer"
+            old_folder:
+              type: "integer"
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "MESSAGES"
+  /messages/count:
+    get:
+      tags:
+      - "messages"
+      summary: "Returns how many unread messages the user has."
+      description: "This is a coneniene method provided for pages like the driver/recruiter\
+        \ dasboard. The same information could be obtained by getting the folder list,\
+        \ and adding the new count. \n\nIt can also be used to update individual contacts\
+        \ new count. An example of this is the page automatically checking for new\
+        \ messages every once in a while, on a per user basis. "
+      parameters:
+      - name: "contact_id"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Just return a count of new messages from one contact."
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "count"
+            type: "object"
+            properties:
+              count:
+                type: "integer"
+    x-restlet:
+      section: "MESSAGES"
+  /messages/folders:
+    get:
+      tags:
+      - "messages_folders"
+      summary: "Get a list of folders"
+      description: "This returns a list of all folders for this user, along with how\
+        \ many unread messages each folder contains. I belive the website's behavior\
+        \ is 0 or 1 per contact, but it could be 1 per total messages. "
+      parameters:
+      - name: "folder_id"
+        in: "query"
+        required: false
+        type: "array"
+        description: "Just get a few folders. This takes the place of a specific new\
+          \ count function."
+        items:
+          type: "integer"
+        x-example: "?folder_id=2334&folder_id=3324"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "list"
+            type: "object"
+            description: "Current version doesn't really work with the documentation.\
+              \  because of variable folder names. It looks like this.\n\n{\"Active\"\
+              :0,\"Trash\":0,\"test 5\":0,\"Pending\":0,\"TrucksNcars\":0,\"new folder\
+              \ 2\":0,\"Deleted\":0,\"test1\":0,\"NewFolderTest\":0}"
+            properties:
+              list:
+                type: "array"
+                items:
+                  required:
+                  - "folder_id"
+                  - "name"
+                  - "new_count"
+                  type: "object"
+                  properties:
+                    folder_id:
+                      type: "integer"
+                      description: "folder id"
+                    name:
+                      type: "string"
+                      description: "Folder Name"
+                    new_count:
+                      type: "integer"
+                      description: "How many new messages in that folder."
+    post:
+      tags:
+      - "messages_folders"
+      summary: "Add a folder"
+      description: "This method allows a user to add custom folders. These folders\
+        \ must have unique names."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "name"
+          properties:
+            name:
+              type: "string"
+              description: "Name of the folder to be added."
+          description: "You can use any name that has not already been taken. Certain\
+            \ folders are automatically created, the first time a message is sent\
+            \ or recieved. The names of these folders are reserved and cannot be added,\
+            \ modified or deleted.\n\nCurrently they are Active, Pending, Deleted,\
+            \ and Trash."
+      responses:
+        201:
+          description: "Status 201"
+          schema:
+            required:
+            - "folder_id"
+            - "name"
+            type: "object"
+            properties:
+              folder_id:
+                type: "integer"
+              name:
+                type: "string"
+    delete:
+      tags:
+      - "messages_folders"
+      summary: "Remove a custom folder."
+      description: "Active, Pending, Trash, and Deleted are special folders, and this\
+        \ command will ignore them."
+      parameters:
+      - name: "folder_id"
+        in: "query"
+        required: true
+        type: "string"
+        description: "Deletes one folder at a time."
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "MESSAGES"
+  /mobile_updates:
+    get:
+      summary: "Get any available update information."
+      parameters:
+      - name: "email_address"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "bullet_points"
+            - "information_url"
+            - "message"
+            - "title"
+            - "update_url"
+            type: "object"
+            properties:
+              bullet_points:
+                type: "array"
+                items:
+                  type: "string"
+                  default: "[]"
+              information_url:
+                type: "string"
+                default: "null"
+              message:
+                type: "string"
+                default: "null"
+              title:
+                type: "string"
+                default: "null"
+              update_url:
+                type: "string"
+                default: "null"
+    x-restlet:
+      section: "Mobile Update"
+  /optins:
+    get:
+      summary: "STAGE=UNK Get the optin status of a user."
+      parameters:
+      - name: "notification_medium"
+        in: "query"
+        required: false
+        type: "string"
+        description: "To limit your list to just one medium."
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "list"
+            type: "object"
+            properties:
+              list:
+                type: "array"
+                items:
+                  required:
+                  - "notification_channel"
+                  - "notification_medium"
+                  - "status"
+                  type: "object"
+                  properties:
+                    notification_channel:
+                      type: "string"
+                      default: "all"
+                    notification_medium:
+                      type: "string"
+                      enum:
+                      - "email"
+                      - "text"
+                      - "push"
+                    status:
+                      type: "string"
+                      enum:
+                      - "optin"
+                      - "optout"
+                      - "no response"
+                      - "no record"
+    post:
+      summary: "STAGE=UNK Submit a request to be opted in."
+      description: "Currently only Push notifications are implemneted. With them a\
+        \ post creates and approves the optin. Later on when text/email is ported\
+        \ post will create the optin with the status of 'no response' meaning they\
+        \ haven't replied with the propper code, or clicked an authorization link."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "notification_medium"
+          properties:
+            notification_channel:
+              type: "string"
+              description: "Currently defaults to all, and is ignored. When we start\
+                \ using it it will be for opting people out or in one list like alerts,\
+                \ or messages, but not others."
+              default: "all"
+            notification_medium:
+              type: "string"
+              description: "We currently only accept push"
+              enum:
+              - "email"
+              - "text"
+              - "push"
+            tokens:
+              required:
+              - "$SERVICE_OR_KEY_NAME"
+              type: "object"
+              description: "This is how you can add multiple push notifications at\
+                \ once, or for systems that have multiple tokens required."
+              properties:
+                $SERVICE_OR_KEY_NAME:
+                  type: "string"
+                  description: "Fill in the key in the value, and the service in the\
+                    \ name. Look at our examples for clarification."
+              example: "\"tokens\": { \"ios\": \"12345678\", \"android\": \"5432344\"\
+                \ } "
+      responses:
+        201:
+          description: "Status 201"
+    delete:
+      summary: "STAGE=UNK Opt someone out of one or more mediums and channels."
+      description: "By only sending in their EUA token you would be requesting to\
+        \ opt them out of everything."
+      parameters:
+      - name: "notification_medium"
+        in: "query"
+        required: false
+        type: "string"
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      - name: "notification_channel"
+        in: "query"
+        required: false
+        type: "string"
+        description: "This would allow granular optouts. Currently ignored."
+        default: "all"
+        enum:
+        - "all"
+        - "alerts"
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      summary: "STAGE=UNK Confirm an optin."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "notification_medium"
+          - "verification_code"
+          properties:
+            notification_medium:
+              type: "string"
+              enum:
+              - "email"
+              - "text"
+            verification_code:
+              type: "string"
+              description: "This code is generated on a POST, and will arrive via\
+                \ the same medium it was designated for."
+      responses:
+        204:
+          description: "Status 204"
+    x-restlet:
+      section: "Optins"
+  /profiles:
+    get:
+      tags:
+      - "profiles"
+      summary: "STAGE=UNK Get their profile"
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/profile_response"
+    post:
+      tags:
+      - "profiles"
+      summary: "STAGE=UNK Create a profile"
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/profile_request"
+      responses:
+        201:
+          description: "Status 201"
+          headers:
+            url:
+              type: "string"
+    patch:
+      tags:
+      - "profiles"
+      summary: "STAGE=UNK Update a profile."
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/profile_request"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/profile_patch_response"
+    x-restlet:
+      section: "PROFILES"
   /resumes:
     get:
       tags:
@@ -784,626 +1393,6 @@ paths:
                 type: "integer"
     x-restlet:
       section: "RESUMES"
-  /messages:
-    get:
-      tags:
-      - "messages"
-      summary: "Get a conversation."
-      description: "This is the method that pulls down a conversation. For our site\
-        \ this is the main portion of the page. Internally we have other statuses\
-        \ like pending, and rejected, but a public users of our API doesn t have access\
-        \ to them."
-      parameters:
-      - name: "contact_id"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Who the conversation is with."
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            $ref: "#/definitions/conversation_list"
-    post:
-      tags:
-      - "messages"
-      summary: "Send a message"
-      description: "This will send a message to any other user. Currently there are\
-        \ no blocks or set restrictions if an API user just started guessing. In order\
-        \ to get a contact_id a contact user would need to pull that info from a resume,\
-        \ or a job ad."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "contact_id"
-          - "message"
-          properties:
-            message:
-              type: "string"
-              description: "This can contain a small list of html tags."
-            contact_id:
-              type: "integer"
-              description: "Who the message is being sent to."
-      responses:
-        202:
-          description: "Status 202"
-          schema:
-            $ref: "#/definitions/conversation_list"
-    x-restlet:
-      section: "MESSAGES"
-  /messages/contacts:
-    get:
-      tags:
-      - "messages_contacts"
-      summary: "Get a list of contacts for that folder."
-      description: "This method provides the information nedeed to display all the\
-        \ contacts within a folder."
-      parameters:
-      - name: "folder_id"
-        in: "query"
-        required: true
-        type: "integer"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "list"
-            type: "object"
-            properties:
-              list:
-                type: "array"
-                items:
-                  required:
-                  - "contact_company"
-                  - "contact_id"
-                  - "contact_name"
-                  type: "object"
-                  properties:
-                    contact_id:
-                      type: "integer"
-                    contact_name:
-                      type: "string"
-                    contact_company:
-                      type: "string"
-                    last_received:
-                      type: "string"
-                      format: "date-time"
-                      description: "If the contact has sent your logged in user a\
-                        \ message, then the newest message's sent date will appear,\
-                        \ otherwise it will be null."
-                    conversation_status:
-                      type: "string"
-                      description: "Sent means that the contact sent your user a message,\
-                        \ but it has not yet been read by them. Messages are automatically\
-                        \ marked as read when the GET /messages endpoint is called\
-                        \ for that conversation. This will return null when the contact\
-                        \ has not yet sent a message back to your user."
-                      enum:
-                      - "sent"
-                      - "read"
-    patch:
-      tags:
-      - "messages_contacts"
-      summary: "Move a contact from one folder to another."
-      description: "By default all new contacts end up in Active, or Pending depending\
-        \ on who sent a message. Also users are unable to \"delete\" contacts, but\
-        \ you can simulate that using this endpoint to move to Trash."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "contact_id"
-          - "new_folder"
-          - "old_folder"
-          properties:
-            contact_id:
-              type: "integer"
-              description: "Contact to move."
-            old_folder:
-              type: "integer"
-            new_folder:
-              type: "integer"
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "MESSAGES"
-  /messages/folders:
-    get:
-      tags:
-      - "messages_folders"
-      summary: "Get a list of folders"
-      description: "This returns a list of all folders for this user, along with how\
-        \ many unread messages each folder contains. I belive the website's behavior\
-        \ is 0 or 1 per contact, but it could be 1 per total messages. "
-      parameters:
-      - name: "folder_id"
-        in: "query"
-        required: false
-        type: "array"
-        description: "Just get a few folders. This takes the place of a specific new\
-          \ count function."
-        items:
-          type: "integer"
-        x-example: "?folder_id=2334&folder_id=3324"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "list"
-            type: "object"
-            description: "Current version doesn't really work with the documentation.\
-              \  because of variable folder names. It looks like this.\n\n{\"Active\"\
-              :0,\"Trash\":0,\"test 5\":0,\"Pending\":0,\"TrucksNcars\":0,\"new folder\
-              \ 2\":0,\"Deleted\":0,\"test1\":0,\"NewFolderTest\":0}"
-            properties:
-              list:
-                type: "array"
-                items:
-                  required:
-                  - "folder_id"
-                  - "name"
-                  - "new_count"
-                  type: "object"
-                  properties:
-                    folder_id:
-                      type: "integer"
-                      description: "folder id"
-                    name:
-                      type: "string"
-                      description: "Folder Name"
-                    new_count:
-                      type: "integer"
-                      description: "How many new messages in that folder."
-    post:
-      tags:
-      - "messages_folders"
-      summary: "Add a folder"
-      description: "This method allows a user to add custom folders. These folders\
-        \ must have unique names."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "name"
-          properties:
-            name:
-              type: "string"
-              description: "Name of the folder to be added."
-          description: "You can use any name that has not already been taken. Certain\
-            \ folders are automatically created, the first time a message is sent\
-            \ or recieved. The names of these folders are reserved and cannot be added,\
-            \ modified or deleted.\n\nCurrently they are Active, Pending, Deleted,\
-            \ and Trash."
-      responses:
-        201:
-          description: "Status 201"
-          schema:
-            required:
-            - "folder_id"
-            - "name"
-            type: "object"
-            properties:
-              name:
-                type: "string"
-              folder_id:
-                type: "integer"
-    delete:
-      tags:
-      - "messages_folders"
-      summary: "Remove a custom folder."
-      description: "Active, Pending, Trash, and Deleted are special folders, and this\
-        \ command will ignore them."
-      parameters:
-      - name: "folder_id"
-        in: "query"
-        required: true
-        type: "string"
-        description: "Deletes one folder at a time."
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "MESSAGES"
-  /messages/count:
-    get:
-      tags:
-      - "messages"
-      summary: "Returns how many unread messages the user has."
-      description: "This is a coneniene method provided for pages like the driver/recruiter\
-        \ dasboard. The same information could be obtained by getting the folder list,\
-        \ and adding the new count. \n\nIt can also be used to update individual contacts\
-        \ new count. An example of this is the page automatically checking for new\
-        \ messages every once in a while, on a per user basis. "
-      parameters:
-      - name: "contact_id"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Just return a count of new messages from one contact."
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "count"
-            type: "object"
-            properties:
-              count:
-                type: "integer"
-    x-restlet:
-      section: "MESSAGES"
-  /favorites:
-    get:
-      tags:
-      - "favorites"
-      summary: "STAGE=UNK Get the favorites."
-      parameters:
-      - name: "favorite_type"
-        in: "query"
-        required: true
-        type: "string"
-        enum:
-        - "resume"
-        - "job"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            $ref: "#/definitions/get_favorite_ids"
-    post:
-      tags:
-      - "favorites"
-      summary: "STAGE=UNK Add a favorite"
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "favorite_id"
-          - "type"
-          properties:
-            type:
-              type: "string"
-              enum:
-              - "job"
-              - "resume"
-            favorite_id:
-              type: "integer"
-              description: "The id of the favorite to add."
-      responses:
-        201:
-          description: "Status 201"
-    delete:
-      tags:
-      - "favorites"
-      summary: "STAGE=UNK Remove  a favorite."
-      parameters:
-      - name: "favorite_type"
-        in: "query"
-        required: true
-        type: "string"
-        enum:
-        - "job"
-        - "resume"
-      - name: "favorite_id"
-        in: "query"
-        required: true
-        type: "integer"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "FAVORITES"
-  /favorites/count:
-    get:
-      tags:
-      - "favorites"
-      summary: "STAGE=UNK Get a count of favorites"
-      parameters:
-      - name: "favorite_type"
-        in: "query"
-        required: true
-        type: "string"
-        enum:
-        - "resume"
-        - "job"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "count"
-            type: "object"
-            properties:
-              count:
-                type: "integer"
-    x-restlet:
-      section: "FAVORITES"
-  /profiles:
-    get:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Get their profile"
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            $ref: "#/definitions/profile_response"
-    post:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Create a profile"
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/profile_request"
-      responses:
-        201:
-          description: "Status 201"
-          headers:
-            url:
-              type: "string"
-    patch:
-      tags:
-      - "profiles"
-      summary: "STAGE=UNK Update a profile."
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/profile_request"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            $ref: "#/definitions/profile_patch_response"
-    x-restlet:
-      section: "PROFILES"
-  /end_user_authentications:
-    get:
-      tags:
-      - "end_user_authentications"
-      summary: "Get a users status."
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            required:
-            - "status"
-            type: "object"
-            properties:
-              status:
-                type: "string"
-                enum:
-                - "premium_employer"
-                - "driver"
-                - "employer"
-                - "not_logged_in"
-                - "overdue_employer"
-    post:
-      tags:
-      - "end_user_authentications"
-      summary: "Log in."
-      consumes: []
-      parameters:
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "login"
-          - "realm"
-          - "secret"
-          properties:
-            login:
-              type: "string"
-            realm:
-              type: "string"
-              description: "email, username."
-            secret:
-              type: "string"
-      responses:
-        201:
-          description: "Status 201"
-          schema:
-            $ref: "#/definitions/error_object"
-        422:
-          description: "Status 422"
-          schema:
-            required:
-            - "code"
-            - "description"
-            - "error"
-            type: "object"
-            properties:
-              code:
-                type: "integer"
-              error:
-                type: "string"
-              description:
-                type: "string"
-    delete:
-      tags:
-      - "end_user_authentications"
-      summary: "Log out."
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "END_USER_AUTHENTICATIONS"
-  /end_user_authentications/passwords:
-    get:
-      tags:
-      - "end_user_authentications"
-      summary: "STAGE=UNK Forgot password"
-      parameters:
-      - name: "email_address"
-        in: "query"
-        required: true
-        type: "string"
-      responses:
-        204:
-          description: "This will return successful even if we do not have the e-mail\
-            \ address in our records."
-    patch:
-      tags:
-      - "end_user_authentications"
-      summary: "Update Password"
-      consumes: []
-      parameters:
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "new_password"
-          - "old_password"
-          properties:
-            new_password:
-              type: "string"
-            old_password:
-              type: "string"
-      responses:
-        204:
-          description: "Status 204"
-    x-restlet:
-      section: "END_USER_AUTHENTICATIONS"
-  /end_user_authentications/users:
-    post:
-      tags:
-      - "end_user_authentications"
-      summary: "Create user"
-      description: "Create a new user"
-      consumes: []
-      parameters:
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-          required:
-          - "email"
-          - "password"
-          properties:
-            email:
-              type: "string"
-            password:
-              type: "string"
-      responses:
-        201:
-          description: "Status 201"
-          schema:
-            required:
-            - "end-user-token"
-            type: "object"
-            description: "Will automatically log them in, and return the needed token."
-            properties:
-              end-user-token:
-                type: "string"
-                description: "Their token to show they are logged in."
-    x-restlet:
-      section: "END_USER_AUTHENTICATIONS"
 securityDefinitions:
   api_key:
     description: "This token needs to be sent as a HTTP header argument in every request\
@@ -1412,40 +1401,6 @@ securityDefinitions:
     name: "api-token"
     in: "header"
 definitions:
-  alert_response_object:
-    type: "object"
-    required:
-    - "alert_id"
-    - "last_sent"
-    - "notification_medium"
-    - "only_new"
-    - "search_parameters"
-    - "send_frequency"
-    properties:
-      alert_id:
-        type: "integer"
-      send_frequency:
-        type: "integer"
-        description: "Frequency in minutes that the alert is sent."
-      only_new:
-        type: "boolean"
-        description: "Whether to sent both new and updated resumes, or just new resumes."
-      last_sent:
-        type: "string"
-        format: "date-time"
-        description: "Last time the alert was sent."
-      notification_medium:
-        type: "string"
-        enum:
-        - "email"
-        - "text"
-        - "push"
-      search_parameters:
-        type: "object"
-        description: "Please look at /resume/boards or /jobs/boards for a reference\
-          \ of accepted parameters."
-    x-restlet:
-      section: "ALERTS"
   alert_request_object:
     type: "object"
     required:
@@ -1460,13 +1415,6 @@ definitions:
         enum:
         - "job"
         - "resume"
-      send_frequency:
-        type: "integer"
-        description: "Frequency in minutes that the alert is sent. We stop sending\
-          \ alerts between 12am and 3am CST."
-      only_new:
-        type: "boolean"
-        description: "Whether to sent both new and updated resumes, or just new resumes."
       notification_medium:
         type: "string"
         description: "Push is not yet implemented."
@@ -1474,112 +1422,129 @@ definitions:
         - "email"
         - "text"
         - "push"
+      only_new:
+        type: "boolean"
+        description: "Whether to sent both new and updated resumes, or just new resumes."
       search_parameters:
         type: "object"
         description: "Please look at /resume/boards or /jobs/boards for a reference\
           \ of accepted parameters."
+      send_frequency:
+        type: "integer"
+        description: "Frequency in minutes that the alert is sent. We stop sending\
+          \ alerts between 12am and 3am CST."
     x-restlet:
       section: "ALERTS"
-  job_list:
+  alert_response_object:
     type: "object"
     required:
-    - "list"
-    - "page_number"
-    - "total_items"
-    - "total_pages"
+    - "alert_id"
+    - "last_sent"
+    - "notification_medium"
+    - "only_new"
+    - "search_parameters"
+    - "send_frequency"
     properties:
-      list:
-        type: "array"
-        items:
-          required:
-          - "contact"
-          - "job_id"
-          - "position"
-          type: "object"
-          properties:
-            job_id:
-              type: "number"
-            position:
-              required:
-              - "description"
-              - "distance_preference"
-              - "image_url"
-              - "region_preference"
-              - "states"
-              - "team_preference"
-              type: "object"
-              properties:
-                team_preference:
-                  type: "string"
-                  enum:
-                  - "single"
-                  - "team"
-                distance_preference:
-                  type: "string"
-                  enum:
-                  - "OTR"
-                  - "local"
-                region_preference:
-                  $ref: "#/definitions/regions"
-                image_url:
-                  type: "string"
-                description:
-                  type: "string"
-                  description: "This is a large text field."
-                states:
-                  type: "array"
-                  description: "Currently we return the full state name for display\
-                    \ purposes."
-                  items:
-                    type: "string"
-            contact:
-              required:
-              - "address"
-              - "city"
-              - "contact"
-              - "name"
-              - "phone"
-              - "state"
-              - "zip"
-              type: "object"
-              description: "The contact information for this ad."
-              properties:
-                id:
-                  type: "integer"
-                  description: "This is the id you would use to send a message to\
-                    \ this employer. Only logged in users can see this."
-                name:
-                  type: "string"
-                  maxLength: 45
-                contact:
-                  type: "string"
-                  maxLength: 45
-                address:
-                  type: "string"
-                  maxLength: 64
-                city:
-                  type: "string"
-                  maxLength: 45
-                state:
-                  type: "string"
-                  maxLength: 2
-                zip:
-                  type: "string"
-                  maxLength: 10
-                phone:
-                  type: "integer"
-                website:
-                  type: "string"
-                  maxLength: 500
-                email:
-                  type: "string"
-                  maxLength: 45
-      page_number:
+      alert_id:
         type: "integer"
-      total_pages:
+      last_sent:
+        type: "string"
+        format: "date-time"
+        description: "Last time the alert was sent."
+      notification_medium:
+        type: "string"
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      only_new:
+        type: "boolean"
+        description: "Whether to sent both new and updated resumes, or just new resumes."
+      search_parameters:
+        type: "object"
+        description: "Please look at /resume/boards or /jobs/boards for a reference\
+          \ of accepted parameters."
+      send_frequency:
         type: "integer"
-      total_items:
+        description: "Frequency in minutes that the alert is sent."
+    x-restlet:
+      section: "ALERTS"
+  error_object:
+    type: "object"
+    required:
+    - "end-user-token"
+    properties:
+      end-user-token:
+        type: "string"
+    x-restlet:
+      section: "END_USER_AUTHENTICATIONS"
+  job_data_patch:
+    type: "object"
+    required:
+    - "job_id"
+    properties:
+      contact:
+        type: "object"
+        description: "As long as 1 sub element from contact or position is filled\
+          \ in this will be a valid request."
+        properties:
+          address:
+            type: "string"
+            maxLength: 64
+          city:
+            type: "string"
+            maxLength: 45
+          contact:
+            type: "string"
+            maxLength: 45
+          email:
+            type: "string"
+            maxLength: 45
+          name:
+            type: "string"
+            maxLength: 45
+          phone:
+            type: "integer"
+          state:
+            type: "string"
+            maxLength: 2
+          website:
+            type: "string"
+            maxLength: 500
+          zip:
+            type: "string"
+            maxLength: 10
+      job_id:
         type: "integer"
+        description: "The Job ad to patch."
+      position:
+        type: "object"
+        description: "As long as 1 sub element from contact or position is filled\
+          \ in this will be a valid request."
+        properties:
+          description:
+            type: "string"
+            description: "This can be long form text."
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          image_url:
+            type: "string"
+            description: "Sending in an empty string will cause us to regenerate a\
+              \ new image."
+          locations:
+            type: "array"
+            items:
+              type: "string"
+          region_preference:
+            $ref: "#/definitions/regions"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
     x-restlet:
       section: "JOBS"
   job_data:
@@ -1589,8 +1554,6 @@ definitions:
     - "job_id"
     - "position"
     properties:
-      job_id:
-        type: "integer"
       contact:
         required:
         - "address"
@@ -1604,50 +1567,57 @@ definitions:
         - "zip"
         type: "object"
         properties:
-          name:
-            type: "string"
-            maxLength: 45
-          contact:
-            type: "string"
-            maxLength: 45
           address:
             type: "string"
             maxLength: 64
           city:
             type: "string"
             maxLength: 45
-          state:
+          contact:
             type: "string"
-            maxLength: 2
-          zip:
-            type: "string"
-            maxLength: 10
-          phone:
-            type: "integer"
-          website:
-            type: "string"
-            maxLength: 500
+            maxLength: 45
           email:
             type: "string"
             maxLength: 45
+          name:
+            type: "string"
+            maxLength: 45
+          phone:
+            type: "integer"
+          state:
+            type: "string"
+            maxLength: 2
+          website:
+            type: "string"
+            maxLength: 500
+          zip:
+            type: "string"
+            maxLength: 10
+      job_id:
+        type: "integer"
       position:
         type: "object"
         properties:
-          team_preference:
+          Image_url:
             type: "string"
-            default: "single"
-            enum:
-            - "single"
-            - "team"
+            description: "We will download the image from the URL. If no image is\
+              \ found we will automatically generate one. We accept an image file\
+              \ of up to 1MB in size. All images will be resized to 200x200. If this\
+              \ value is specified image_data cannot be used."
+          description:
+            type: "string"
+            description: "This can be long form text."
           distance_preference:
             type: "string"
             default: "OTR"
             enum:
             - "OTR"
             - "local"
-          description:
+          image_data:
             type: "string"
-            description: "This can be long form text."
+            description: "Base64 string of image. Base64 data must decode into a valid\
+              \ jpg or png file no more than 1MB in size. All images will be resized\
+              \ to 200x200. If this value is specified image_url cannot be used."
           locations:
             type: "array"
             description: "If included the array only accepts 2 digit state codes.\
@@ -1657,88 +1627,14 @@ definitions:
               \ I am open to leveraging it."
             items:
               type: "string"
-          Image_url:
-            type: "string"
-            description: "We will download the image from the URL. If no image is\
-              \ found we will automatically generate one. We accept an image file\
-              \ of up to 1MB in size. All images will be resized to 200x200. If this\
-              \ value is specified image_data cannot be used."
-          image_data:
-            type: "string"
-            description: "Base64 string of image. Base64 data must decode into a valid\
-              \ jpg or png file no more than 1MB in size. All images will be resized\
-              \ to 200x200. If this value is specified image_url cannot be used."
           region_preference:
             $ref: "#/definitions/regions"
-    x-restlet:
-      section: "JOBS"
-  job_data_patch:
-    type: "object"
-    required:
-    - "job_id"
-    properties:
-      job_id:
-        type: "integer"
-        description: "The Job ad to patch."
-      contact:
-        type: "object"
-        description: "As long as 1 sub element from contact or position is filled\
-          \ in this will be a valid request."
-        properties:
-          name:
-            type: "string"
-            maxLength: 45
-          contact:
-            type: "string"
-            maxLength: 45
-          address:
-            type: "string"
-            maxLength: 64
-          city:
-            type: "string"
-            maxLength: 45
-          state:
-            type: "string"
-            maxLength: 2
-          zip:
-            type: "string"
-            maxLength: 10
-          phone:
-            type: "integer"
-          website:
-            type: "string"
-            maxLength: 500
-          email:
-            type: "string"
-            maxLength: 45
-      position:
-        type: "object"
-        description: "As long as 1 sub element from contact or position is filled\
-          \ in this will be a valid request."
-        properties:
           team_preference:
             type: "string"
+            default: "single"
             enum:
             - "single"
             - "team"
-          distance_preference:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          image_url:
-            type: "string"
-            description: "Sending in an empty string will cause us to regenerate a\
-              \ new image."
-          description:
-            type: "string"
-            description: "This can be long form text."
-          locations:
-            type: "array"
-            items:
-              type: "string"
-          region_preference:
-            $ref: "#/definitions/regions"
     x-restlet:
       section: "JOBS"
   job_list_user:
@@ -1761,41 +1657,12 @@ definitions:
           - "position"
           type: "object"
           properties:
-            job_id:
-              type: "number"
-            position:
-              required:
-              - "description"
-              - "distance_preference"
-              - "image_url"
-              - "region_preference"
-              - "team_preference"
-              type: "object"
-              properties:
-                team_preference:
-                  type: "string"
-                  enum:
-                  - "team"
-                  - "single"
-                distance_preference:
-                  type: "string"
-                  enum:
-                  - "local"
-                  - "OTR"
-                region_preference:
-                  $ref: "#/definitions/regions"
-                image_url:
-                  type: "string"
-                  description: "the uri path to the image."
-                  maxLength: 32
-                  example: "http://df.co/job_images/ASOETUHAOSENTUHAOENUTSH.png"
-                description:
-                  type: "string"
-                  description: "This is a large text field."
-                locations:
-                  type: "array"
-                  items:
-                    type: "string"
+            bill_method:
+              type: "string"
+              description: "Whether or not the add will automatically renew."
+              enum:
+              - "manual"
+              - "automatic"
             contact:
               required:
               - "address"
@@ -1808,32 +1675,32 @@ definitions:
               type: "object"
               description: "The contact information for this ad."
               properties:
-                name:
-                  type: "string"
-                  maxLength: 45
-                contact:
-                  type: "string"
-                  maxLength: 45
                 address:
                   type: "string"
                   maxLength: 64
                 city:
                   type: "string"
                   maxLength: 45
-                state:
+                contact:
                   type: "string"
-                  maxLength: 2
-                zip:
-                  type: "string"
-                  maxLength: 10
-                phone:
-                  type: "integer"
-                website:
-                  type: "string"
-                  maxLength: 500
+                  maxLength: 45
                 email:
                   type: "string"
                   maxLength: 45
+                name:
+                  type: "string"
+                  maxLength: 45
+                phone:
+                  type: "integer"
+                state:
+                  type: "string"
+                  maxLength: 2
+                website:
+                  type: "string"
+                  maxLength: 500
+                zip:
+                  type: "string"
+                  maxLength: 10
             days_left:
               type: "integer"
               description: "A positive value indicates the ad is both inactive, and\
@@ -1843,246 +1710,151 @@ definitions:
               format: "date"
               description: "If this date is set for today or in the future the job\
                 \ ad is currently active."
-            bill_method:
-              type: "string"
-              description: "Whether or not the add will automatically renew."
-              enum:
-              - "manual"
-              - "automatic"
+            job_id:
+              type: "number"
+            position:
+              required:
+              - "description"
+              - "distance_preference"
+              - "image_url"
+              - "region_preference"
+              - "team_preference"
+              type: "object"
+              properties:
+                description:
+                  type: "string"
+                  description: "This is a large text field."
+                distance_preference:
+                  type: "string"
+                  enum:
+                  - "local"
+                  - "OTR"
+                image_url:
+                  type: "string"
+                  description: "the uri path to the image."
+                  maxLength: 32
+                  example: "http://df.co/job_images/ASOETUHAOSENTUHAOENUTSH.png"
+                locations:
+                  type: "array"
+                  items:
+                    type: "string"
+                region_preference:
+                  $ref: "#/definitions/regions"
+                team_preference:
+                  type: "string"
+                  enum:
+                  - "team"
+                  - "single"
       page_number:
-        type: "integer"
-      total_pages:
         type: "integer"
       total_items:
         type: "integer"
+      total_pages:
+        type: "integer"
     x-restlet:
       section: "JOBS"
-  resume_board_data:
+  job_list:
     type: "object"
     required:
-    - "contact"
-    - "created"
-    - "driving_record"
-    - "experience"
-    - "resume_id"
-    - "updated"
+    - "list"
+    - "page_number"
+    - "total_items"
+    - "total_pages"
     properties:
-      resume_id:
+      list:
+        type: "array"
+        items:
+          required:
+          - "contact"
+          - "job_id"
+          - "position"
+          type: "object"
+          properties:
+            contact:
+              required:
+              - "address"
+              - "city"
+              - "contact"
+              - "name"
+              - "phone"
+              - "state"
+              - "zip"
+              type: "object"
+              description: "The contact information for this ad."
+              properties:
+                address:
+                  type: "string"
+                  maxLength: 64
+                city:
+                  type: "string"
+                  maxLength: 45
+                contact:
+                  type: "string"
+                  maxLength: 45
+                email:
+                  type: "string"
+                  maxLength: 45
+                id:
+                  type: "integer"
+                  description: "This is the id you would use to send a message to\
+                    \ this employer. Only logged in users can see this."
+                name:
+                  type: "string"
+                  maxLength: 45
+                phone:
+                  type: "integer"
+                state:
+                  type: "string"
+                  maxLength: 2
+                website:
+                  type: "string"
+                  maxLength: 500
+                zip:
+                  type: "string"
+                  maxLength: 10
+            job_id:
+              type: "number"
+            position:
+              required:
+              - "description"
+              - "distance_preference"
+              - "image_url"
+              - "region_preference"
+              - "states"
+              - "team_preference"
+              type: "object"
+              properties:
+                description:
+                  type: "string"
+                  description: "This is a large text field."
+                distance_preference:
+                  type: "string"
+                  enum:
+                  - "OTR"
+                  - "local"
+                image_url:
+                  type: "string"
+                region_preference:
+                  $ref: "#/definitions/regions"
+                states:
+                  type: "array"
+                  description: "Currently we return the full state name for display\
+                    \ purposes."
+                  items:
+                    type: "string"
+                team_preference:
+                  type: "string"
+                  enum:
+                  - "single"
+                  - "team"
+      page_number:
         type: "integer"
-      contact:
-        required:
-        - "city"
-        - "state"
-        type: "object"
-        properties:
-          id:
-            type: "integer"
-            description: "This is the ID you would use to send a message. Only available\
-              \ to logged in users."
-          first_name:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 20
-          last_name:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 20
-          address:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-          city:
-            type: "string"
-            maxLength: 30
-          state:
-            type: "string"
-            maxLength: 4
-          zip:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 10
-          home_phone:
-            type: "integer"
-            description: "DEVNOTE: Look into why this is 20 chars and see if we can\
-              \ drop it it to 11 or 13. Only available to subscribed users. We could\
-              \ also split this like we do with DF and have an ext section, but that\
-              \ doesn't make a lot of sense for the home phone."
-            maximum: 20
-          work_phone:
-            type: "integer"
-            description: "Same as home phone. Only available to subscribed users."
-            maximum: 20
-          fax_number:
-            type: "integer"
-            description: "Should we depricate this? How many new resumes come with\
-              \ this? Only available to subscribed users."
-            maximum: 20
-          website_address:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-      driving_record:
-        required:
-        - "accidents"
-        - "age"
-        - "tickets"
-        type: "object"
-        properties:
-          license:
-            type: "string"
-            enum:
-            - "A"
-            - "B"
-          age:
-            type: "string"
-            enum:
-            - "18-20"
-            - "21-25"
-            - "26-30"
-            - "Over 30"
-          gender:
-            type: "string"
-            enum:
-            - "male"
-            - "female"
-          tickets:
-            type: "integer"
-            minimum: 0
-          accidents:
-            type: "integer"
-            minimum: 0
-      job_preference:
-        type: "object"
-        properties:
-          position:
-            $ref: "#/definitions/positions"
-          distance_preference:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          region_preference:
-            $ref: "#/definitions/regions"
-          team_preference:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-      experience:
-        required:
-        - "total_years_experience"
-        type: "object"
-        properties:
-          total_years_experience:
-            type: "integer"
-            minimum: 0
-          current_employer:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-          current_years_experience:
-            type: "integer"
-            minimum: 0
-          previous_employer:
-            type: "string"
-            description: "Only available to subscribed users."
-            maxLength: 40
-          previous_years_experience:
-            type: "integer"
-            minimum: 0
-          trailer_experience:
-            $ref: "#/definitions/trailers"
-          has_felony:
-            type: "boolean"
-          felony_reason:
-            type: "string"
-            description: "Only available to subscribed users."
-      comments:
-        type: "string"
-        description: "Only available to subscribed users."
-      created:
-        type: "string"
-        format: "date-time"
-      updated:
-        type: "string"
-        format: "date-time"
-    example: "A resume."
+      total_items:
+        type: "integer"
+      total_pages:
+        type: "integer"
     x-restlet:
-      section: "RESUMES"
-  resume_data_optional:
-    type: "object"
-    properties:
-      driving_record:
-        type: "object"
-        properties:
-          license:
-            type: "string"
-            enum:
-            - "A"
-            - "B"
-          age:
-            type: "string"
-            enum:
-            - "18-20"
-            - "21-25"
-            - "26-30"
-            - "Over 30"
-          gender:
-            type: "string"
-            enum:
-            - "male"
-            - "female"
-          tickets:
-            type: "integer"
-            minimum: 0
-          accidents:
-            type: "integer"
-            minimum: 0
-      job_preference:
-        type: "object"
-        properties:
-          position:
-            $ref: "#/definitions/positions"
-          distance_preference:
-            type: "string"
-            enum:
-            - "OTR"
-            - "local"
-          region_preference:
-            $ref: "#/definitions/regions"
-          team_preference:
-            type: "string"
-            enum:
-            - "single"
-            - "team"
-      experience:
-        type: "object"
-        properties:
-          total_years_experience:
-            type: "integer"
-            minimum: 0
-          current_employer:
-            type: "string"
-            maxLength: 40
-          current_years_experience:
-            type: "integer"
-            minimum: 0
-          previous_emplayer:
-            type: "string"
-            maxLength: 40
-          previous_years_experience:
-            type: "integer"
-            minimum: 0
-          trailer_experience:
-            $ref: "#/definitions/trailers"
-          has_felony:
-            type: "boolean"
-          felony_reason:
-            type: "string"
-      comments:
-        type: "string"
-    x-restlet:
-      section: "RESUMES"
+      section: "JOBS"
   conversation_list:
     type: "object"
     required:
@@ -2099,14 +1871,14 @@ definitions:
           - "status"
           type: "object"
           properties:
-            sender:
-              type: "integer"
-              description: "Who sent the message, the logged in user, or the contact."
-            message:
-              type: "string"
             date_sent:
               type: "string"
               format: "date-time"
+            message:
+              type: "string"
+            sender:
+              type: "integer"
+              description: "Who sent the message, the logged in user, or the contact."
             status:
               type: "string"
               enum:
@@ -2114,6 +1886,92 @@ definitions:
               - "sent"
     x-restlet:
       section: "MESSAGES"
+  profile_patch_response:
+    type: "object"
+    required:
+    - "address"
+    - "city"
+    - "company"
+    - "contact_extension"
+    - "contact_number"
+    - "fax_number"
+    - "first_name"
+    - "last_name"
+    - "mobile_carrier"
+    - "mobile_number"
+    - "state"
+    - "web_page"
+    - "zip"
+    properties:
+      address:
+        type: "string"
+      city:
+        type: "string"
+      company:
+        type: "string"
+      contact_extension:
+        type: "integer"
+        description: "Limited to 3 digits."
+      contact_number:
+        type: "integer"
+      fax_number:
+        type: "integer"
+      first_name:
+        type: "string"
+      last_name:
+        type: "string"
+      mobile_carrier:
+        $ref: "#/definitions/mobile_carriers"
+      mobile_number:
+        type: "integer"
+      state:
+        type: "string"
+      web_page:
+        type: "string"
+      zip:
+        type: "string"
+    x-restlet:
+      section: "PROFILES"
+  profile_request:
+    type: "object"
+    properties:
+      address:
+        type: "string"
+        maxLength: 50
+      city:
+        type: "string"
+        maxLength: 30
+      company:
+        type: "string"
+        maxLength: 50
+      contact_extension:
+        type: "integer"
+        description: "Limited to 3 digits."
+      contact_number:
+        type: "integer"
+      fax_number:
+        type: "integer"
+      first_name:
+        type: "string"
+        maxLength: 50
+      last_name:
+        type: "string"
+        maxLength: 50
+      mobile_carrier:
+        $ref: "#/definitions/mobile_carriers"
+      mobile_number:
+        type: "integer"
+      state:
+        type: "string"
+        description: "Please use an Abbreviation not a full name."
+        maxLength: 3
+      web_page:
+        type: "string"
+        maxLength: 120
+      zip:
+        type: "string"
+    x-restlet:
+      section: "PROFILES"
   profile_response:
     type: "object"
     required:
@@ -2132,133 +1990,264 @@ definitions:
     - "web_page"
     - "zip"
     properties:
+      address:
+        type: "string"
+      city:
+        type: "string"
+      company:
+        type: "string"
+      contact_extension:
+        type: "integer"
+        description: "Limited to 3 digits."
+      contact_number:
+        type: "integer"
+      fax_number:
+        type: "integer"
+      first_name:
+        type: "string"
       id:
         type: "integer"
         description: "This is their ID in messages."
-      company:
-        type: "string"
-      first_name:
-        type: "string"
       last_name:
         type: "string"
-      address:
-        type: "string"
-      city:
-        type: "string"
+      mobile_carrier:
+        $ref: "#/definitions/mobile_carriers"
+      mobile_number:
+        type: "integer"
       state:
+        type: "string"
+      web_page:
         type: "string"
       zip:
         type: "string"
-      fax_number:
-        type: "integer"
-      contact_number:
-        type: "integer"
-      contact_extension:
-        type: "integer"
-        description: "Limited to 3 digits."
-      mobile_number:
-        type: "integer"
-      mobile_carrier:
-        $ref: "#/definitions/mobile_carriers"
-      web_page:
-        type: "string"
     x-restlet:
       section: "PROFILES"
-  profile_request:
-    type: "object"
-    properties:
-      company:
-        type: "string"
-        maxLength: 50
-      first_name:
-        type: "string"
-        maxLength: 50
-      last_name:
-        type: "string"
-        maxLength: 50
-      address:
-        type: "string"
-        maxLength: 50
-      city:
-        type: "string"
-        maxLength: 30
-      state:
-        type: "string"
-        description: "Please use an Abbreviation not a full name."
-        maxLength: 3
-      zip:
-        type: "string"
-      fax_number:
-        type: "integer"
-      contact_number:
-        type: "integer"
-      contact_extension:
-        type: "integer"
-        description: "Limited to 3 digits."
-      mobile_number:
-        type: "integer"
-      mobile_carrier:
-        $ref: "#/definitions/mobile_carriers"
-      web_page:
-        type: "string"
-        maxLength: 120
-    x-restlet:
-      section: "PROFILES"
-  profile_patch_response:
+  resume_board_data:
     type: "object"
     required:
-    - "address"
-    - "city"
-    - "company"
-    - "contact_extension"
-    - "contact_number"
-    - "fax_number"
-    - "first_name"
-    - "last_name"
-    - "mobile_carrier"
-    - "mobile_number"
-    - "state"
-    - "web_page"
-    - "zip"
+    - "contact"
+    - "created"
+    - "driving_record"
+    - "experience"
+    - "resume_id"
+    - "updated"
     properties:
-      company:
+      comments:
         type: "string"
-      first_name:
+        description: "Only available to subscribed users."
+      contact:
+        required:
+        - "city"
+        - "state"
+        type: "object"
+        properties:
+          address:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          city:
+            type: "string"
+            maxLength: 30
+          fax_number:
+            type: "integer"
+            description: "Should we depricate this? How many new resumes come with\
+              \ this? Only available to subscribed users."
+            maximum: 20
+          first_name:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 20
+          home_phone:
+            type: "integer"
+            description: "DEVNOTE: Look into why this is 20 chars and see if we can\
+              \ drop it it to 11 or 13. Only available to subscribed users. We could\
+              \ also split this like we do with DF and have an ext section, but that\
+              \ doesn't make a lot of sense for the home phone."
+            maximum: 20
+          id:
+            type: "integer"
+            description: "This is the ID you would use to send a message. Only available\
+              \ to logged in users."
+          last_name:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 20
+          state:
+            type: "string"
+            maxLength: 4
+          website_address:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          work_phone:
+            type: "integer"
+            description: "Same as home phone. Only available to subscribed users."
+            maximum: 20
+          zip:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 10
+      created:
         type: "string"
-      last_name:
-        type: "string"
-      address:
-        type: "string"
-      city:
-        type: "string"
-      state:
-        type: "string"
-      zip:
-        type: "string"
-      fax_number:
+        format: "date-time"
+      driving_record:
+        required:
+        - "accidents"
+        - "age"
+        - "tickets"
+        type: "object"
+        properties:
+          accidents:
+            type: "integer"
+            minimum: 0
+          age:
+            type: "string"
+            enum:
+            - "18-20"
+            - "21-25"
+            - "26-30"
+            - "Over 30"
+          gender:
+            type: "string"
+            enum:
+            - "male"
+            - "female"
+          license:
+            type: "string"
+            enum:
+            - "A"
+            - "B"
+          tickets:
+            type: "integer"
+            minimum: 0
+      experience:
+        required:
+        - "total_years_experience"
+        type: "object"
+        properties:
+          current_employer:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          current_years_experience:
+            type: "integer"
+            minimum: 0
+          felony_reason:
+            type: "string"
+            description: "Only available to subscribed users."
+          has_felony:
+            type: "boolean"
+          previous_employer:
+            type: "string"
+            description: "Only available to subscribed users."
+            maxLength: 40
+          previous_years_experience:
+            type: "integer"
+            minimum: 0
+          total_years_experience:
+            type: "integer"
+            minimum: 0
+          trailer_experience:
+            $ref: "#/definitions/trailers"
+      job_preference:
+        type: "object"
+        properties:
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          position:
+            $ref: "#/definitions/positions"
+          region_preference:
+            $ref: "#/definitions/regions"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
+      resume_id:
         type: "integer"
-      contact_number:
-        type: "integer"
-      contact_extension:
-        type: "integer"
-        description: "Limited to 3 digits."
-      mobile_number:
-        type: "integer"
-      mobile_carrier:
-        $ref: "#/definitions/mobile_carriers"
-      web_page:
+      updated:
         type: "string"
+        format: "date-time"
+    example: "A resume."
     x-restlet:
-      section: "PROFILES"
-  error_object:
+      section: "RESUMES"
+  resume_data_optional:
     type: "object"
-    required:
-    - "end-user-token"
     properties:
-      end-user-token:
+      comments:
         type: "string"
+      driving_record:
+        type: "object"
+        properties:
+          accidents:
+            type: "integer"
+            minimum: 0
+          age:
+            type: "string"
+            enum:
+            - "18-20"
+            - "21-25"
+            - "26-30"
+            - "Over 30"
+          gender:
+            type: "string"
+            enum:
+            - "male"
+            - "female"
+          license:
+            type: "string"
+            enum:
+            - "A"
+            - "B"
+          tickets:
+            type: "integer"
+            minimum: 0
+      experience:
+        type: "object"
+        properties:
+          current_employer:
+            type: "string"
+            maxLength: 40
+          current_years_experience:
+            type: "integer"
+            minimum: 0
+          felony_reason:
+            type: "string"
+          has_felony:
+            type: "boolean"
+          previous_emplayer:
+            type: "string"
+            maxLength: 40
+          previous_years_experience:
+            type: "integer"
+            minimum: 0
+          total_years_experience:
+            type: "integer"
+            minimum: 0
+          trailer_experience:
+            $ref: "#/definitions/trailers"
+      job_preference:
+        type: "object"
+        properties:
+          distance_preference:
+            type: "string"
+            enum:
+            - "OTR"
+            - "local"
+          position:
+            $ref: "#/definitions/positions"
+          region_preference:
+            $ref: "#/definitions/regions"
+          team_preference:
+            type: "string"
+            enum:
+            - "single"
+            - "team"
     x-restlet:
-      section: "END_USER_AUTHENTICATIONS"
+      section: "RESUMES"
   create_status:
     type: "object"
     properties:
@@ -2266,47 +2255,14 @@ definitions:
         type: "integer"
     x-restlet:
       section: "common_definitions"
-  regions:
-    type: "string"
-    description: "This is a list of possible regions. This matches the regions from\
-      \ searching and posting a job ad on our website. I am adding it to the API with\
-      \ the assumption that we can expand our resume regions to match. This should\
-      \ aviod some confusion and weirdness. An example would be alert options. "
-    enum:
-    - "east coast"
-    - "west coast"
-    - "mid west"
-    - "nationwide"
-    - "north east"
-    - "north west"
-    - "south east"
-    - "south west"
-    - "local"
-    x-restlet:
-      section: "common_definitions"
-  positions:
-    type: "string"
-    enum:
-    - "other"
-    - "student"
-    - "company"
-    - "owner/operator"
-    x-restlet:
-      section: "common_definitions"
-  trailers:
-    type: "array"
-    items:
-      type: "string"
-      enum:
-      - "V"
-      - "R"
-      - "F"
-      - "AC"
-      - "HOP"
-      - "TANK"
-      - "S"
-    minItems: 1
-    maxItems: 6
+  get_favorite_ids:
+    type: "object"
+    properties:
+      favorite_id:
+        type: "array"
+        description: "A subset of this users favorite resumes or job ids"
+        items:
+          type: "string"
     x-restlet:
       section: "common_definitions"
   mobile_carriers:
@@ -2335,26 +2291,59 @@ definitions:
     - "Koodo Mobile"
     x-restlet:
       section: "common_definitions"
-  get_favorite_ids:
-    type: "object"
-    properties:
-      favorite_id:
-        type: "array"
-        description: "A subset of this users favorite resumes or job ids"
-        items:
-          type: "string"
+  positions:
+    type: "string"
+    enum:
+    - "other"
+    - "student"
+    - "company"
+    - "owner/operator"
+    x-restlet:
+      section: "common_definitions"
+  regions:
+    type: "string"
+    description: "This is a list of possible regions. This matches the regions from\
+      \ searching and posting a job ad on our website. I am adding it to the API with\
+      \ the assumption that we can expand our resume regions to match. This should\
+      \ aviod some confusion and weirdness. An example would be alert options. "
+    enum:
+    - "east coast"
+    - "west coast"
+    - "mid west"
+    - "nationwide"
+    - "north east"
+    - "north west"
+    - "south east"
+    - "south west"
+    - "local"
+    x-restlet:
+      section: "common_definitions"
+  trailers:
+    type: "array"
+    items:
+      type: "string"
+      enum:
+      - "V"
+      - "R"
+      - "F"
+      - "AC"
+      - "HOP"
+      - "TANK"
+      - "S"
+    minItems: 1
+    maxItems: 6
     x-restlet:
       section: "common_definitions"
 x-restlet:
   sections:
     ALERTS: {}
+    END_USER_AUTHENTICATIONS: {}
+    FAVORITES: {}
     JOBS: {}
     LOCATIONS: {}
+    MESSAGES: {}
     Mobile Update: {}
     Optins: {}
-    RESUMES: {}
-    MESSAGES: {}
-    FAVORITES: {}
     PROFILES: {}
-    END_USER_AUTHENTICATIONS: {}
+    RESUMES: {}
     common_definitions: {}
