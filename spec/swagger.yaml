@@ -33,8 +33,28 @@ info:
   version: 1.0.0
   x-logo:
     url: 'https://www.truckersearch.com/home/images/logo-2015.png'
+parameters:
+  end-user-token:
+    in: header
+    name: end-user-token
+    required: true
+    type: string
+  end-user-token-optional:
+    in: header
+    name: end-user-token
+    required: false
+    type: string
 produces:
   - application/json
+responses:
+  error_422:
+    description: Unprocessable Entity. More information provided in the return object.
+    schema:
+      $ref: '#/definitions/error_object'
+  object_created:
+    description: Object created check the headers for a reference URL.
+    schema:
+      $ref: '#/definitions/create_status'
 schemes:
   - https
 security:
