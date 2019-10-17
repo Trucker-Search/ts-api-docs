@@ -3,11 +3,14 @@ get:
     This method provides the information nedeed to display all the contacts
     within a folder.
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - in: query
       name: folder_id
       required: true
       type: integer
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
@@ -59,7 +62,10 @@ patch:
     sent a message. Also users are unable to "delete" contacts, but you can
     simulate that using this endpoint to move to Trash.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

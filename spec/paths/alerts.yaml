@@ -1,10 +1,13 @@
 delete:
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - in: query
       name: alert_id
       required: true
       type: integer
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '204':
       description: Status 204
@@ -16,7 +19,6 @@ get:
     Get a list of alerts. You can optionally limit the list by specifcying
     alerts by their alert_id.
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - description: >-
         only get a subset of alerts. As this is a get request this is specified
         as a query string parameter
@@ -51,6 +53,10 @@ get:
       name: notification_medium
       required: false
       type: string
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
@@ -69,7 +75,10 @@ get:
 post:
   consumes: []
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

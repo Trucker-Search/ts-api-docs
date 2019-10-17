@@ -3,7 +3,6 @@ delete:
     By only sending in their EUA token you would be requesting to opt them out
     of everything.
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - enum:
         - email
         - text
@@ -21,13 +20,16 @@ delete:
       name: notification_channel
       required: false
       type: string
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '204':
       description: Status 204
   summary: STAGE=UNK Opt someone out of one or more mediums and channels.
 get:
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - description: To limit your list to just one medium.
       enum:
         - email
@@ -36,6 +38,10 @@ get:
       in: query
       name: notification_medium
       required: false
+      type: string
+    - in: header
+      name: end-user-token
+      required: true
       type: string
   responses:
     '200':
@@ -74,7 +80,10 @@ get:
 patch:
   consumes: []
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true
@@ -106,7 +115,10 @@ post:
     the optin with the status of 'no response' meaning they haven't replied with
     the propper code, or clicked an authorization link.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

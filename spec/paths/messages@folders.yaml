@@ -3,10 +3,13 @@ delete:
     Active, Pending, Trash, and Deleted are special folders, and this command
     will ignore them.
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - description: Deletes one folder at a time.
       in: query
       name: folder_id
+      required: true
+      type: string
+    - in: header
+      name: end-user-token
       required: true
       type: string
   responses:
@@ -21,7 +24,6 @@ get:
     messages each folder contains. I belive the website's behavior is 0 or 1 per
     contact, but it could be 1 per total messages. 
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - description: >-
         Just get a few folders. This takes the place of a specific new count
         function.
@@ -32,6 +34,10 @@ get:
       required: false
       type: array
       x-example: '?folder_id=2334&folder_id=3324'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
@@ -74,7 +80,10 @@ post:
     This method allows a user to add custom folders. These folders must have
     unique names.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

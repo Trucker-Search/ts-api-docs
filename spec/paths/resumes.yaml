@@ -1,7 +1,10 @@
 delete:
   description: No extra information is needed because we only allow one resume per account.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '204':
       description: Status 204
@@ -10,7 +13,10 @@ delete:
     - resumes
 get:
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
@@ -25,7 +31,10 @@ patch:
     Each user only has 1 resume. Setting any field to null will set it to a null
     or for a number 0.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true
@@ -43,7 +52,10 @@ post:
     You must send in at least one valid request parameter in the body. It
     doesn't matter which one, but at least one.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

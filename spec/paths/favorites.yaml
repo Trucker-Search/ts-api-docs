@@ -1,6 +1,5 @@
 delete:
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - enum:
         - job
         - resume
@@ -12,6 +11,10 @@ delete:
       name: favorite_id
       required: true
       type: integer
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '204':
       description: Status 204
@@ -20,12 +23,15 @@ delete:
     - favorites
 get:
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - enum:
         - resume
         - job
       in: query
       name: favorite_type
+      required: true
+      type: string
+    - in: header
+      name: end-user-token
       required: true
       type: string
   responses:
@@ -39,7 +45,10 @@ get:
 post:
   consumes: []
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

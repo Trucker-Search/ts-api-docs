@@ -1,6 +1,9 @@
 get:
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
@@ -12,7 +15,10 @@ get:
 patch:
   consumes: []
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true
@@ -29,7 +35,10 @@ patch:
 post:
   consumes: []
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

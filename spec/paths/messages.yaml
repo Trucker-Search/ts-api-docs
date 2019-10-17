@@ -4,11 +4,14 @@ get:
     main portion of the page. Internally we have other statuses like pending,
     and rejected, but a public users of our API doesn t have access to them.
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - description: Who the conversation is with.
       in: query
       name: contact_id
       required: false
+      type: string
+    - in: header
+      name: end-user-token
+      required: true
       type: string
   responses:
     '200':
@@ -26,7 +29,10 @@ post:
     contact_id a contact user would need to pull that info from a resume, or a
     job ad.
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

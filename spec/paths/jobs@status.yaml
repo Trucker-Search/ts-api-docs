@@ -20,11 +20,14 @@ get:
     This method will return back enough information to determine if a job ad is
     runnig, and when it will stop.
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - in: query
       name: job_id
       required: true
       type: integer
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
@@ -57,7 +60,10 @@ post:
     This method will only work if the add has days left of > 0, otherwise in
     theory it should return a url to a chargebee payment portal. 
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - in: body
       name: body
       required: true

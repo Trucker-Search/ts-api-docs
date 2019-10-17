@@ -9,11 +9,14 @@ get:
     this is the page automatically checking for new messages every once in a
     while, on a per user basis. 
   parameters:
-    - $ref: '#/parameters/end-user-token'
     - description: Just return a count of new messages from one contact.
       in: query
       name: contact_id
       required: false
+      type: string
+    - in: header
+      name: end-user-token
+      required: true
       type: string
   responses:
     '200':

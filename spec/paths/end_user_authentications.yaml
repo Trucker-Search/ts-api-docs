@@ -1,6 +1,9 @@
 delete:
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '204':
       description: Status 204
@@ -9,7 +12,10 @@ delete:
     - end_user_authentications
 get:
   parameters:
-    - $ref: '#/parameters/end-user-token'
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
   responses:
     '200':
       description: Status 200
