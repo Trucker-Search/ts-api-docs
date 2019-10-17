@@ -476,7 +476,7 @@ paths:
         in: "query"
         required: false
         type: "string"
-      - name: "range_preference"
+      - name: "distance_preference"
         in: "query"
         required: false
         type: "string"

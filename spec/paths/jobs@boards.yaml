@@ -11,7 +11,7 @@ get:
         - local
         - OTR
       in: query
-      name: range_preference
+      name: distance_preference
       required: false
       type: string
     - description: >-
