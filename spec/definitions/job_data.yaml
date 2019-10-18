@@ -38,8 +38,6 @@ properties:
       - website
       - zip
     type: object
-  job_id:
-    type: integer
   position:
     properties:
       Image_url:
@@ -87,7 +85,6 @@ properties:
     type: object
 required:
   - contact
-  - job_id
   - position
 type: object
 x-restlet:
