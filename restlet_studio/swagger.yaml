@@ -1456,7 +1456,51 @@ definitions:
         type: "object"
         description: "Please look at /resume/boards or /jobs/boards for a reference\
           \ of accepted parameters."
-        properties:
+      send_frequency:
+        type: "integer"
+        description: "Frequency in minutes that the alert is sent. We stop sending\
+          \ alerts between 12am and 3am CST."
+    x-restlet:
+      section: "ALERTS"
+  alert_response_object:
+    type: "object"
+    required:
+    - "alert_id"
+    - "last_sent"
+    - "notification_medium"
+    - "only_new"
+    - "search_parameters"
+    - "send_frequency"
+    properties:
+      alert_id:
+        type: "integer"
+      last_sent:
+        type: "string"
+        format: "date-time"
+        description: "Last time the alert was sent."
+      notification_medium:
+        type: "string"
+        enum:
+        - "email"
+        - "text"
+        - "push"
+      only_new:
+        type: "boolean"
+        description: "Whether to sent both new and updated resumes, or just new resumes."
+      search_parameters:
+        type: "object"
+        description: "Please look at /resume/boards or /jobs/boards for a reference\
+          \ of accepted parameters."
+      send_frequency:
+        type: "integer"
+        description: "Frequency in minutes that the alert is sent."
+    x-restlet:
+      section: "ALERTS"
+  resume_search:
+    type: "object"
+    required:
+    - state
+    properties:
           city: 
             type: "string"
           state:
@@ -1499,46 +1543,6 @@ definitions:
             enum:
             - "descending"
             - "ascending"
-      send_frequency:
-        type: "integer"
-        description: "Frequency in minutes that the alert is sent. We stop sending\
-          \ alerts between 12am and 3am CST."
-    x-restlet:
-      section: "ALERTS"
-  alert_response_object:
-    type: "object"
-    required:
-    - "alert_id"
-    - "last_sent"
-    - "notification_medium"
-    - "only_new"
-    - "search_parameters"
-    - "send_frequency"
-    properties:
-      alert_id:
-        type: "integer"
-      last_sent:
-        type: "string"
-        format: "date-time"
-        description: "Last time the alert was sent."
-      notification_medium:
-        type: "string"
-        enum:
-        - "email"
-        - "text"
-        - "push"
-      only_new:
-        type: "boolean"
-        description: "Whether to sent both new and updated resumes, or just new resumes."
-      search_parameters:
-        type: "object"
-        description: "Please look at /resume/boards or /jobs/boards for a reference\
-          \ of accepted parameters."
-      send_frequency:
-        type: "integer"
-        description: "Frequency in minutes that the alert is sent."
-    x-restlet:
-      section: "ALERTS"
   error_object:
     type: "object"
     required:
