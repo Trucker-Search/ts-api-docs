@@ -41,23 +41,19 @@ paths:
           \ specified as a query string parameter"
         items:
           type: "integer"
-      - name: "alert_type"
+      - name: "search_type"
         in: "query"
         required: true
         type: "string"
-        description: "Rather than having this as an option in the query parameter\
-          \ or json body we could add it to the url like we do with df stuff. it would\
-          \ look something like /alerts/jobs/ or /alerts/resumes\n\nI'm ok with either\
-          \ option. The reason I picked this one is beacause favorites already follows\
-          \ this convention. It obviously could be changed to match as well."
+        description: "Currently only resume type is supported."
         enum:
-        - "job"
         - "resume"
+        - "job"
       - name: "notification_medium"
         in: "query"
         required: false
         type: "string"
-        description: "Limit to just alerts for e-mail. Push is not yet implemented."
+        description: "Chooses the medium to send the alert through. Push is not yet implemented."
         enum:
         - "email"
         - "text"
@@ -310,7 +306,8 @@ paths:
       parameters:
       - name: "favorite_type"
         in: "query"
-        required: true
+        required: false
+        default: "resume"
         type: "string"
         enum:
         - "resume"
@@ -1459,6 +1456,49 @@ definitions:
         type: "object"
         description: "Please look at /resume/boards or /jobs/boards for a reference\
           \ of accepted parameters."
+        properties:
+          city: 
+            type: "string"
+          state:
+            type: "string"
+          radius: 
+            type: "integer"
+          region: 
+            type: "string"
+            enum:
+            - "east coast"
+            - "west coast"
+            - "mid west"
+            - "nation wide"
+            - "noth east"
+            - "north west"
+            - "south east"
+            - "south west"
+            - "local"
+          driver_type:
+            type: "string"
+            enum: 
+            - "other"
+            - "student"
+            - "company"
+            - "owner/operator"
+          trailer_experience:
+            type: "string"
+          driver_experience:
+            type: "integer"
+          driver_distance:
+            type: "string"
+            enum:
+            - "local"
+            - "OTR"
+          list_order: 
+            type: "string"
+            description: "Any of the results columns for a search are also valid for list_order"
+          list_direction:
+            type: "string"
+            enum:
+            - "descending"
+            - "ascending"
       send_frequency:
         type: "integer"
         description: "Frequency in minutes that the alert is sent. We stop sending\
