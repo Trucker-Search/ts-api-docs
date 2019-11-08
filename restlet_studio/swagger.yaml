@@ -99,14 +99,14 @@ paths:
       - "alerts"
       summary: "STAGE=UNK Delete an alert."
       parameters:
-      - name: "alert_id"
-        in: "query"
-        required: true
-        type: "integer"
       - name: "end-user-token"
         in: "header"
         required: true
         type: "string"
+      - name: "alert_id"
+        in: "query"
+        required: true
+        type: "integer"
       responses:
         204:
           description: "Status 204"
@@ -1453,9 +1453,7 @@ definitions:
         type: "boolean"
         description: "Whether to sent both new and updated resumes, or just new resumes."
       search_parameters:
-        type: "object"
-        description: "Please look at /resume/boards or /jobs/boards for a reference\
-          \ of accepted parameters."
+        $ref: "#/definitions/resume_search"
       send_frequency:
         type: "integer"
         description: "Frequency in minutes that the alert is sent. We stop sending\
@@ -1489,8 +1487,6 @@ definitions:
         description: "Whether to sent both new and updated resumes, or just new resumes."
       search_parameters:
         $ref: "#/definitions/resume_search"
-        description: "Please look at /resume/boards or /jobs/boards for a reference\
-          \ of accepted parameters."
       send_frequency:
         type: "integer"
         description: "Frequency in minutes that the alert is sent."
