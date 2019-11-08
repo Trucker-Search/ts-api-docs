@@ -23,12 +23,13 @@ delete:
     - favorites
 get:
   parameters:
-    - enum:
+    - default: resume
+      enum:
         - resume
         - job
       in: query
       name: favorite_type
-      required: true
+      required: false
       type: string
     - in: header
       name: end-user-token

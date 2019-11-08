@@ -19,6 +19,10 @@ get:
     Get a list of alerts. You can optionally limit the list by specifcying
     alerts by their alert_id.
   parameters:
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
     - description: >-
         only get a subset of alerts. As this is a get request this is specified
         as a query string parameter
@@ -28,33 +32,23 @@ get:
       name: alert_id
       required: false
       type: array
-    - description: >-
-        Rather than having this as an option in the query parameter or json body
-        we could add it to the url like we do with df stuff. it would look
-        something like /alerts/jobs/ or /alerts/resumes
-
-
-        I'm ok with either option. The reason I picked this one is beacause
-        favorites already follows this convention. It obviously could be changed
-        to match as well.
+    - description: Currently only resume type is supported.
       enum:
-        - job
         - resume
+        - job
       in: query
-      name: alert_type
+      name: search_type
       required: true
       type: string
-    - description: Limit to just alerts for e-mail. Push is not yet implemented.
+    - description: >-
+        Chooses the medium to send the alert through. Push is not yet
+        implemented.
       enum:
         - email
         - text
         - push
       in: query
       name: notification_medium
-      required: false
-      type: string
-    - in: header
-      name: end-user-token
       required: true
       type: string
   responses:
