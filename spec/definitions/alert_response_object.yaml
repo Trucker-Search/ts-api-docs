@@ -11,14 +11,14 @@ properties:
       - text
       - push
     type: string
-  only_new:
+  search_list_type:
     description: 'Whether to sent both new and updated resumes, or just new resumes.'
     type: boolean
   search_parameters:
+    $ref: '#/definitions/resume_search'
     description: >-
       Please look at /resume/boards or /jobs/boards for a reference of accepted
       parameters.
-    type: object
   send_frequency:
     description: Frequency in minutes that the alert is sent.
     type: integer
@@ -26,7 +26,7 @@ required:
   - alert_id
   - last_sent
   - notification_medium
-  - only_new
+  - search_list_type
   - search_parameters
   - send_frequency
 type: object
