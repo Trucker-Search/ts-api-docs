@@ -33,6 +33,10 @@ paths:
       description: "Get a list of alerts. You can optionally limit the list by specifcying\
         \ alerts by their alert_id."
       parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
       - name: "alert_id"
         in: "query"
         required: false
@@ -51,17 +55,13 @@ paths:
         - "job"
       - name: "notification_medium"
         in: "query"
-        required: false
+        required: true
         type: "string"
         description: "Chooses the medium to send the alert through. Push is not yet implemented."
         enum:
         - "email"
         - "text"
         - "push"
-      - name: "end-user-token"
-        in: "header"
-        required: true
-        type: "string"
       responses:
         200:
           description: "Status 200"
