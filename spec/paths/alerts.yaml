@@ -1,13 +1,13 @@
 delete:
   parameters:
-    - in: query
-      name: alert_id
-      required: true
-      type: integer
     - in: header
       name: end-user-token
       required: true
       type: string
+    - in: query
+      name: alert_id
+      required: true
+      type: integer
   responses:
     '204':
       description: Status 204

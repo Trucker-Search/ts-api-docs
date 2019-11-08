@@ -16,9 +16,6 @@ properties:
     type: boolean
   search_parameters:
     $ref: '#/definitions/resume_search'
-    description: >-
-      Please look at /resume/boards or /jobs/boards for a reference of accepted
-      parameters.
   send_frequency:
     description: Frequency in minutes that the alert is sent.
     type: integer
