@@ -1468,7 +1468,7 @@ definitions:
     - "alert_id"
     - "last_sent"
     - "notification_medium"
-    - "only_new"
+    - "search_list_type"
     - "search_parameters"
     - "send_frequency"
     properties:
@@ -1484,11 +1484,11 @@ definitions:
         - "email"
         - "text"
         - "push"
-      only_new:
+      search_list_type:
         type: "boolean"
         description: "Whether to sent both new and updated resumes, or just new resumes."
       search_parameters:
-        type: "object"
+        $ref: "#/definitions/resume_search"
         description: "Please look at /resume/boards or /jobs/boards for a reference\
           \ of accepted parameters."
       send_frequency:
