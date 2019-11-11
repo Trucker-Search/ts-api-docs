@@ -1436,7 +1436,7 @@ definitions:
     - "search_parameters"
     - "send_frequency"
     properties:
-      alert_type:
+      search_type:
         type: "string"
         default: "resume"
         enum:
