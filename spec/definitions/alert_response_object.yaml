@@ -11,7 +11,7 @@ properties:
       - text
       - push
     type: string
-  search_list_type:
+  only_new:
     description: 'Whether to sent both new and updated resumes, or just new resumes.'
     type: boolean
   search_parameters:
@@ -23,7 +23,7 @@ required:
   - alert_id
   - last_sent
   - notification_medium
-  - search_list_type
+  - only_new
   - search_parameters
   - send_frequency
 type: object
