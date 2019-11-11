@@ -1466,7 +1466,7 @@ definitions:
     - "alert_id"
     - "last_sent"
     - "notification_medium"
-    - "search_list_type"
+    - "only_new"
     - "search_parameters"
     - "send_frequency"
     properties:
@@ -1482,7 +1482,7 @@ definitions:
         - "email"
         - "text"
         - "push"
-      search_list_type:
+      only_new:
         type: "boolean"
         description: "Whether to sent both new and updated resumes, or just new resumes."
       search_parameters:
