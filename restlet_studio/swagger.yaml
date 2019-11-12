@@ -41,8 +41,7 @@ paths:
         in: "query"
         required: false
         type: "array"
-        description: "only get a subset of alerts. As this is a get request this is\
-          \ specified as a query string parameter"
+        description: "only get a subset of alerts. As this is a get request this is specified as a query string parameter"
         items:
           type: "integer"
       - name: "search_type"
@@ -1523,7 +1522,22 @@ definitions:
             - "company"
             - "owner/operator"
           trailer_experience:
+            type: "array"
+            items:
+              type: "string"
+              enum:
+                - "V"
+                - "R"
+                - "F"
+                - "AC"
+                - "HOP"
+                - "TANK"
+                - "S"
+          team_preference:
             type: "string"
+            enum:
+            - "single"
+            - "team"
           driver_experience:
             type: "integer"
           driver_distance:
