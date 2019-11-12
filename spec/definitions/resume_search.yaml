@@ -39,8 +39,23 @@ properties:
     type: string
   state:
     type: string
-  trailer_experience:
+  team_preference:
+    enum:
+      - single
+      - team
     type: string
+  trailer_experience:
+    items:
+      enum:
+        - V
+        - R
+        - F
+        - AC
+        - HOP
+        - TANK
+        - S
+      type: string
+    type: array
 required:
   - state
 type: object
