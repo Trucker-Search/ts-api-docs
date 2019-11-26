@@ -2277,7 +2277,7 @@ definitions:
             enum:
             - "male"
             - "female"
-          license:
+          license_type:
             type: "string"
             enum:
             - "A"
