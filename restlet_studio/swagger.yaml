@@ -506,7 +506,7 @@ paths:
         enum:
         - "local"
         - "OTR"
-      - name: "region"
+      - name: "region_preference"
         in: "query"
         required: false
         type: "string"
@@ -1342,7 +1342,7 @@ paths:
           - "S"
         minItems: 1
         maxItems: 6
-      - name: "driver_region"
+      - name: "region_preference"
         in: "query"
         required: false
         type: "string"
