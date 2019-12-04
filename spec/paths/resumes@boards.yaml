@@ -74,7 +74,7 @@ get:
         - south west
         - local
       in: query
-      name: driver_region
+      name: region_preference
       required: false
       type: string
     - enum:

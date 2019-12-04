@@ -30,7 +30,7 @@ get:
         - south west
         - local
       in: query
-      name: region
+      name: region_preference
       required: false
       type: string
     - description: This will return just 1 job.
