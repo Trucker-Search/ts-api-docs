@@ -1,5 +1,5 @@
-# Direct Freight OpenAPI Specification
-[![Build Status](https://travis-ci.org/Direct-Freight/df-api-docs.svg?branch=master)](https://travis-ci.org/Direct-Freight/df-api-docs)
+# Trucker Search OpenAPI Specification
+[![Build Status](https://travis-ci.org/Trucker-Search/ts-api-docs.svg?branch=master)](https://travis-ci.org/Trucker-Search/ts-api-docs)
 
 
 ## Links
