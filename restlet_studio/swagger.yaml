@@ -296,6 +296,31 @@ paths:
                 description: "Their token to show they are logged in."
     x-restlet:
       section: "END_USER_AUTHENTICATIONS"
+  /end_user_authentications/social_login:
+    get:
+      description: Logs in or creates a new account for the user based on their email. "new_account" is what indicates if a new account was created, or if an existing account was used to login.
+      parameters:
+        # - in: header
+        #   name: api-token
+        #   required: true
+        #   type: string
+        - description: UUID returned by oneall used to identify the user.
+          in: query
+          name: connection_token
+          required: true
+          type: string
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/social-login-end-user-token'
+        '422':
+          $ref: '#/responses/error_422'          
+      summary:  STAGE=Private OneALl Social Login/Create Account
+      tags:
+        - end_user_authentications
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS      
   /favorites:
     get:
       tags:
@@ -1630,6 +1655,23 @@ definitions:
             - "team"
     x-restlet:
       section: "JOBS"
+  social-login-end-user-token:
+    properties:
+      end-user-token:
+        description: On success and end-user-token is returned.
+        example: XX423ASOEUHT4AESUTH
+        type: string
+      email:
+        description: The email address that was used to login.
+        example: example@directfreight.com
+        type: string   
+      new_account:
+        description: Indicates if a new account was created or an existing one was used to login.
+        example: false
+        type: boolean           
+    type: object
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS          
   job_data:
     type: "object"
     required:
