@@ -35,6 +35,1389 @@ info:
     url: 'https://www.truckersearch.com/home/images/logo-2015.png'
 produces:
   - application/json
+responses:
+  /end_user_authentications:
+    delete:
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: Log out.
+      tags:
+        - end_user_authentications
+    get:
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              status:
+                enum:
+                  - premium_employer
+                  - driver
+                  - employer
+                  - not_logged_in
+                  - overdue_employer
+                type: string
+            required:
+              - status
+            type: object
+      summary: Get a users status.
+      tags:
+        - end_user_authentications
+    post:
+      consumes: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              login:
+                type: string
+              realm:
+                description: 'email, username.'
+                type: string
+              secret:
+                type: string
+            required:
+              - login
+              - realm
+              - secret
+            type: object
+      responses:
+        '201':
+          description: Status 201
+          schema:
+            $ref: '#/definitions/error_object'
+        '422':
+          description: Status 422
+          schema:
+            properties:
+              code:
+                type: integer
+              description:
+                type: string
+              error:
+                type: string
+            required:
+              - code
+              - description
+              - error
+            type: object
+      summary: Log in.
+      tags:
+        - end_user_authentications
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS
+  /end_user_authentications/email:
+    patch:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              email:
+                type: string
+            required:
+              - email
+            type: object
+      responses:
+        '204':
+          description: Status 204
+      summary: Update Email
+      tags:
+        - end_user_authentications
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS
+  /end_user_authentications/passwords:
+    get:
+      parameters:
+        - in: query
+          name: email_address
+          required: true
+          type: string
+      responses:
+        '204':
+          description: >-
+            This will return successful even if we do not have the e-mail
+            address in our records.
+      summary: STAGE=UNK Forgot password
+      tags:
+        - end_user_authentications
+    patch:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              new_password:
+                type: string
+              old_password:
+                type: string
+            required:
+              - new_password
+              - old_password
+            type: object
+      responses:
+        '204':
+          description: Status 204
+      summary: Update Password
+      tags:
+        - end_user_authentications
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS
+  /end_user_authentications/social_login:
+    get:
+      description: >-
+        Logs in or creates a new account for the user based on their email.
+        "new_account" is what indicates if a new account was created, or if an
+        existing account was used to login.
+      parameters:
+        - description: UUID returned by oneall used to identify the user.
+          in: query
+          name: connection_token
+          required: true
+          type: string
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/social-login-end-user-token'
+        '422':
+          $ref: '#/responses/error_422'
+      summary: STAGE=Private OneALl Social Login/Create Account
+      tags:
+        - end_user_authentications
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS
+  /end_user_authentications/users:
+    post:
+      consumes: []
+      description: Create a new user
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+            required:
+              - email
+              - password
+            type: object
+      responses:
+        '201':
+          description: Status 201
+          schema:
+            description: 'Will automatically log them in, and return the needed token.'
+            properties:
+              end-user-token:
+                description: Their token to show they are logged in.
+                type: string
+            required:
+              - end-user-token
+            type: object
+      summary: Create user
+      tags:
+        - end_user_authentications
+    x-restlet:
+      section: END_USER_AUTHENTICATIONS
+  /favorites:
+    delete:
+      parameters:
+        - enum:
+            - job
+            - resume
+          in: query
+          name: favorite_type
+          required: true
+          type: string
+        - in: query
+          name: favorite_id
+          required: true
+          type: integer
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: STAGE=UNK Remove  a favorite.
+      tags:
+        - favorites
+    get:
+      parameters:
+        - default: resume
+          enum:
+            - resume
+            - job
+          in: query
+          name: favorite_type
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            $ref: '#/definitions/get_favorite_ids'
+      summary: STAGE=UNK Get the favorites.
+      tags:
+        - favorites
+    post:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              favorite_id:
+                description: The id of the favorite to add.
+                type: integer
+              type:
+                enum:
+                  - job
+                  - resume
+                type: string
+            required:
+              - favorite_id
+              - type
+            type: object
+      responses:
+        '201':
+          description: Status 201
+      summary: STAGE=UNK Add a favorite
+      tags:
+        - favorites
+    x-restlet:
+      section: FAVORITES
+  /favorites/count:
+    get:
+      parameters:
+        - enum:
+            - resume
+            - job
+          in: query
+          name: favorite_type
+          required: true
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              count:
+                type: integer
+            required:
+              - count
+            type: object
+      summary: STAGE=UNK Get a count of favorites
+      tags:
+        - favorites
+    x-restlet:
+      section: FAVORITES
+  /jobs:
+    delete:
+      parameters:
+        - description: >-
+            You can only delete 1 job at a time, and only if that Job is both
+            not active, and does not have any days left.
+          in: query
+          name: job_id
+          required: true
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: STAGE=UNK Delete the users job ad.
+      tags:
+        - jobs
+    get:
+      description: Get a list of the logged in users jobs.
+      parameters:
+        - description: Optionally just return a few jobs.
+          in: query
+          name: job_id
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            $ref: '#/definitions/job_list_user'
+      summary: STAGE=UNK Get logged in user's job ads.
+      tags:
+        - jobs
+    patch:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/job_data_patch'
+      responses:
+        '204':
+          description: Status 204
+      summary: STAGE=UNK Update a Job ad.
+      tags:
+        - jobs
+    post:
+      consumes: []
+      description: Create a new Job ad for the currently logged in user.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/job_data'
+      responses:
+        '201':
+          description: Status 201
+          headers:
+            url:
+              description: A url pointing to the newly created resource.
+              type: string
+              x-example: .../jobs/?id=1234
+      summary: STAGE=UNK Post a new job ad.
+      tags:
+        - jobs
+    x-restlet:
+      section: JOBS
+  /jobs/boards:
+    get:
+      description: Gets a list of other people's jobs.
+      parameters:
+        - in: query
+          name: state
+          required: false
+          type: string
+        - description: >-
+            If specified it will return either only local jobs, or only OTR
+            jobs.
+          enum:
+            - local
+            - OTR
+          in: query
+          name: distance_preference
+          required: false
+          type: string
+        - description: >-
+            This is a list of possible regions. This matches the regions from
+            searching and posting a job ad on our website. I am adding it to the
+            API with the assumption that we can expand our resume regions to
+            match. This should aviod some confusion and weirdness. An example
+            would be alert options. 
+          enum:
+            - east coast
+            - west coast
+            - mid west
+            - nationwide
+            - north east
+            - north west
+            - south east
+            - south west
+            - local
+          in: query
+          name: region_preference
+          required: false
+          type: string
+        - description: This will return just 1 job.
+          in: query
+          name: job_id
+          required: false
+          type: integer
+        - in: query
+          name: page_number
+          required: false
+          type: integer
+        - default: 50
+          description: Results per page.
+          in: query
+          maximum: 100
+          minimum: 1
+          name: item_count
+          required: false
+          type: integer
+        - description: Only return a team or a single driver
+          enum:
+            - single
+            - team
+          in: query
+          name: team_preference
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: false
+          type: string
+      responses:
+        '200':
+          description: returns a list of jobs.
+          schema:
+            $ref: '#/definitions/job_list'
+      summary: Get a list of jobs
+      tags:
+        - jobs
+    x-restlet:
+      section: JOBS
+  /jobs/status:
+    delete:
+      parameters:
+        - description: The job ad to deactivate.
+          in: query
+          name: job_id
+          required: true
+          type: integer
+        - in: header
+          name: end-user-auth
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: STAGE=UNK Decativate a Job ad
+      tags:
+        - jobs_status
+    get:
+      description: >-
+        This method will return back enough information to determine if a job ad
+        is runnig, and when it will stop.
+      parameters:
+        - in: query
+          name: job_id
+          required: true
+          type: integer
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              bill_method:
+                enum:
+                  - manual
+                  - automatic
+                type: string
+              days_left:
+                description: >-
+                  If the Job is not active, this value tells how many days the
+                  Job can be run for before payment.
+                type: integer
+              expires_after:
+                format: date
+                type: string
+            required:
+              - bill_method
+              - days_left
+              - expires_after
+            type: object
+      summary: STAGE=UNK Get the status of a job ad.
+      tags:
+        - jobs_status
+    post:
+      consumes: []
+      description: >-
+        This method will only work if the add has days left of > 0, otherwise in
+        theory it should return a url to a chargebee payment portal. 
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              job_id:
+                description: The id of the job ad to activate.
+                type: string
+            type: object
+      responses:
+        '201':
+          description: Status 201
+          headers:
+            url:
+              description: The board location of the active job ad.
+              type: string
+      summary: STAGE=UNK Activate a job ad.
+      tags:
+        - jobs_status
+    x-restlet:
+      section: JOBS
+  /messages:
+    get:
+      description: >-
+        This is the method that pulls down a conversation. For our site this is
+        the main portion of the page. Internally we have other statuses like
+        pending, and rejected, but a public users of our API doesn t have access
+        to them.
+      parameters:
+        - description: Who the conversation is with.
+          in: query
+          name: contact_id
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            $ref: '#/definitions/conversation_list'
+      summary: Get a conversation.
+      tags:
+        - messages
+    post:
+      consumes: []
+      description: >-
+        This will send a message to any other user. Currently there are no
+        blocks or set restrictions if an API user just started guessing. In
+        order to get a contact_id a contact user would need to pull that info
+        from a resume, or a job ad.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              contact_id:
+                description: Who the message is being sent to.
+                type: integer
+              message:
+                description: This can contain a small list of html tags.
+                type: string
+            required:
+              - contact_id
+              - message
+            type: object
+      responses:
+        '202':
+          description: Status 202
+          schema:
+            $ref: '#/definitions/conversation_list'
+      summary: Send a message
+      tags:
+        - messages
+    x-restlet:
+      section: MESSAGES
+  /messages/contacts:
+    get:
+      description: >-
+        This method provides the information nedeed to display all the contacts
+        within a folder.
+      parameters:
+        - in: query
+          name: folder_id
+          required: true
+          type: integer
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              list:
+                items:
+                  properties:
+                    contact_company:
+                      type: string
+                    contact_id:
+                      type: integer
+                    contact_name:
+                      type: string
+                    conversation_status:
+                      description: >-
+                        Sent means that the contact sent your user a message,
+                        but it has not yet been read by them. Messages are
+                        automatically marked as read when the GET /messages
+                        endpoint is called for that conversation. This will
+                        return null when the contact has not yet sent a message
+                        back to your user.
+                      enum:
+                        - sent
+                        - read
+                      type: string
+                    last_received:
+                      description: >-
+                        If the contact has sent your logged in user a message,
+                        then the newest message's sent date will appear,
+                        otherwise it will be null.
+                      format: date-time
+                      type: string
+                  required:
+                    - contact_company
+                    - contact_id
+                    - contact_name
+                  type: object
+                type: array
+            required:
+              - list
+            type: object
+      summary: Get a list of contacts for that folder.
+      tags:
+        - messages_contacts
+    patch:
+      consumes: []
+      description: >-
+        By default all new contacts end up in Active, or Pending depending on
+        who sent a message. Also users are unable to "delete" contacts, but you
+        can simulate that using this endpoint to move to Trash.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              contact_id:
+                description: Contact to move.
+                type: integer
+              new_folder:
+                type: integer
+              old_folder:
+                type: integer
+            required:
+              - contact_id
+              - new_folder
+              - old_folder
+            type: object
+      responses:
+        '204':
+          description: Status 204
+      summary: Move a contact from one folder to another.
+      tags:
+        - messages_contacts
+    x-restlet:
+      section: MESSAGES
+  /messages/count:
+    get:
+      description: >-
+        This is a coneniene method provided for pages like the driver/recruiter
+        dasboard. The same information could be obtained by getting the folder
+        list, and adding the new count. 
+
+
+        It can also be used to update individual contacts new count. An example
+        of this is the page automatically checking for new messages every once
+        in a while, on a per user basis. 
+      parameters:
+        - description: Just return a count of new messages from one contact.
+          in: query
+          name: contact_id
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              count:
+                type: integer
+            required:
+              - count
+            type: object
+      summary: Returns how many unread messages the user has.
+      tags:
+        - messages
+    x-restlet:
+      section: MESSAGES
+  /messages/folders:
+    delete:
+      description: >-
+        Active, Pending, Trash, and Deleted are special folders, and this
+        command will ignore them.
+      parameters:
+        - description: Deletes one folder at a time.
+          in: query
+          name: folder_id
+          required: true
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: Remove a custom folder.
+      tags:
+        - messages_folders
+    get:
+      description: >-
+        This returns a list of all folders for this user, along with how many
+        unread messages each folder contains. I belive the website's behavior is
+        0 or 1 per contact, but it could be 1 per total messages. 
+      parameters:
+        - description: >-
+            Just get a few folders. This takes the place of a specific new count
+            function.
+          in: query
+          items:
+            type: integer
+          name: folder_id
+          required: false
+          type: array
+          x-example: '?folder_id=2334&folder_id=3324'
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            description: >-
+              Current version doesn't really work with the documentation. 
+              because of variable folder names. It looks like this.
+
+
+              {"Active":0,"Trash":0,"test 5":0,"Pending":0,"TrucksNcars":0,"new
+              folder 2":0,"Deleted":0,"test1":0,"NewFolderTest":0}
+            properties:
+              list:
+                items:
+                  properties:
+                    folder_id:
+                      description: folder id
+                      type: integer
+                    name:
+                      description: Folder Name
+                      type: string
+                    new_count:
+                      description: How many new messages in that folder.
+                      type: integer
+                  required:
+                    - folder_id
+                    - name
+                    - new_count
+                  type: object
+                type: array
+            required:
+              - list
+            type: object
+      summary: Get a list of folders
+      tags:
+        - messages_folders
+    post:
+      consumes: []
+      description: >-
+        This method allows a user to add custom folders. These folders must have
+        unique names.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            description: >-
+              You can use any name that has not already been taken. Certain
+              folders are automatically created, the first time a message is
+              sent or recieved. The names of these folders are reserved and
+              cannot be added, modified or deleted.
+
+
+              Currently they are Active, Pending, Deleted, and Trash.
+            properties:
+              name:
+                description: Name of the folder to be added.
+                type: string
+            required:
+              - name
+            type: object
+      responses:
+        '201':
+          description: Status 201
+          schema:
+            properties:
+              folder_id:
+                type: integer
+              name:
+                type: string
+            required:
+              - folder_id
+              - name
+            type: object
+      summary: Add a folder
+      tags:
+        - messages_folders
+    x-restlet:
+      section: MESSAGES
+  /mobile_updates:
+    get:
+      parameters:
+        - in: query
+          name: email_address
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              bullet_points:
+                items:
+                  default: '[]'
+                  type: string
+                type: array
+              information_url:
+                default: 'null'
+                type: string
+              message:
+                default: 'null'
+                type: string
+              title:
+                default: 'null'
+                type: string
+              update_url:
+                default: 'null'
+                type: string
+            required:
+              - bullet_points
+              - information_url
+              - message
+              - title
+              - update_url
+            type: object
+      summary: Get any available update information.
+      tags:
+        - mobile update
+    x-restlet:
+      section: Mobile Update
+  /optins:
+    delete:
+      description: >-
+        By only sending in their EUA token you would be requesting to opt them
+        out of everything.
+      parameters:
+        - enum:
+            - email
+            - text
+            - push
+          in: query
+          name: notification_medium
+          required: false
+          type: string
+        - default: all
+          description: This would allow granular optouts. Currently ignored.
+          enum:
+            - all
+            - alerts
+          in: query
+          name: notification_channel
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: STAGE=UNK Opt someone out of one or more mediums and channels.
+    get:
+      parameters:
+        - description: To limit your list to just one medium.
+          enum:
+            - email
+            - text
+            - push
+          in: query
+          name: notification_medium
+          required: false
+          type: string
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              list:
+                items:
+                  properties:
+                    notification_channel:
+                      default: all
+                      type: string
+                    notification_medium:
+                      enum:
+                        - email
+                        - text
+                        - push
+                      type: string
+                    status:
+                      enum:
+                        - optin
+                        - optout
+                        - no response
+                        - no record
+                      type: string
+                  required:
+                    - notification_channel
+                    - notification_medium
+                    - status
+                  type: object
+                type: array
+            required:
+              - list
+            type: object
+      summary: STAGE=UNK Get the optin status of a user.
+    patch:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              notification_medium:
+                enum:
+                  - email
+                  - text
+                type: string
+              verification_code:
+                description: >-
+                  This code is generated on a POST, and will arrive via the same
+                  medium it was designated for.
+                type: string
+            required:
+              - notification_medium
+              - verification_code
+            type: object
+      responses:
+        '204':
+          description: Status 204
+      summary: STAGE=UNK Confirm an optin.
+    post:
+      consumes: []
+      description: >-
+        Currently only Push notifications are implemented. With them a post
+        creates and approves the optin. Later on when text/email is ported post
+        will create the optin with the status of 'no response' meaning they
+        haven't replied with the propper code, or clicked an authorization link.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              notification_channel:
+                default: all
+                description: >-
+                  Currently defaults to all, and is ignored. When we start using
+                  it it will be for opting people out or in one list like
+                  alerts, or messages, but not others.
+                type: string
+              notification_medium:
+                description: We currently only accept push
+                enum:
+                  - email
+                  - text
+                  - push
+                type: string
+              tokens:
+                description: >-
+                  This is how you can add multiple push notifications at once,
+                  or for systems that have multiple tokens required.
+                example: '"tokens": { "ios": "12345678", "android": "5432344" } '
+                properties:
+                  $SERVICE_OR_KEY_NAME:
+                    description: >-
+                      Fill in the key in the value, and the service in the name.
+                      Look at our examples for clarification.
+                    type: string
+                required:
+                  - $SERVICE_OR_KEY_NAME
+                type: object
+            required:
+              - notification_medium
+            type: object
+      responses:
+        '201':
+          description: Status 201
+      summary: STAGE=UNK Submit a request to be opted in.
+      tags:
+        - optins
+    x-restlet:
+      section: Optins
+  /profiles:
+    get:
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            $ref: '#/definitions/profile_response'
+      summary: STAGE=UNK Get their profile
+      tags:
+        - profiles
+    patch:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/profile_request'
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            $ref: '#/definitions/profile_patch_response'
+      summary: STAGE=UNK Update a profile.
+      tags:
+        - profiles
+    post:
+      consumes: []
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/profile_request'
+      responses:
+        '201':
+          description: Status 201
+          headers:
+            url:
+              type: string
+      summary: STAGE=UNK Create a profile
+      tags:
+        - profiles
+    x-restlet:
+      section: PROFILES
+  /resumes:
+    delete:
+      description: >-
+        No extra information is needed because we only allow one resume per
+        account.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Status 204
+      summary: Delete the user's resume
+      tags:
+        - resumes
+    get:
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            $ref: '#/definitions/resume_data_optional'
+      summary: Get the user's resume.
+      tags:
+        - resumes
+    patch:
+      consumes: []
+      description: >-
+        Each user only has 1 resume. Setting any field to null will set it to a
+        null or for a number 0.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/resume_data_optional'
+      responses:
+        '200':
+          description: Status 200
+      summary: Update the user's resume.
+      tags:
+        - resumes
+    post:
+      consumes: []
+      description: >-
+        You must send in at least one valid request parameter in the body. It
+        doesn't matter which one, but at least one.
+      parameters:
+        - in: header
+          name: end-user-token
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/resume_data_optional'
+          x-examples:
+            application/json: |-
+              {
+                "experience": {
+                  "current_employer": "Jim Swift's Logistics"
+                }
+              }
+      responses:
+        '201':
+          description: Object created
+          headers:
+            url:
+              description: Link to the newly created resume.
+              type: string
+      summary: Submit the user's resume.
+      tags:
+        - resumes
+    x-restlet:
+      section: RESUMES
+  /resumes/boards:
+    get:
+      description: >-
+        Behind the scenes a resume goes through an appoval process before it
+        will show up on a board. This could be a few seconds, or a few days. The
+        resume poster can always se their resume, but until it is approved the
+        resume won't be displayed on the board.
+      parameters:
+        - description: A list of state codes.
+          in: query
+          items:
+            maxLength: 2
+            minLength: 2
+            type: string
+          name: state
+          required: false
+          type: array
+          x-example: '?state="MO,AR,IL,KY"'
+        - description: If this option is included we will use the first state in the array.
+          in: query
+          maxLength: 20
+          name: city
+          required: false
+          type: string
+        - default: 30
+          description: Will be set if city is.
+          in: query
+          maximum: 30
+          minimum: 1
+          name: radius
+          required: false
+          type: integer
+        - enum:
+            - other
+            - student
+            - company
+            - owner/operator
+          in: query
+          name: drive_type
+          required: false
+          type: string
+        - description: >-
+            You can have up to an additional 4 custom trailers of a length of 6
+            or less each.
+          in: query
+          items:
+            enum:
+              - V
+              - R
+              - F
+              - AC
+              - HOP
+              - TANK
+              - S
+            type: string
+          maxItems: 6
+          minItems: 1
+          name: trailer_experience
+          required: false
+          type: array
+        - description: >-
+            This is a list of possible regions. This matches the regions from
+            searching and posting a job ad on our website. I am adding it to the
+            API with the assumption that we can expand our resume regions to
+            match. This should aviod some confusion and weirdness. An example
+            would be alert options. 
+          enum:
+            - east coast
+            - west coast
+            - mid west
+            - nationwide
+            - north east
+            - north west
+            - south east
+            - south west
+            - local
+          in: query
+          name: region_preference
+          required: false
+          type: string
+        - enum:
+            - team
+            - single
+          in: query
+          name: team_preference
+          required: false
+          type: string
+        - enum:
+            - local
+            - OTR
+          in: query
+          name: driver_distance
+          required: false
+          type: string
+        - in: query
+          minimum: 0
+          name: driver_experience
+          required: false
+          type: integer
+        - in: query
+          name: page_number
+          required: false
+          type: integer
+        - description: Results per page.
+          in: query
+          maximum: 100
+          minimum: 1
+          name: item_count
+          required: false
+          type: integer
+        - in: header
+          name: end-user-token
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Status 200
+          schema:
+            properties:
+              list:
+                items:
+                  $ref: '#/definitions/resume_board_data'
+                type: array
+              page_number:
+                type: integer
+              total_items:
+                type: integer
+              total_pages:
+                type: integer
+            required:
+              - list
+              - page_number
+              - total_items
+              - total_pages
+            type: object
+      summary: STAGE=UNK Get a list of Resumes
+      tags:
+        - resumes
+    x-restlet:
+      section: RESUMES
+  error_422:
+    description: Unprocessable Entity. More information provided in the return object.
+    schema:
+      $ref: '#/definitions/error_object'
+  object_created:
+    description: Object created check the headers for a reference URL.
+    schema:
+      $ref: '#/definitions/create_status'
 schemes:
   - https
 security:
