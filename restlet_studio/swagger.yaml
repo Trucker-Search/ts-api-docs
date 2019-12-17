@@ -110,15 +110,6 @@ paths:
           description: "Status 204"
     x-restlet:
       section: "ALERTS"
-responses:
-  error_422:
-    description: Unprocessable Entity. More information provided in the return object.
-    schema:
-      $ref: '#/definitions/error_object'
-  object_created:
-    description: Object created check the headers for a reference URL.
-    schema:
-      $ref: '#/definitions/create_status'      
   /end_user_authentications:
     get:
       tags:
@@ -319,12 +310,14 @@ responses:
           required: true
           type: string
       responses:
-        '201':
+        201:
           description: successful operation
           schema:
             $ref: '#/definitions/social-login-end-user-token'
-        '422':
-          $ref: '#/responses/error_422'          
+        422:
+          description: Unprocessable Entity. More information provided in the return object.
+          schema:
+            $ref: '#/definitions/error_object'
       summary:  STAGE=Private OneALl Social Login/Create Account
       tags:
         - end_user_authentications
