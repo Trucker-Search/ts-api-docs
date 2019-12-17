@@ -1,0 +1,25 @@
+patch:
+  consumes: []
+  parameters:
+    - in: header
+      name: end-user-token
+      required: true
+      type: string
+    - in: body
+      name: body
+      required: true
+      schema:
+        properties:
+          email:
+            type: string
+        required:
+          - email
+        type: object
+  responses:
+    '204':
+      description: Status 204
+  summary: Update Email
+  tags:
+    - end_user_authentications
+x-restlet:
+  section: END_USER_AUTHENTICATIONS
