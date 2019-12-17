@@ -72,14 +72,6 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/alert_response_object"
-      error_422:
-        description: Unprocessable Entity. More information provided in the return object.
-        schema:
-          $ref: '#/definitions/error_object'
-      object_created:
-        description: Object created check the headers for a reference URL.
-        schema:
-          $ref: '#/definitions/create_status'                  
     post:
       tags:
       - "alerts"
@@ -118,6 +110,15 @@ paths:
           description: "Status 204"
     x-restlet:
       section: "ALERTS"
+responses:
+  error_422:
+    description: Unprocessable Entity. More information provided in the return object.
+    schema:
+      $ref: '#/definitions/error_object'
+  object_created:
+    description: Object created check the headers for a reference URL.
+    schema:
+      $ref: '#/definitions/create_status'      
   /end_user_authentications:
     get:
       tags:
