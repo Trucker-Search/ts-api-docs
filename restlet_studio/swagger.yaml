@@ -1577,8 +1577,8 @@ definitions:
           list_direction:
             type: "string"
             enum:
-            - "descending"
-            - "ascending"
+            - "desc"
+            - "asc"
   error_object:
     example: |-
       {
