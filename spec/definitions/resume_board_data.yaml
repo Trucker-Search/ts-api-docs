@@ -4,6 +4,9 @@ properties:
     description: Only available to subscribed users.
     type: string
   contact:
+    description: >-
+      The non required fields will only show up on a single resume search. You
+      can do that by specifying the alert_id.
     properties:
       address:
         description: Only available to subscribed users.
@@ -57,6 +60,8 @@ properties:
     required:
       - city
       - state
+      - first_name
+      - last_name
     type: object
   created:
     format: date-time
