@@ -5,6 +5,14 @@ get:
     poster can always se their resume, but until it is approved the resume won't
     be displayed on the board.
   parameters:
+    - description: >-
+        If included all other options will be ignored, and a list of 1 resume
+        will be returned. Also the full contact information will be returned
+        with this single resume.
+      in: query
+      name: resume_id
+      required: false
+      type: integer
     - description: A list of state codes.
       in: query
       items:
