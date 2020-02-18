@@ -2181,9 +2181,12 @@ definitions:
         type: "string"
         description: "Only available to subscribed users."
       contact:
+        description: "The non required fields will only show up on a single resume search. You can do that by specifying the alert_id."
         required:
         - "city"
         - "state"
+        - "first_name"
+        - "last_name"
         type: "object"
         properties:
           address:
