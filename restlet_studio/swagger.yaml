@@ -29,7 +29,7 @@ paths:
     get:
       tags:
       - "alerts"
-      summary: "STAGE=UNK Get a list of alerts."
+      summary: "STAGE=UNKNOWN Get a list of alerts."
       description: "Get a list of alerts. You can optionally limit the list by specifying alerts by their alert_id."
       parameters:
       - name: "end-user-token"
@@ -1412,6 +1412,17 @@ paths:
         required: false
         type: "integer"
         minimum: 0
+      - name: "license_type"
+        in: "query"
+        type: "string"
+        required: false
+        enum:
+        - "A"
+        - "B"
+        - "1"
+        - "2"
+        - "3"
+        - "none"
       - name: "page_number"
         in: "query"
         required: false
@@ -1530,7 +1541,73 @@ definitions:
           city: 
             type: "string"
           state:
-            type: "string"
+            type: "array"
+            items:
+              type: "string"
+              enum:
+              - "AA"
+              - "AE"
+              - "AK"
+              - "AL"
+              - "AP"
+              - "AR"
+              - "AS"
+              - "AZ"
+              - "CA"
+              - "CO"
+              - "CT"
+              - "DC"
+              - "DE"
+              - "FL"
+              - "FM"
+              - "GA"
+              - "GU"
+              - "HI"
+              - "IA"
+              - "ID"
+              - "IL"
+              - "IN"
+              - "KS"
+              - "KY"
+              - "LA"
+              - "MA"
+              - "MD"
+              - "ME"     
+              - "MH"     
+              - "MI"     
+              - "MN"     
+              - "MO"
+              - "MP"     
+              - "MS"     
+              - "MT"     
+              - "MX"
+              - "NC"
+              - "ND"
+              - "NE"
+              - "NH"
+              - "NJ"
+              - "NM"
+              - "NV"
+              - "NY"
+              - "OH"
+              - "OK"
+              - "OR"
+              - "PA"
+              - "PR"
+              - "PW"
+              - "RI"
+              - "SC"
+              - "SD"
+              - "TN"
+              - "TX"
+              - "UT"
+              - "VA"
+              - "VI"
+              - "VT"
+              - "WA"
+              - "WI"
+              - "WV"
+              - "WY"
           radius: 
             type: "integer"
           region: 
@@ -1569,6 +1646,15 @@ definitions:
             enum:
             - "single"
             - "team"
+          license_type:
+            type: "string"
+            enum:
+            - "A"
+            - "B"
+            - "1"
+            - "2"
+            - "3"
+            - "none"
           driver_experience:
             type: "integer"
           driver_distance:
