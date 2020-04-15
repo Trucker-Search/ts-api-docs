@@ -15,6 +15,15 @@ properties:
       - company
       - owner/operator
     type: string
+  license_type:
+    enum:
+      - A
+      - B
+      - '1'
+      - '2'
+      - '3'
+      - none
+    type: string
   list_direction:
     enum:
       - desc
@@ -38,7 +47,73 @@ properties:
       - local
     type: string
   state:
-    type: string
+    items:
+      enum:
+        - AA
+        - AE
+        - AK
+        - AL
+        - AP
+        - AR
+        - AS
+        - AZ
+        - CA
+        - CO
+        - CT
+        - DC
+        - DE
+        - FL
+        - FM
+        - GA
+        - GU
+        - HI
+        - IA
+        - ID
+        - IL
+        - IN
+        - KS
+        - KY
+        - LA
+        - MA
+        - MD
+        - ME
+        - MH
+        - MI
+        - MN
+        - MO
+        - MP
+        - MS
+        - MT
+        - MX
+        - NC
+        - ND
+        - NE
+        - NH
+        - NJ
+        - NM
+        - NV
+        - NY
+        - OH
+        - OK
+        - OR
+        - PA
+        - PR
+        - PW
+        - RI
+        - SC
+        - SD
+        - TN
+        - TX
+        - UT
+        - VA
+        - VI
+        - VT
+        - WA
+        - WI
+        - WV
+        - WY
+      type: string
+    type: array
   team_preference:
     enum:
       - single

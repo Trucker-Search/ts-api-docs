@@ -104,6 +104,17 @@ get:
       name: driver_experience
       required: false
       type: integer
+    - enum:
+        - A
+        - B
+        - '1'
+        - '2'
+        - '3'
+        - none
+      in: query
+      name: license_type
+      required: false
+      type: string
     - in: query
       name: page_number
       required: false

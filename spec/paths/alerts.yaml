@@ -63,7 +63,7 @@ get:
         required:
           - list
         type: object
-  summary: STAGE=UNK Get a list of alerts.
+  summary: STAGE=UNKNOWN Get a list of alerts.
   tags:
     - alerts
 post:
