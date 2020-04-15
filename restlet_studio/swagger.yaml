@@ -1012,7 +1012,7 @@ paths:
       section: "Mobile Update"
   /optins:
     get:
-      summary: "STAGE=UNK Get the optin status of a user."
+      summary: "STAGE=UNKNOWN Get the optin status of a user."
       parameters:
       - name: "notification_medium"
         in: "query"
