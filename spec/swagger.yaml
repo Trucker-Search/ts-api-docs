@@ -30,7 +30,7 @@ info:
 
     Both Tokens are stateless, and delivered via the HTTP headers.
   title: Trucker Search API
-  version: 1.0.0
+  version: '1.0'
   x-logo:
     url: 'https://www.truckersearch.com/home/images/logo-2015.png'
 produces:

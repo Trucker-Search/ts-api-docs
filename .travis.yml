@@ -13,7 +13,3 @@ deploy:
     'on':
       all_branches: true
       condition: '"$TRAVIS_BRANCH" != "master" && "$TRAVIS_BRANCH" != "gh-pages"'
-env:
-  matrix:
-    - secure: >-
-        rCqF7+1PW4PhTQaANpDEb3b9WdenhmAAg86yqsvgGyOMFCMftuTTNOJvyikre+FTB8XcmyLiM0Knq/hxIax4i2IQPSGV1frDQFYB96Q6xU9TAiRabizGUfZZc0re50DUVXa/co7WATfVnmi21taRsXITgkoDhtCHbBXuHUumi8IQ+yvX+F8vVTKPevzXtJDZMVlXHI20fsdUKmnC+Z2KfbMY5cqrDHQa1/VAiValnMlysH5kl+weZan4J3/fkuMmPJw1/eebjlWmb2t31fE8X7bGxhQACISv/AE5DgBIidReo+gdR49vSSNbSIAHlCRG1QX70haTgtgnlZoDqLm5fRzLrCscJqT9pUcPZcI4YS0PFSa2IgN6Q2eIO43Z5ARB6kaeOiMbQV2L0pPJyy4jaXTRILNbhpbEmKPw8nv7+OQs5LHE6JYG2VGXuP53mz2mzOv7ua/Tf0WO2V1VfQizFdjezWNSMbpQt3LSbh6K8aeT7edLg2OXT9IkfYDafQ6iMZmcrP9dx1TeJtz6GyXoHy5dTkWbNkzUj08iwE24F8RqKYzuyrKxPIOBc1CFK7lEAMFGbeVKpLvZU4iTtk8M/qaglTZrA9E3uLK6PzZfX3NXWt9FVWpNKpj9bv8o2wlH4uMNKyN1r5UU6SVtRG+WxPG6rPZzPOKN+51JcbcuTyQ=

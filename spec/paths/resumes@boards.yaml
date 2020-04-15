@@ -5,6 +5,14 @@ get:
     poster can always se their resume, but until it is approved the resume won't
     be displayed on the board.
   parameters:
+    - description: >-
+        If included all other options will be ignored, and a list of 1 resume
+        will be returned. Also the full contact information will be returned
+        with this single resume.
+      in: query
+      name: resume_id
+      required: false
+      type: integer
     - description: A list of state codes.
       in: query
       items:
@@ -74,7 +82,7 @@ get:
         - south west
         - local
       in: query
-      name: driver_region
+      name: region_preference
       required: false
       type: string
     - enum:
@@ -96,6 +104,17 @@ get:
       name: driver_experience
       required: false
       type: integer
+    - enum:
+        - A
+        - B
+        - '1'
+        - '2'
+        - '3'
+        - none
+      in: query
+      name: license_type
+      required: false
+      type: string
     - in: query
       name: page_number
       required: false

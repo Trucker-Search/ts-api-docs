@@ -76,7 +76,7 @@ get:
         required:
           - list
         type: object
-  summary: STAGE=UNK Get the optin status of a user.
+  summary: STAGE=UNKNOWN Get the optin status of a user.
 patch:
   consumes: []
   parameters:
@@ -110,7 +110,7 @@ patch:
 post:
   consumes: []
   description: >-
-    Currently only Push notifications are implemneted. With them a post creates
+    Currently only Push notifications are implemented. With them a post creates
     and approves the optin. Later on when text/email is ported post will create
     the optin with the status of 'no response' meaning they haven't replied with
     the propper code, or clicked an authorization link.
@@ -158,7 +158,7 @@ post:
   responses:
     '201':
       description: Status 201
-  summary: STAGE=UNK Submit a request to be opted in.
+  summary: STAGE=UNKNOWN Submit a request to be opted in.
   tags:
     - optins
 x-restlet:

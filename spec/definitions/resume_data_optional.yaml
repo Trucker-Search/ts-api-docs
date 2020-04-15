@@ -18,10 +18,13 @@ properties:
           - male
           - female
         type: string
-      license:
+      license_type:
         enum:
           - A
           - B
+          - '1'
+          - '2'
+          - '3'
         type: string
       tickets:
         minimum: 0

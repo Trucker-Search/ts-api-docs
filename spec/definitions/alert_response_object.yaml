@@ -15,10 +15,7 @@ properties:
     description: 'Whether to sent both new and updated resumes, or just new resumes.'
     type: boolean
   search_parameters:
-    description: >-
-      Please look at /resume/boards or /jobs/boards for a reference of accepted
-      parameters.
-    type: object
+    $ref: '#/definitions/resume_search'
   send_frequency:
     description: Frequency in minutes that the alert is sent.
     type: integer
