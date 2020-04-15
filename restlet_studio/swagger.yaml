@@ -1063,7 +1063,7 @@ paths:
     post:
       tags:
       - "optins"
-      summary: "STAGE=UNK Submit a request to be opted in."
+      summary: "STAGE=UNKNOWN Submit a request to be opted in."
       description: "Currently only Push notifications are implemented. With them a\
         \ post creates and approves the optin. Later on when text/email is ported\
         \ post will create the optin with the status of 'no response' meaning they\
