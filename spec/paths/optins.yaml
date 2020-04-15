@@ -76,7 +76,7 @@ get:
         required:
           - list
         type: object
-  summary: STAGE=UNK Get the optin status of a user.
+  summary: STAGE=UNKNOWN Get the optin status of a user.
 patch:
   consumes: []
   parameters:
