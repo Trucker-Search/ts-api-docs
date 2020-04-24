@@ -112,6 +112,19 @@ properties:
         - WI
         - WV
         - WY
+        - AB
+        - BC
+        - MB
+        - NB
+        - NL
+        - NS
+        - NT
+        - NU
+        - 'ON'
+        - PE
+        - QC
+        - SK
+        - YT
       type: string
     type: array
   team_preference:
