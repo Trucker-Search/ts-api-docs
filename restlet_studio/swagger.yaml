@@ -1492,7 +1492,7 @@ definitions:
         - "push"
       only_new:
         type: "boolean"
-        description: "Whether to sent both new and updated resumes, or just new resumes."
+        description: "Whether to send both new and updated resumes, or just new resumes."
       search_parameters:
         $ref: "#/definitions/resume_search"
       send_frequency:
@@ -1525,7 +1525,7 @@ definitions:
         - "push"
       only_new:
         type: "boolean"
-        description: "Whether to sent both new and updated resumes, or just new resumes."
+        description: "Whether to send both new and updated resumes, or just new resumes."
       search_parameters:
         $ref: "#/definitions/resume_search"
       send_frequency:
