@@ -7,7 +7,7 @@ properties:
       - push
     type: string
   only_new:
-    description: 'Whether to sent both new and updated resumes, or just new resumes.'
+    description: 'Whether to send both new and updated resumes, or just new resumes.'
     type: boolean
   search_parameters:
     $ref: '#/definitions/resume_search'
