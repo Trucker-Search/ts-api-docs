@@ -1629,6 +1629,8 @@ definitions:
               - "QC"
               - "SK"
               - "YT"
+              - "USA"
+              - "CAN"
           radius: 
             type: "integer"
           region: 
