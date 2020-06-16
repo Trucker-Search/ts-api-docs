@@ -1497,6 +1497,14 @@ definitions:
         $ref: "#/definitions/resume_search"
       send_frequency:
         type: "integer"
+        enum:
+        - 15
+        - 30
+        - 60
+        - 120
+        - 240
+        - 480
+        - 1440
         description: "Frequency in minutes that the alert is sent. We stop sending\
           \ alerts between 12am and 3am CST."
     x-restlet:
