@@ -125,6 +125,8 @@ properties:
         - QC
         - SK
         - YT
+        - USA
+        - CAN
       type: string
     type: array
   team_preference:
