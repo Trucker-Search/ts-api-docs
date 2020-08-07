@@ -1461,6 +1461,32 @@ paths:
                 type: "integer"
     x-restlet:
       section: "RESUMES"
+  /resumes/exists:
+    get:
+      tags:
+      - "resumes"
+      summary: "Returns status of a users resume"
+      description: "Returns the status of a users resume:
+      
+      NOT-FOUND : No resume has been created
+      
+      DELETED : There was a resume but the user deleted it
+      
+      UPDATED : Pending approval
+      
+      APPROVED : Available in search results"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "status"
+            type: "object"
+            properties:
+              status:
+                type: "string"
+    x-restlet:
+      section: "RESUMES"      
 securityDefinitions:
   api_key:
     description: "This token needs to be sent as a HTTP header argument in every request\
