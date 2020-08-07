@@ -1,0 +1,22 @@
+get:
+  description: |-
+    Returns the status of a users resume:
+    NOT-FOUND : No resume has been created
+    DELETED : There was a resume but the user deleted it
+    UPDATED : Pending approval
+    APPROVED : Available in search results
+  responses:
+    '200':
+      description: Status 200
+      schema:
+        properties:
+          status:
+            type: string
+        required:
+          - status
+        type: object
+  summary: Returns status of a users resume
+  tags:
+    - resumes
+x-restlet:
+  section: RESUMES
