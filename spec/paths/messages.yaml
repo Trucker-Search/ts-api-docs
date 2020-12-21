@@ -7,6 +7,26 @@ get:
     - description: Who the conversation is with.
       in: query
       name: contact_id
+      required: true
+      type: number
+    - default: 'yes'
+      description: >-
+        This will mark all messages in the conversation as read for the logged
+        in user.
+      enum:
+        - 'yes'
+        - 'no'
+      in: query
+      name: mark_as_read
+      required: false
+      type: string
+    - default: 'no'
+      description: This only gets the newest message from the specified contact.
+      enum:
+        - 'yes'
+        - 'no'
+      in: query
+      name: newest_message_only
       required: false
       type: string
     - in: header
