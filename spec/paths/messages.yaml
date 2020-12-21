@@ -21,7 +21,9 @@ get:
       required: false
       type: string
     - default: 'no'
-      description: This only gets the newest message from the specified contact.
+      description: >-
+        This gets the latest new message from the specified contact. It will
+        return an emptoy list if there are no new messages.
       enum:
         - 'yes'
         - 'no'
