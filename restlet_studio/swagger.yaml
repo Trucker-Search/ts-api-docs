@@ -685,9 +685,27 @@ paths:
       parameters:
       - name: "contact_id"
         in: "query"
+        required: true
+        type: "number"
+        description: "Who the conversation is with."
+      - name: "mark_as_read"
+        in: "query"
         required: false
         type: "string"
-        description: "Who the conversation is with."
+        enum:
+        - "yes"
+        - "no"
+        default: "yes"
+        description: "This will mark all messages in the conversation as read for the logged in user."
+      - name: "newest_message_only"
+        in: "query"
+        required: false
+        type: "string"
+        enum:
+        - "yes"
+        - "no"
+        default: "no"
+        description: "This only gets the newest message from the specified contact."
       - name: "end-user-token"
         in: "header"
         required: true
