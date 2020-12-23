@@ -705,7 +705,7 @@ paths:
         - "yes"
         - "no"
         default: "no"
-        description: "This gets the latest new message from the specified contact. It will return an emptoy list if there are no new messages."
+        description: "This gets the latest new message from the specified contact. It will return an empty list if there are no new messages."
       - name: "end-user-token"
         in: "header"
         required: true
