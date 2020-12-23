@@ -23,7 +23,7 @@ get:
     - default: 'no'
       description: >-
         This gets the latest new message from the specified contact. It will
-        return an emptoy list if there are no new messages.
+        return an empty list if there are no new messages.
       enum:
         - 'yes'
         - 'no'
