@@ -101,7 +101,7 @@ get:
       type: string
     - in: query
       minimum: 0
-      name: driver_experience
+      name: total_years_experience
       required: false
       type: integer
     - enum:
