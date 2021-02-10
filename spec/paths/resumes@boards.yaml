@@ -96,7 +96,7 @@ get:
         - local
         - OTR
       in: query
-      name: driver_distance
+      name: distance_preference
       required: false
       type: string
     - in: query
