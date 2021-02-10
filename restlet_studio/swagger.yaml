@@ -1418,7 +1418,7 @@ paths:
         enum:
         - "team"
         - "single"
-      - name: "driver_distance"
+      - name: "distance_preference"
         in: "query"
         required: false
         type: "string"
