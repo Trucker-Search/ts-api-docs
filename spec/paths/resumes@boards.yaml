@@ -32,7 +32,7 @@ get:
     - default: 30
       description: Will be set if city is.
       in: query
-      maximum: 30
+      maximum: 300
       minimum: 1
       name: radius
       required: false
