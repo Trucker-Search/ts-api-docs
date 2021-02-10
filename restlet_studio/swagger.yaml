@@ -1365,7 +1365,7 @@ paths:
         default: 30
         minimum: 1
         maximum: 300
-      - name: "drive_type"
+      - name: "position"
         in: "query"
         required: false
         type: "string"
