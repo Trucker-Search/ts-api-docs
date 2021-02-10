@@ -43,7 +43,7 @@ get:
         - company
         - owner/operator
       in: query
-      name: drive_type
+      name: position
       required: false
       type: string
     - description: >-
