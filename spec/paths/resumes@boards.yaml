@@ -110,7 +110,6 @@ get:
         - '1'
         - '2'
         - '3'
-        - none
       in: query
       name: license_type
       required: false
