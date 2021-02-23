@@ -1404,7 +1404,7 @@ paths:
         enum:
         - "east coast"
         - "west coast"
-        - "mid west"
+        - "midwest"
         - "nationwide"
         - "north east"
         - "north west"
