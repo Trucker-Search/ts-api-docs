@@ -40,8 +40,8 @@ get:
     - enum:
         - other
         - student
-        - company
-        - owner/operator
+        - company driver
+        - owner operator
       in: query
       name: position
       required: false
