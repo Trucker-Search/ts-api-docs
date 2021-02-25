@@ -1444,6 +1444,18 @@ paths:
         in: "query"
         required: false
         type: "integer"
+      - name: "list_order"
+        in: "query"
+        required: false
+        type: "string"
+        description: "You can sort on any field in the return object."
+      - name: "list_direction"
+        in: "query"
+        required: false
+        type: "string"
+        enum:
+        - "asc"
+        - "desc"
       - name: "item_count"
         in: "query"
         required: false
