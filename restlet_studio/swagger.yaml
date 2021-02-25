@@ -1372,8 +1372,8 @@ paths:
         enum:
         - "other"
         - "student"
-        - "company"
-        - "owner/operator"
+        - "company driver"
+        - "owner operator"
       - name: "trailer_experience"
         in: "query"
         required: false
@@ -2599,8 +2599,8 @@ definitions:
     enum:
     - "other"
     - "student"
-    - "company"
-    - "owner/operator"
+    - "company driver"
+    - "owner operator"
     x-restlet:
       section: "common_definitions"
   regions:
