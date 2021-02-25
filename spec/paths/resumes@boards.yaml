@@ -118,6 +118,18 @@ get:
       name: page_number
       required: false
       type: integer
+    - description: You can sort on any field in the return object.
+      in: query
+      name: list_order
+      required: false
+      type: string
+    - enum:
+        - asc
+        - desc
+      in: query
+      name: list_direction
+      required: false
+      type: string
     - description: Results per page.
       in: query
       maximum: 100
