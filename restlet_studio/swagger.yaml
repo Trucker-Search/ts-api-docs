@@ -2387,7 +2387,7 @@ definitions:
           state:
             type: "string"
             maxLength: 4
-          website_address:
+          web_page:
             type: "string"
             description: "Only available to subscribed users."
             maxLength: 40
