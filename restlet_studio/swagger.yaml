@@ -2429,6 +2429,9 @@ definitions:
             enum:
             - "A"
             - "B"
+            - "1"
+            - "2"
+            - "3"
           tickets:
             type: "integer"
             minimum: 0
