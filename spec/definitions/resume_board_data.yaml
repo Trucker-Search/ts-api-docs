@@ -45,7 +45,7 @@ properties:
       state:
         maxLength: 4
         type: string
-      website_address:
+      web_page:
         description: Only available to subscribed users.
         maxLength: 40
         type: string
