@@ -1435,6 +1435,7 @@ paths:
         type: "string"
         required: false
         enum:
+        - "none"
         - "A"
         - "B"
         - "1"
