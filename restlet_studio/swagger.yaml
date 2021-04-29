@@ -678,10 +678,13 @@ paths:
       tags:
       - "messages"
       summary: "Get a conversation."
-      description: "This is the method that pulls down a conversation. For our site\
-        \ this is the main portion of the page. Internally we have other statuses\
-        \ like pending, and rejected, but a public users of our API doesn t have access\
-        \ to them."
+      description: "This is the method that pulls down a conversation. Eeach user can only
+        \ only have one conversation per contact. \n Hidden messages are returned along with the 
+        \ normal sent & read messages. This gives you the API developer the option to show
+        \ them if requested by the user, as well as updating individual messages. Hidden messages 
+        \ ignore the mark_as_read flag. \n
+        \ Internally we have other statuses like pending, and rejected, but public users 
+        \ of our API don't have access to them."
       parameters:
       - name: "contact_id"
         in: "query"
@@ -749,6 +752,45 @@ paths:
           description: "Status 202"
           schema:
             $ref: "#/definitions/conversation_list"
+    patch:
+      tags:
+      - "messages"
+      summary: "Alter a message status"
+      description: ¨ 
+      consumes: []
+      parameters:
+      - name: "end-user-token"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "contact_id"
+          - "date_sent"
+          - "status"
+          properties:
+            contact_id:
+              type: "integer"
+              description: "Which contact's conversation."
+            date_sent:
+              type: "string"
+              description: "This should be a YYYY-MM-DD HH:MM:SS string like in a conversation message."
+            status:
+              type: "string"
+              description: "the new status."
+              enum:
+              - "user_block"
+              - "sent"
+              - "read"
+      responses:
+        202:
+          description: "Status 202"
+          schema:
+            $ref: "#/definitions/conversation_list"
     x-restlet:
       section: "MESSAGES"
   /messages/contacts:
@@ -796,10 +838,13 @@ paths:
                         \ but it has not yet been read by them. Messages are automatically\
                         \ marked as read when the GET /messages endpoint is called\
                         \ for that conversation. This will return null when the contact\
-                        \ has not yet sent a message back to your user."
+                        \ has not yet sent a message back to your user. \n
+                        \ user_block means that the user has blocked this contact. You can use 
+                        \ the patch method to remove the block."
                       enum:
                       - "sent"
                       - "read"
+                      - "user_block"
                     last_received:
                       type: "string"
                       format: "date-time"
@@ -812,7 +857,8 @@ paths:
       summary: "Move a contact from one folder to another."
       description: "By default all new contacts end up in Active, or Pending depending\
         \ on who sent a message. Also users are unable to \"delete\" contacts, but\
-        \ you can simulate that using this endpoint to move to Trash."
+        \ you can simulate that using this endpoint to a contact move to the Trash folder.\n
+        \ By changing the status to user_block the system will mark all future messages from the contact as user_block."
       consumes: []
       parameters:
       - name: "end-user-token"
@@ -826,16 +872,19 @@ paths:
           type: "object"
           required:
           - "contact_id"
-          - "new_folder"
-          - "old_folder"
           properties:
             contact_id:
               type: "integer"
               description: "Contact to move."
             new_folder:
               type: "integer"
+              description: "If you include either the new or old folder, the other must be included."
             old_folder:
               type: "integer"
+              description: "If you include either the new or old folder, the other must be included."
+            block_user:
+              type: "boolean"
+              description: "Setting this to true will set the status of incomming messages to 'user_block'. It will also set the conversation status to 'user_block'. \n Setting it to false will remove this filter. It will also revert the conversation status. It will not change the status of messages already sent by the contact."
       responses:
         204:
           description: "Status 204"
