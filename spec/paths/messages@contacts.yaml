@@ -59,11 +59,11 @@ get:
     - messages_contacts
 patch:
   consumes: []
-  description: >-
-    By default all new contacts end up in Active, or Pending depending on who
-    sent a message. Also users are unable to "delete" contacts, but you can
-    simulate that using this endpoint to a contact move to the Trash folder.
-      By changing the status to user_block the system will mark all future messages from the contact as user_block.
+  description: >
+    By default all new contacts are able to send messages to the user. By
+    blocking a contact, all future messages from the contact will be marked as
+    user_block.
+      Also by design, users are unable to "delete" contacts, but this action will be   simulated using this endpoint. In order to hide the conversation move it to the Trash folder.
   parameters:
     - in: header
       name: end-user-token
@@ -100,7 +100,7 @@ patch:
   responses:
     '204':
       description: Status 204
-  summary: Move a contact from one folder to another.
+  summary: Move a contact from one folder to another or block the contact.
   tags:
     - messages_contacts
 x-restlet:
