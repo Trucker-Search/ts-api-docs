@@ -770,13 +770,13 @@ paths:
           type: "object"
           required:
           - "contact_id"
-          - "date_sent"
+          - "sent_date"
           - "status"
           properties:
             contact_id:
               type: "integer"
               description: "Which contact's conversation."
-            date_sent:
+            sent_date:
               type: "string"
               description: "This should be a YYYY-MM-DD HH:MM:SS string like in a conversation message."
             status:
