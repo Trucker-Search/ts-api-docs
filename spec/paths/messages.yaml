@@ -60,7 +60,7 @@ patch:
           contact_id:
             description: Which contact's conversation.
             type: integer
-          date_sent:
+          sent_date:
             description: >-
               This should be a YYYY-MM-DD HH:MM:SS string like in a conversation
               message.
@@ -74,7 +74,7 @@ patch:
             type: string
         required:
           - contact_id
-          - date_sent
+          - sent_date
           - status
         type: object
   responses:
