@@ -74,7 +74,7 @@ patch:
       required: true
       schema:
         properties:
-          block_user:
+          block_contact:
             description: >-
               Setting this to true will set the status of incomming messages to
               'user_block'. It will also set the conversation status to
