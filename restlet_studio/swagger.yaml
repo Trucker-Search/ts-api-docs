@@ -2243,6 +2243,7 @@ definitions:
               enum:
               - "read"
               - "sent"
+              - "user_block"
     x-restlet:
       section: "MESSAGES"
   profile_patch_response:
