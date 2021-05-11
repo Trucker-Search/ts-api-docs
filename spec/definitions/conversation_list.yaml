@@ -15,6 +15,7 @@ properties:
           enum:
             - read
             - sent
+            - user_block
           type: string
       required:
         - date_sent
