@@ -1504,8 +1504,8 @@ paths:
         required: false
         type: "string"
         enum:
-        - "asc"
-        - "desc"
+        - "-asc"
+        - "-desc"
       - name: "item_count"
         in: "query"
         required: false
@@ -2475,7 +2475,7 @@ definitions:
             enum:
             - "male"
             - "female"
-          license:
+          license_type:
             type: "string"
             enum:
             - "A"
