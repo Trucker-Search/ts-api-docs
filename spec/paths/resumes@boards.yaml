@@ -125,8 +125,8 @@ get:
       required: false
       type: string
     - enum:
-        - asc
-        - desc
+        - '-asc'
+        - '-desc'
       in: query
       name: list_direction
       required: false
