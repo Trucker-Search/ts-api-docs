@@ -2415,37 +2415,35 @@ definitions:
             type: "integer"
             description: "Should we depricate this? How many new resumes come with\
               \ this? Only available to subscribed users."
-            maximum: 20
+            maximum: 14
           first_name:
             type: "string"
             description: "Only available to subscribed users."
-            maxLength: 20
-          home_phone:
+            maxLength: 50
+          contact_number:
             type: "integer"
-            description: "DEVNOTE: Look into why this is 20 chars and see if we can\
-              \ drop it it to 11 or 13. Only available to subscribed users. We could\
-              \ also split this like we do with DF and have an ext section, but that\
-              \ doesn't make a lot of sense for the home phone."
-            maximum: 20
+            description: "Only available to subscribed users."
+            maximum: 14
           id:
             type: "integer"
-            description: "This is the ID you would use to send a message. Only available\
-              \ to logged in users."
+            description: "This is the ID you would use to send a message. Only available to logged in users."
           last_name:
             type: "string"
             description: "Only available to subscribed users."
-            maxLength: 20
+            maxLength: 50
           state:
             type: "string"
-            maxLength: 4
+            maxLength: 3
           web_page:
             type: "string"
             description: "Only available to subscribed users."
-            maxLength: 40
-          work_phone:
+            maxLength: 120
+          mobile_number:
             type: "integer"
             description: "Same as home phone. Only available to subscribed users."
-            maximum: 20
+            maximum: 14
+          mobile_carrier:
+            $ref: "#/definitions/mobile_carriers"
           zip:
             type: "string"
             description: "Only available to subscribed users."
