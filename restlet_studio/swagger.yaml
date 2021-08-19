@@ -1335,7 +1335,7 @@ paths:
         201:
           description: "Object created"
           headers:
-            url:
+            Location:
               type: "string"
               description: "Link to the newly created resume."
     delete:
