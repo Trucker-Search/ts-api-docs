@@ -156,7 +156,10 @@ paths:
               type: "string"
             realm:
               type: "string"
-              description: "email, username."
+              enum:
+              - "email"
+              - "username"
+              description: "Choose what type of login this is."
             secret:
               type: "string"
       responses:
@@ -282,6 +285,12 @@ paths:
               type: "string"
             password:
               type: "string"
+            status:
+              type: "string"
+              enum:
+              - employer
+              - driver
+              description: "It defaults to employer."
       responses:
         201:
           description: "Status 201"
