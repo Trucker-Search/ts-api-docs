@@ -11,6 +11,12 @@ post:
             type: string
           password:
             type: string
+          status:
+            description: It defaults to employer.
+            enum:
+              - employer
+              - driver
+            type: string
         required:
           - email
           - password

@@ -46,7 +46,10 @@ post:
           login:
             type: string
           realm:
-            description: 'email, username.'
+            description: Choose what type of login this is.
+            enum:
+              - email
+              - username
             type: string
           secret:
             type: string
