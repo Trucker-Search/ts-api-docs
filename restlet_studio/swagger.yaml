@@ -2003,6 +2003,46 @@ definitions:
             enum:
             - "single"
             - "team"
+      perks:
+        type: "object"
+        properties:
+          Image_url:
+            type: "string"
+            description: "We will download the image from the URL. If no image is\
+              \ found we will automatically generate one. We accept an image file\
+              \ of up to 1MB in size. All images will be resized to 200x200. If this\
+              \ value is specified image_data cannot be used."
+          description:
+            type: "string"
+            description: "This can be long form text."
+          distance_preference:
+            type: "string"
+            default: "OTR"
+            enum:
+            - "OTR"
+            - "local"
+          image_data:
+            type: "string"
+            description: "Base64 string of image. Base64 data must decode into a valid\
+              \ jpg or png file no more than 1MB in size. All images will be resized\
+              \ to 200x200. If this value is specified image_url cannot be used."
+          locations:
+            type: "array"
+            description: "If included the array only accepts 2 digit state codes.\
+              \ MO, BC, AR, and so on. \n\nHow did Jon implement country level coding?\
+              \ I think at the time I said it should be done by the \"front end\"\
+              , I am still for that, but if the hack is already in place in the backend\
+              \ I am open to leveraging it."
+            items:
+              type: "string"
+          region_preference:
+            $ref: "#/definitions/regions"
+          team_preference:
+            type: "string"
+            default: "single"
+            enum:
+            - "single"
+            - "team"            
     x-restlet:
       section: "JOBS"
   job_list_user:
