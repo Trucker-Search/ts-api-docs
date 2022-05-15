@@ -2006,43 +2006,78 @@ definitions:
       perks:
         type: "object"
         properties:
-          Image_url:
-            type: "string"
-            description: "We will download the image from the URL. If no image is\
-              \ found we will automatically generate one. We accept an image file\
-              \ of up to 1MB in size. All images will be resized to 200x200. If this\
-              \ value is specified image_data cannot be used."
-          description:
-            type: "string"
-            description: "This can be long form text."
-          distance_preference:
-            type: "string"
-            default: "OTR"
-            enum:
-            - "OTR"
-            - "local"
-          image_data:
-            type: "string"
-            description: "Base64 string of image. Base64 data must decode into a valid\
-              \ jpg or png file no more than 1MB in size. All images will be resized\
-              \ to 200x200. If this value is specified image_url cannot be used."
-          locations:
-            type: "array"
-            description: "If included the array only accepts 2 digit state codes.\
-              \ MO, BC, AR, and so on. \n\nHow did Jon implement country level coding?\
-              \ I think at the time I said it should be done by the \"front end\"\
-              , I am still for that, but if the hack is already in place in the backend\
-              \ I am open to leveraging it."
-            items:
+          paid_vacation:
+              type: "boolean"
+              description: "Does this job offer paid vacation."
+          paid_sick_time:
+              type: "boolean"
+              description: "Does this job offer paid sick time."
+          paid_holidays:
+              type: "boolean"
+              description: "Does this job offer paid holidays."
+          round_trip_loads:
+              type: "boolean"
+              description: "Does this job offer round trip loads."
+          health_dental_life_insurance:
+              type: "boolean"
+              description: "Does this job offer health, dental and life insurance."
+          pet_friendly:
+              type: "boolean"
+              description: "Is this job pet friendly."
+          referral_bonuses:
+              type: "boolean"
+              description: "Does this job offer referral bonuses."
+          lease_purchase_available:
+              type: "boolean"
+              description: "Lease purchase available."
+          direct_deposit:
+              type: "boolean"
+              description: "Does this job offer direct deposit."
+          no_touch_freight:
+              type: "boolean"
+              description: "Does this job offer no touch freight."
+          all_miles_paid:
+              type: "boolean"
+              description: "Are all miles paid."
+          free_roadside_assistance:
+              type: "boolean"
+              description: "Does this job offer free roadside assistance."
+          company_fuel_card:
+              type: "boolean"
+              description: "Company fuel card."
+          safety_bonus:
+              type: "boolean"
+              description: "Safety bonus."
+          24x7_dispatch:
+              type: "boolean"
+              description: "24 x 7 dispatch."
+          rider_program:
+              type: "boolean"
+              description: "Rider program."
+          detention_layover_pay:
+              type: "boolean"
+              description: "Detention layover pay."
+          home:
               type: "string"
-          region_preference:
-            $ref: "#/definitions/regions"
-          team_preference:
-            type: "string"
-            default: "single"
-            enum:
-            - "single"
-            - "team"            
+              enum:
+              - "daily"
+              - "weekly"
+              - "biweekly"
+              - "monthly"
+              - "other"
+          paid:
+              type: "string"
+              enum:
+              - "weekly"
+              - "biweekly"
+              - "monthly"
+              - "other"
+          sign_on_bonus:
+              type: "number"
+              description: "Sign on bonus."
+          equipment_age:
+              type: "number"
+              description: "Equipment age."
     x-restlet:
       section: "JOBS"
   job_list_user:
