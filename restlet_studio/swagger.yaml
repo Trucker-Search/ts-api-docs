@@ -2194,6 +2194,87 @@ definitions:
                   enum:
                   - "team"
                   - "single"
+            perks:
+              type: "object"
+              properties:
+                paid_vacation:
+                    type: "boolean"
+                    description: "Does this job offer paid vacation."
+                paid_sick_time:
+                    type: "boolean"
+                    description: "Does this job offer paid sick time."
+                paid_holidays:
+                    type: "boolean"
+                    description: "Does this job offer paid holidays."
+                round_trip_loads:
+                    type: "boolean"
+                    description: "Does this job offer round trip loads."
+                health_insurance:
+                    type: "boolean"
+                    description: "Does this job offer health insurance."
+                dental_insurance:
+                    type: "boolean"
+                    description: "Does this job offer dental insurance."
+                life_insurance:
+                    type: "boolean"
+                    description: "Does this job offer life insurance."
+                pet_friendly:
+                    type: "boolean"
+                    description: "Is this job pet friendly."
+                referral_bonuses:
+                    type: "boolean"
+                    description: "Does this job offer referral bonuses."
+                lease_purchase_available:
+                    type: "boolean"
+                    description: "Lease purchase available."
+                direct_deposit:
+                    type: "boolean"
+                    description: "Does this job offer direct deposit."
+                no_touch_freight:
+                    type: "boolean"
+                    description: "Does this job offer no touch freight."
+                all_miles_paid:
+                    type: "boolean"
+                    description: "Are all miles paid."
+                free_roadside_assistance:
+                    type: "boolean"
+                    description: "Does this job offer free roadside assistance."
+                company_fuel_card:
+                    type: "boolean"
+                    description: "Company fuel card."
+                safety_bonus:
+                    type: "boolean"
+                    description: "Safety bonus."
+                24x7_dispatch:
+                    type: "boolean"
+                    description: "24 x 7 dispatch."
+                rider_program:
+                    type: "boolean"
+                    description: "Rider program."
+                detention_layover_pay:
+                    type: "boolean"
+                    description: "Detention layover pay."
+                home:
+                    type: "string"
+                    enum:
+                    - "daily"
+                    - "weekly"
+                    - "biweekly"
+                    - "monthly"
+                    - "other"
+                paid:
+                    type: "string"
+                    enum:
+                    - "weekly"
+                    - "biweekly"
+                    - "monthly"
+                    - "other"
+                sign_on_bonus:
+                    type: "number"
+                    description: "Sign on bonus."
+                equipment_age:
+                    type: "number"
+                    description: "Equipment age."                  
       page_number:
         type: "integer"
       total_items:
