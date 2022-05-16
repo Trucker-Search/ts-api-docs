@@ -2018,9 +2018,15 @@ definitions:
           round_trip_loads:
               type: "boolean"
               description: "Does this job offer round trip loads."
-          health_dental_life_insurance:
+          health_insurance:
               type: "boolean"
-              description: "Does this job offer health, dental and life insurance."
+              description: "Does this job offer health insurance."
+          dental_insurance:
+              type: "boolean"
+              description: "Does this job offer dental insurance."
+          life_insurance:
+              type: "boolean"
+              description: "Does this job offer life insurance."
           pet_friendly:
               type: "boolean"
               description: "Is this job pet friendly."
