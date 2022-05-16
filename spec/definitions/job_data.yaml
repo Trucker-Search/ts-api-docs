@@ -49,6 +49,9 @@ properties:
       company_fuel_card:
         description: Company fuel card.
         type: boolean
+      dental_insurance:
+        description: Does this job offer dental insurance.
+        type: boolean
       detention_layover_pay:
         description: Detention layover pay.
         type: boolean
@@ -61,8 +64,8 @@ properties:
       free_roadside_assistance:
         description: Does this job offer free roadside assistance.
         type: boolean
-      health_dental_life_insurance:
-        description: 'Does this job offer health, dental and life insurance.'
+      health_insurance:
+        description: Does this job offer health insurance.
         type: boolean
       home:
         enum:
@@ -74,6 +77,9 @@ properties:
         type: string
       lease_purchase_available:
         description: Lease purchase available.
+        type: boolean
+      life_insurance:
+        description: Does this job offer life insurance.
         type: boolean
       no_touch_freight:
         description: Does this job offer no touch freight.
