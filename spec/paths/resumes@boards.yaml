@@ -13,7 +13,8 @@ get:
       name: resume_id
       required: false
       type: integer
-    - description: A list of state codes.
+    - collectionFormat: multi
+      description: A list of state codes.
       in: query
       items:
         maxLength: 2
@@ -46,7 +47,8 @@ get:
       name: position
       required: false
       type: string
-    - description: >-
+    - collectionFormat: multi
+      description: >-
         You can have up to an additional 4 custom trailers of a length of 6 or
         less each.
       in: query
