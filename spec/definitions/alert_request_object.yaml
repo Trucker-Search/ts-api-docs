@@ -21,6 +21,14 @@ properties:
     description: >-
       Frequency in minutes that the alert is sent. We stop sending alerts
       between 12am and 3am CST.
+    enum:
+      - 15
+      - 30
+      - 60
+      - 120
+      - 240
+      - 480
+      - 1440
     type: integer
 required:
   - notification_medium

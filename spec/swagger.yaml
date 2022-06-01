@@ -35,6 +35,11 @@ info:
     url: 'https://www.truckersearch.com/home/images/logo-2015.png'
 produces:
   - application/json
+responses:
+  error_422:
+    description: Unprocessable Entity. More information provided in the return object.
+    schema:
+      $ref: '#/definitions/error_object'
 schemes:
   - https
 security:
