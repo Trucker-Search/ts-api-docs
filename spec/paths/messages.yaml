@@ -2,8 +2,8 @@ get:
   description: >-
     This is the method that pulls down a conversation. Eeach user can only  only
     have one conversation per contact. 
-     Hidden messages are returned along with the   normal sent & read messages. This gives you the API developer the option to show  them if requested by the user, as well as updating individual messages. Hidden messages   ignore the mark_as_read flag. 
-      Internally we have other statuses like pending, and rejected, but public users   of our API don't have access to them.
+     Hidden messages are returned along with the  normal sent & read messages. This gives you the API developer the option to show  them if requested by the user, as well as updating individual messages. Hidden messages  ignore the mark_as_read flag. 
+      Internally we have other statuses like pending, and rejected, but public users  of our API don't have access to them.
   parameters:
     - description: Who the conversation is with.
       in: query

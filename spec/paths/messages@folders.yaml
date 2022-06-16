@@ -24,7 +24,8 @@ get:
     messages each folder contains. I belive the website's behavior is 0 or 1 per
     contact, but it could be 1 per total messages. 
   parameters:
-    - description: >-
+    - collectionFormat: multi
+      description: >-
         Just get a few folders. This takes the place of a specific new count
         function.
       in: query
