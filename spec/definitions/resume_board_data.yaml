@@ -57,9 +57,9 @@ properties:
         type: string
     required:
       - city
+      - state
       - first_name
       - last_name
-      - state
     type: object
   created:
     format: date-time

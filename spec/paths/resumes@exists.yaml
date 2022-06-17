@@ -5,7 +5,6 @@ get:
     DELETED : There was a resume but the user deleted it
     UPDATED : Pending approval
     APPROVED : Available in search results
-  parameters: []
   responses:
     '200':
       description: Status 200

@@ -5,6 +5,98 @@ get:
       name: state
       required: false
       type: string
+    - in: query
+      name: 24x7_dispatch
+      required: false
+      type: boolean
+    - in: query
+      name: all_miles_paid
+      required: false
+      type: boolean
+    - in: query
+      name: company_fuel_card
+      required: false
+      type: boolean
+    - in: query
+      name: dental_insurance
+      required: false
+      type: boolean
+    - in: query
+      name: detention_layover_pay
+      required: false
+      type: boolean
+    - in: query
+      name: direct_deposit
+      required: false
+      type: boolean
+    - in: query
+      name: equipment_age
+      required: false
+      type: number
+    - in: query
+      name: free_roadside_assistance
+      required: false
+      type: boolean
+    - in: query
+      name: health_insurance
+      required: false
+      type: boolean
+    - in: query
+      name: home
+      required: false
+      type: string
+    - in: query
+      name: lease_purchase_available
+      required: false
+      type: boolean
+    - in: query
+      name: life_insurance
+      required: false
+      type: boolean
+    - in: query
+      name: no_touch_freight
+      required: false
+      type: boolean
+    - in: query
+      name: paid
+      required: false
+      type: string
+    - in: query
+      name: paid_holidays
+      required: false
+      type: boolean
+    - in: query
+      name: paid_sick_time
+      required: false
+      type: boolean
+    - in: query
+      name: paid_vacation
+      required: false
+      type: boolean
+    - in: query
+      name: pet_friendly
+      required: false
+      type: boolean
+    - in: query
+      name: referral_bonuses
+      required: false
+      type: boolean
+    - in: query
+      name: rider_program
+      required: false
+      type: boolean
+    - in: query
+      name: round_trip_loads
+      required: false
+      type: boolean
+    - in: query
+      name: safety_bonus
+      required: false
+      type: boolean
+    - in: query
+      name: sign_on_bonus
+      required: false
+      type: number
     - description: 'If specified it will return either only local jobs, or only OTR jobs.'
       enum:
         - local
