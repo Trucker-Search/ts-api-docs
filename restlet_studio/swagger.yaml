@@ -1697,6 +1697,7 @@ definitions:
       create_missing_account:
         description: 'If true the endpoint will create the users account in case it doesnt already exist.'
         type: boolean
+        default: false
     required:
       - token
       - service
