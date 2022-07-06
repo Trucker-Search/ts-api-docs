@@ -173,6 +173,9 @@ properties:
             - region_preference
             - team_preference
           type: object
+        relevance:
+          description: Search relevance score.
+          type: integer
       required:
         - bill_method
         - contact
