@@ -2472,7 +2472,10 @@ definitions:
                     description: "Sign on bonus."
                 equipment_age:
                     type: "number"
-                    description: "Equipment age."                  
+                    description: "Equipment age." 
+            relevance:
+              type: "integer"
+              description: "Search relevance score."
       page_number:
         type: "integer"
       total_items:
