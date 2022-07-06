@@ -160,6 +160,9 @@ properties:
             - states
             - team_preference
           type: object
+        relevance:
+          description: Search relevance score.
+          type: integer
       required:
         - contact
         - job_id
