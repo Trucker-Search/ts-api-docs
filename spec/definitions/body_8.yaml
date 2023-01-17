@@ -1,0 +1,19 @@
+properties:
+  block_contact:
+    description: >-
+      Setting this to true will set the status of incomming messages to
+      'user_block'. It will also set the conversation status to 'user_block'. 
+       Setting it to false will remove this filter. It will also revert the conversation status. It will not change the status of messages already sent by the contact.
+    type: boolean
+  contact_id:
+    description: Contact to move.
+    type: integer
+  new_folder:
+    description: 'If you include either the new or old folder, the other must be included.'
+    type: integer
+  old_folder:
+    description: 'If you include either the new or old folder, the other must be included.'
+    type: integer
+required:
+  - contact_id
+type: object

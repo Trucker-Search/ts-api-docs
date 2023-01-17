@@ -1,0 +1,15 @@
+description: >-
+  Current version doesn't really work with the documentation.  because of
+  variable folder names. It looks like this.
+
+
+  {"Active":0,"Trash":0,"test 5":0,"Pending":0,"TrucksNcars":0,"new folder
+  2":0,"Deleted":0,"test1":0,"NewFolderTest":0}
+properties:
+  list:
+    items:
+      $ref: '#/definitions/inline_response_200_5_list'
+    type: array
+required:
+  - list
+type: object

@@ -1,0 +1,32 @@
+properties:
+  address:
+    maxLength: 64
+    type: string
+  city:
+    maxLength: 45
+    type: string
+  contact:
+    maxLength: 45
+    type: string
+  email:
+    maxLength: 45
+    type: string
+  name:
+    maxLength: 45
+    type: string
+  phone:
+    type: integer
+  state:
+    maxLength: 2
+    type: string
+  website:
+    maxLength: 500
+    type: string
+  zip:
+    maxLength: 10
+    type: string
+required:
+  - contact
+  - email
+  - phone
+type: object

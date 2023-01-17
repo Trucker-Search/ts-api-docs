@@ -1,0 +1,16 @@
+properties:
+  login:
+    type: string
+  realm:
+    description: Choose what type of login this is.
+    enum:
+      - email
+      - username
+    type: string
+  secret:
+    type: string
+required:
+  - login
+  - realm
+  - secret
+type: object

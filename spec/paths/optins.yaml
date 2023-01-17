@@ -47,35 +47,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          list:
-            items:
-              properties:
-                notification_channel:
-                  default: all
-                  type: string
-                notification_medium:
-                  enum:
-                    - email
-                    - text
-                    - push
-                  type: string
-                status:
-                  enum:
-                    - optin
-                    - optout
-                    - no response
-                    - no record
-                  type: string
-              required:
-                - notification_channel
-                - notification_medium
-                - status
-              type: object
-            type: array
-        required:
-          - list
-        type: object
+        $ref: '#/definitions/inline_response_200_7'
   summary: STAGE=UNKNOWN Get the optin status of a user.
 patch:
   consumes: []
@@ -88,21 +60,7 @@ patch:
       name: body
       required: true
       schema:
-        properties:
-          notification_medium:
-            enum:
-              - email
-              - text
-            type: string
-          verification_code:
-            description: >-
-              This code is generated on a POST, and will arrive via the same
-              medium it was designated for.
-            type: string
-        required:
-          - notification_medium
-          - verification_code
-        type: object
+        $ref: '#/definitions/body_11'
   responses:
     '204':
       description: Status 204
@@ -123,38 +81,7 @@ post:
       name: body
       required: true
       schema:
-        properties:
-          notification_channel:
-            default: all
-            description: >-
-              Currently defaults to all, and is ignored. When we start using it
-              it will be for opting people out or in one list like alerts, or
-              messages, but not others.
-            type: string
-          notification_medium:
-            description: We currently only accept push
-            enum:
-              - email
-              - text
-              - push
-            type: string
-          tokens:
-            description: >-
-              This is how you can add multiple push notifications at once, or
-              for systems that have multiple tokens required.
-            example: '"tokens": { "ios": "12345678", "android": "5432344" } '
-            properties:
-              $SERVICE_OR_KEY_NAME:
-                description: >-
-                  Fill in the key in the value, and the service in the name.
-                  Look at our examples for clarification.
-                type: string
-            required:
-              - $SERVICE_OR_KEY_NAME
-            type: object
-        required:
-          - notification_medium
-        type: object
+        $ref: '#/definitions/body_10'
   responses:
     '201':
       description: Status 201

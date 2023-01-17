@@ -23,7 +23,8 @@ get:
       name: end-user-token
       required: true
       type: string
-    - description: >-
+    - collectionFormat: multi
+      description: >-
         only get a subset of alerts. As this is a get request this is specified
         as a query string parameter
       in: query
@@ -55,14 +56,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          list:
-            items:
-              $ref: '#/definitions/alert_response_object'
-            type: array
-        required:
-          - list
-        type: object
+        $ref: '#/definitions/inline_response_200'
   summary: STAGE=UNKNOWN Get a list of alerts.
   tags:
     - alerts

@@ -6,33 +6,12 @@ post:
       name: body
       required: true
       schema:
-        properties:
-          email:
-            type: string
-          password:
-            type: string
-          status:
-            description: It defaults to employer.
-            enum:
-              - employer
-              - driver
-            type: string
-        required:
-          - email
-          - password
-        type: object
+        $ref: '#/definitions/body_3'
   responses:
     '201':
       description: Status 201
       schema:
-        description: 'Will automatically log them in, and return the needed token.'
-        properties:
-          end-user-token:
-            description: Their token to show they are logged in.
-            type: string
-        required:
-          - end-user-token
-        type: object
+        $ref: '#/definitions/inline_response_201'
   summary: Create user
   tags:
     - end_user_authentications

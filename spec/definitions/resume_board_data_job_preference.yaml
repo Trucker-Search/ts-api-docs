@@ -1,0 +1,16 @@
+properties:
+  distance_preference:
+    enum:
+      - OTR
+      - local
+    type: string
+  position:
+    $ref: '#/definitions/positions'
+  region_preference:
+    $ref: '#/definitions/regions'
+  team_preference:
+    enum:
+      - single
+      - team
+    type: string
+type: object

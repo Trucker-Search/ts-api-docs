@@ -8,31 +8,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          bullet_points:
-            items:
-              default: '[]'
-              type: string
-            type: array
-          information_url:
-            default: 'null'
-            type: string
-          message:
-            default: 'null'
-            type: string
-          title:
-            default: 'null'
-            type: string
-          update_url:
-            default: 'null'
-            type: string
-        required:
-          - bullet_points
-          - information_url
-          - message
-          - title
-          - update_url
-        type: object
+        $ref: '#/definitions/inline_response_200_6'
   summary: Get any available update information.
   tags:
     - mobile update

@@ -1,0 +1,13 @@
+properties:
+  favorite_id:
+    description: The id of the favorite to add.
+    type: integer
+  type:
+    enum:
+      - job
+      - resume
+    type: string
+required:
+  - favorite_id
+  - type
+type: object

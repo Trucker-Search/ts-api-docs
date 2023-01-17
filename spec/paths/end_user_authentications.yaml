@@ -20,18 +20,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          status:
-            enum:
-              - premium_employer
-              - driver
-              - employer
-              - not_logged_in
-              - overdue_employer
-            type: string
-        required:
-          - status
-        type: object
+        $ref: '#/definitions/inline_response_200_1'
   summary: Get a users status.
   tags:
     - end_user_authentications
@@ -42,22 +31,7 @@ post:
       name: body
       required: true
       schema:
-        properties:
-          login:
-            type: string
-          realm:
-            description: Choose what type of login this is.
-            enum:
-              - email
-              - username
-            type: string
-          secret:
-            type: string
-        required:
-          - login
-          - realm
-          - secret
-        type: object
+        $ref: '#/definitions/body'
   responses:
     '201':
       description: Status 201
@@ -66,18 +40,7 @@ post:
     '422':
       description: Status 422
       schema:
-        properties:
-          code:
-            type: integer
-          description:
-            type: string
-          error:
-            type: string
-        required:
-          - code
-          - description
-          - error
-        type: object
+        $ref: '#/definitions/inline_response_422'
   summary: Log in.
   tags:
     - end_user_authentications

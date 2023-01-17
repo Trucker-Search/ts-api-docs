@@ -1,0 +1,32 @@
+properties:
+  description:
+    description: This is a large text field.
+    type: string
+  distance_preference:
+    enum:
+      - local
+      - OTR
+    type: string
+  image_url:
+    description: the uri path to the image.
+    example: 'http://df.co/job_images/ASOETUHAOSENTUHAOENUTSH.png'
+    maxLength: 32
+    type: string
+  locations:
+    items:
+      type: string
+    type: array
+  region_preference:
+    $ref: '#/definitions/regions'
+  team_preference:
+    enum:
+      - team
+      - single
+    type: string
+required:
+  - description
+  - distance_preference
+  - image_url
+  - region_preference
+  - team_preference
+type: object

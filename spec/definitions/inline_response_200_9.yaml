@@ -1,0 +1,6 @@
+properties:
+  status:
+    type: string
+required:
+  - status
+type: object

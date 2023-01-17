@@ -32,25 +32,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          bill_method:
-            enum:
-              - manual
-              - automatic
-            type: string
-          days_left:
-            description: >-
-              If the Job is not active, this value tells how many days the Job
-              can be run for before payment.
-            type: integer
-          expires_after:
-            format: date
-            type: string
-        required:
-          - bill_method
-          - days_left
-          - expires_after
-        type: object
+        $ref: '#/definitions/inline_response_200_3'
   summary: STAGE=UNK Get the status of a job ad.
   tags:
     - jobs_status
@@ -68,11 +50,7 @@ post:
       name: body
       required: true
       schema:
-        properties:
-          job_id:
-            description: The id of the job ad to activate.
-            type: string
-        type: object
+        $ref: '#/definitions/body_5'
   responses:
     '201':
       description: Status 201

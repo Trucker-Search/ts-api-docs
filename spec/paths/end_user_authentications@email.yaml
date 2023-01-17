@@ -9,12 +9,7 @@ patch:
       name: body
       required: true
       schema:
-        properties:
-          email:
-            type: string
-        required:
-          - email
-        type: object
+        $ref: '#/definitions/body_2'
   responses:
     '204':
       description: Status 204

@@ -1,0 +1,22 @@
+properties:
+  notification_channel:
+    default: all
+    type: string
+  notification_medium:
+    enum:
+      - email
+      - text
+      - push
+    type: string
+  status:
+    enum:
+      - optin
+      - optout
+      - no response
+      - no record
+    type: string
+required:
+  - notification_channel
+  - notification_medium
+  - status
+type: object

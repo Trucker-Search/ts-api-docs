@@ -1,0 +1,20 @@
+properties:
+  notification_channel:
+    default: all
+    description: >-
+      Currently defaults to all, and is ignored. When we start using it it will
+      be for opting people out or in one list like alerts, or messages, but not
+      others.
+    type: string
+  notification_medium:
+    description: We currently only accept push
+    enum:
+      - email
+      - text
+      - push
+    type: string
+  tokens:
+    $ref: '#/definitions/optins_tokens'
+required:
+  - notification_medium
+type: object

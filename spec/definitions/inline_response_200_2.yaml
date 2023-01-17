@@ -1,0 +1,6 @@
+properties:
+  count:
+    type: integer
+required:
+  - count
+type: object
