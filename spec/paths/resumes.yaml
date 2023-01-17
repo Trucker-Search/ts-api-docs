@@ -72,7 +72,7 @@ post:
     '201':
       description: Object created
       headers:
-        url:
+        Location:
           description: Link to the newly created resume.
           type: string
   summary: Submit the user's resume.

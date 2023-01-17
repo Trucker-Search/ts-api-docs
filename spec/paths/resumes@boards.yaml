@@ -32,7 +32,7 @@ get:
     - default: 30
       description: Will be set if city is.
       in: query
-      maximum: 30
+      maximum: 300
       minimum: 1
       name: radius
       required: false
@@ -40,10 +40,10 @@ get:
     - enum:
         - other
         - student
-        - company
-        - owner/operator
+        - company driver
+        - owner operator
       in: query
-      name: drive_type
+      name: position
       required: false
       type: string
     - description: >-
@@ -74,7 +74,7 @@ get:
       enum:
         - east coast
         - west coast
-        - mid west
+        - midwest
         - nationwide
         - north east
         - north west
@@ -96,21 +96,21 @@ get:
         - local
         - OTR
       in: query
-      name: driver_distance
+      name: distance_preference
       required: false
       type: string
     - in: query
       minimum: 0
-      name: driver_experience
+      name: total_years_experience
       required: false
       type: integer
     - enum:
+        - none
         - A
         - B
         - '1'
         - '2'
         - '3'
-        - none
       in: query
       name: license_type
       required: false
@@ -119,6 +119,18 @@ get:
       name: page_number
       required: false
       type: integer
+    - description: You can sort on any field in the return object.
+      in: query
+      name: list_order
+      required: false
+      type: string
+    - enum:
+        - '-asc'
+        - '-desc'
+      in: query
+      name: list_direction
+      required: false
+      type: string
     - description: Results per page.
       in: query
       maximum: 100

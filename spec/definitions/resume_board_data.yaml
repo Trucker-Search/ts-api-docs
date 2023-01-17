@@ -15,24 +15,20 @@ properties:
       city:
         maxLength: 30
         type: string
+      contact_number:
+        description: Only available to subscribed users.
+        maximum: 14
+        type: integer
       fax_number:
         description: >-
           Should we depricate this? How many new resumes come with this? Only
           available to subscribed users.
-        maximum: 20
+        maximum: 14
         type: integer
       first_name:
         description: Only available to subscribed users.
-        maxLength: 20
+        maxLength: 50
         type: string
-      home_phone:
-        description: >-
-          DEVNOTE: Look into why this is 20 chars and see if we can drop it it
-          to 11 or 13. Only available to subscribed users. We could also split
-          this like we do with DF and have an ext section, but that doesn't make
-          a lot of sense for the home phone.
-        maximum: 20
-        type: integer
       id:
         description: >-
           This is the ID you would use to send a message. Only available to
@@ -40,19 +36,21 @@ properties:
         type: integer
       last_name:
         description: Only available to subscribed users.
-        maxLength: 20
+        maxLength: 50
         type: string
-      state:
-        maxLength: 4
-        type: string
-      website_address:
-        description: Only available to subscribed users.
-        maxLength: 40
-        type: string
-      work_phone:
+      mobile_carrier:
+        $ref: '#/definitions/mobile_carriers'
+      mobile_number:
         description: Same as home phone. Only available to subscribed users.
-        maximum: 20
+        maximum: 14
         type: integer
+      state:
+        maxLength: 3
+        type: string
+      web_page:
+        description: Only available to subscribed users.
+        maxLength: 120
+        type: string
       zip:
         description: Only available to subscribed users.
         maxLength: 10
@@ -83,10 +81,13 @@ properties:
           - male
           - female
         type: string
-      license:
+      license_type:
         enum:
           - A
           - B
+          - '1'
+          - '2'
+          - '3'
         type: string
       tickets:
         minimum: 0
