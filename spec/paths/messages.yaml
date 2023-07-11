@@ -2,8 +2,8 @@ get:
   description: >-
     This is the method that pulls down a conversation. Eeach user can only  only
     have one conversation per contact. 
-     Hidden messages are returned along with the   normal sent & read messages. This gives you the API developer the option to show  them if requested by the user, as well as updating individual messages. Hidden messages   ignore the mark_as_read flag. 
-      Internally we have other statuses like pending, and rejected, but public users   of our API don't have access to them.
+     Hidden messages are returned along with the  normal sent & read messages. This gives you the API developer the option to show  them if requested by the user, as well as updating individual messages. Hidden messages  ignore the mark_as_read flag. 
+      Internally we have other statuses like pending, and rejected, but public users  of our API don't have access to them.
   parameters:
     - description: Who the conversation is with.
       in: query
@@ -56,27 +56,7 @@ patch:
       name: body
       required: true
       schema:
-        properties:
-          contact_id:
-            description: Which contact's conversation.
-            type: integer
-          sent_date:
-            description: >-
-              This should be a YYYY-MM-DD HH:MM:SS string like in a conversation
-              message.
-            type: string
-          status:
-            description: the new status.
-            enum:
-              - user_block
-              - sent
-              - read
-            type: string
-        required:
-          - contact_id
-          - sent_date
-          - status
-        type: object
+        $ref: '#/definitions/body_7'
   responses:
     '202':
       description: Status 202
@@ -101,17 +81,7 @@ post:
       name: body
       required: true
       schema:
-        properties:
-          contact_id:
-            description: Who the message is being sent to.
-            type: integer
-          message:
-            description: This can contain a small list of html tags.
-            type: string
-        required:
-          - contact_id
-          - message
-        type: object
+        $ref: '#/definitions/body_6'
   responses:
     '202':
       description: Status 202

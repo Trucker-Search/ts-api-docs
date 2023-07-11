@@ -1,0 +1,27 @@
+description: >-
+  As long as 1 sub element from contact or position is filled in this will be a
+  valid request.
+properties:
+  description:
+    description: This can be long form text.
+    type: string
+  distance_preference:
+    enum:
+      - OTR
+      - local
+    type: string
+  image_url:
+    description: Sending in an empty string will cause us to regenerate a new image.
+    type: string
+  locations:
+    items:
+      type: string
+    type: array
+  region_preference:
+    $ref: '#/definitions/regions'
+  team_preference:
+    enum:
+      - single
+      - team
+    type: string
+type: object

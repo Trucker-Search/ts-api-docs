@@ -54,19 +54,7 @@ post:
       name: body
       required: true
       schema:
-        properties:
-          favorite_id:
-            description: The id of the favorite to add.
-            type: integer
-          type:
-            enum:
-              - job
-              - resume
-            type: string
-        required:
-          - favorite_id
-          - type
-        type: object
+        $ref: '#/definitions/body_4'
   responses:
     '201':
       description: Status 201

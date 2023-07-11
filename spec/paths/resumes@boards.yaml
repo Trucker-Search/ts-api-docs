@@ -13,7 +13,8 @@ get:
       name: resume_id
       required: false
       type: integer
-    - description: A list of state codes.
+    - collectionFormat: multi
+      description: A list of state codes.
       in: query
       items:
         maxLength: 2
@@ -46,7 +47,8 @@ get:
       name: position
       required: false
       type: string
-    - description: >-
+    - collectionFormat: multi
+      description: >-
         You can have up to an additional 4 custom trailers of a length of 6 or
         less each.
       in: query
@@ -146,23 +148,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          list:
-            items:
-              $ref: '#/definitions/resume_board_data'
-            type: array
-          page_number:
-            type: integer
-          total_items:
-            type: integer
-          total_pages:
-            type: integer
-        required:
-          - list
-          - page_number
-          - total_items
-          - total_pages
-        type: object
+        $ref: '#/definitions/inline_response_200_8'
   summary: STAGE=UNK Get a list of Resumes
   tags:
     - resumes

@@ -1,0 +1,15 @@
+properties:
+  notification_medium:
+    enum:
+      - email
+      - text
+    type: string
+  verification_code:
+    description: >-
+      This code is generated on a POST, and will arrive via the same medium it
+      was designated for.
+    type: string
+required:
+  - notification_medium
+  - verification_code
+type: object

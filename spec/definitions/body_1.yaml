@@ -1,0 +1,9 @@
+properties:
+  new_password:
+    type: string
+  old_password:
+    type: string
+required:
+  - new_password
+  - old_password
+type: object

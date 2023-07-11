@@ -1,0 +1,11 @@
+properties:
+  contact_id:
+    description: Who the message is being sent to.
+    type: integer
+  message:
+    description: This can contain a small list of html tags.
+    type: string
+required:
+  - contact_id
+  - message
+type: object

@@ -1,0 +1,15 @@
+properties:
+  folder_id:
+    description: folder id
+    type: integer
+  name:
+    description: Folder Name
+    type: string
+  new_count:
+    description: How many new messages in that folder.
+    type: integer
+required:
+  - folder_id
+  - name
+  - new_count
+type: object

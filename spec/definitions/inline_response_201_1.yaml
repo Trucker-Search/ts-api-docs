@@ -1,0 +1,9 @@
+properties:
+  folder_id:
+    type: integer
+  name:
+    type: string
+required:
+  - folder_id
+  - name
+type: object

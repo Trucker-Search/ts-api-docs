@@ -1,0 +1,34 @@
+properties:
+  bill_method:
+    description: Whether or not the add will automatically renew.
+    enum:
+      - manual
+      - automatic
+    type: string
+  contact:
+    $ref: '#/definitions/job_list_user_contact'
+  days_left:
+    description: >-
+      A positive value indicates the ad is both inactive, and can be run for
+      that number of days.
+    type: integer
+  expires_after:
+    description: >-
+      If this date is set for today or in the future the job ad is currently
+      active.
+    format: date
+    type: string
+  job_id:
+    type: number
+  perks:
+    $ref: '#/definitions/job_data_patch_perks'
+  position:
+    $ref: '#/definitions/job_list_user_position'
+required:
+  - bill_method
+  - contact
+  - days_left
+  - expires_after
+  - job_id
+  - position
+type: object

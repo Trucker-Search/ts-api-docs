@@ -1,0 +1,5 @@
+properties:
+  job_id:
+    description: The id of the job ad to activate.
+    type: string
+type: object

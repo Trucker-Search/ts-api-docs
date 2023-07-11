@@ -1,0 +1,13 @@
+description: >-
+  This is how you can add multiple push notifications at once, or for systems
+  that have multiple tokens required.
+example: '"\"tokens\": { \"ios\": \"12345678\", \"android\": \"5432344\" } "'
+properties:
+  $SERVICE_OR_KEY_NAME:
+    description: >-
+      Fill in the key in the value, and the service in the name. Look at our
+      examples for clarification.
+    type: string
+required:
+  - $SERVICE_OR_KEY_NAME
+type: object

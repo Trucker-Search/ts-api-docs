@@ -15,45 +15,7 @@ get:
     '200':
       description: Status 200
       schema:
-        properties:
-          list:
-            items:
-              properties:
-                contact_company:
-                  type: string
-                contact_id:
-                  type: integer
-                contact_name:
-                  type: string
-                conversation_status:
-                  description: >-
-                    Sent means that the contact sent your user a message, but it
-                    has not yet been read by them. Messages are automatically
-                    marked as read when the GET /messages endpoint is called for
-                    that conversation. This will return null when the contact
-                    has not yet sent a message back to your user. 
-                      user_block means that the user has blocked this contact. You can use   the patch method to remove the block.
-                  enum:
-                    - sent
-                    - read
-                    - user_block
-                  type: string
-                last_received:
-                  description: >-
-                    If the contact has sent your logged in user a message, then
-                    the newest message's sent date will appear, otherwise it
-                    will be null.
-                  format: date-time
-                  type: string
-              required:
-                - contact_company
-                - contact_id
-                - contact_name
-              type: object
-            type: array
-        required:
-          - list
-        type: object
+        $ref: '#/definitions/inline_response_200_4'
   summary: Get a list of contacts for that folder.
   tags:
     - messages_contacts
@@ -63,7 +25,7 @@ patch:
     By default all new contacts are able to send messages to the user. By
     blocking a contact, all future messages from the contact will be marked as
     user_block.
-      Also by design, users are unable to "delete" contacts, but this action will be   simulated using this endpoint. In order to hide the conversation move it to the Trash folder.
+      Also by design, users are unable to "delete" contacts, but this action will be  simulated using this endpoint. In order to hide the conversation move it to the Trash folder.
   parameters:
     - in: header
       name: end-user-token
@@ -73,30 +35,7 @@ patch:
       name: body
       required: true
       schema:
-        properties:
-          block_contact:
-            description: >-
-              Setting this to true will set the status of incomming messages to
-              'user_block'. It will also set the conversation status to
-              'user_block'. 
-               Setting it to false will remove this filter. It will also revert the conversation status. It will not change the status of messages already sent by the contact.
-            type: boolean
-          contact_id:
-            description: Contact to move.
-            type: integer
-          new_folder:
-            description: >-
-              If you include either the new or old folder, the other must be
-              included.
-            type: integer
-          old_folder:
-            description: >-
-              If you include either the new or old folder, the other must be
-              included.
-            type: integer
-        required:
-          - contact_id
-        type: object
+        $ref: '#/definitions/body_8'
   responses:
     '204':
       description: Status 204

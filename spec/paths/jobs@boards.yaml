@@ -122,7 +122,7 @@ get:
         - south west
         - local
       in: query
-      name: region_preference
+      name: region
       required: false
       type: string
     - description: This will return just 1 job.

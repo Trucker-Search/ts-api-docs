@@ -5,16 +5,12 @@ get:
     DELETED : There was a resume but the user deleted it
     UPDATED : Pending approval
     APPROVED : Available in search results
+  parameters: []
   responses:
     '200':
       description: Status 200
       schema:
-        properties:
-          status:
-            type: string
-        required:
-          - status
-        type: object
+        $ref: '#/definitions/inline_response_200_9'
   summary: Returns status of a users resume
   tags:
     - resumes

@@ -1,0 +1,32 @@
+properties:
+  accidents:
+    minimum: 0
+    type: integer
+  age:
+    enum:
+      - 18-20
+      - 21-25
+      - 26-30
+      - Over 30
+    type: string
+  gender:
+    enum:
+      - male
+      - female
+    type: string
+  license_type:
+    enum:
+      - A
+      - B
+      - '1'
+      - '2'
+      - '3'
+    type: string
+  tickets:
+    minimum: 0
+    type: integer
+required:
+  - accidents
+  - age
+  - tickets
+type: object

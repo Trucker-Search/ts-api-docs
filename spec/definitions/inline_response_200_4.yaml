@@ -1,0 +1,8 @@
+properties:
+  list:
+    items:
+      $ref: '#/definitions/inline_response_200_4_list'
+    type: array
+required:
+  - list
+type: object

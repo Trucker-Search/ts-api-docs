@@ -1,0 +1,30 @@
+properties:
+  contact_company:
+    type: string
+  contact_id:
+    type: integer
+  contact_name:
+    type: string
+  conversation_status:
+    description: >-
+      Sent means that the contact sent your user a message, but it has not yet
+      been read by them. Messages are automatically marked as read when the GET
+      /messages endpoint is called for that conversation. This will return null
+      when the contact has not yet sent a message back to your user. 
+        user_block means that the user has blocked this contact. You can use  the patch method to remove the block.
+    enum:
+      - sent
+      - read
+      - user_block
+    type: string
+  last_received:
+    description: >-
+      If the contact has sent your logged in user a message, then the newest
+      message's sent date will appear, otherwise it will be null.
+    format: date-time
+    type: string
+required:
+  - contact_company
+  - contact_id
+  - contact_name
+type: object

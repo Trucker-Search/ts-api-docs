@@ -1,0 +1,17 @@
+properties:
+  list:
+    items:
+      $ref: '#/definitions/resume_board_data'
+    type: array
+  page_number:
+    type: integer
+  total_items:
+    type: integer
+  total_pages:
+    type: integer
+required:
+  - list
+  - page_number
+  - total_items
+  - total_pages
+type: object

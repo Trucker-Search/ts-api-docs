@@ -1,0 +1,8 @@
+description: 'Will automatically log them in, and return the needed token.'
+properties:
+  end-user-token:
+    description: Their token to show they are logged in.
+    type: string
+required:
+  - end-user-token
+type: object

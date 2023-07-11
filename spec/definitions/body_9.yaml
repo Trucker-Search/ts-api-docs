@@ -1,0 +1,14 @@
+description: >-
+  You can use any name that has not already been taken. Certain folders are
+  automatically created, the first time a message is sent or recieved. The names
+  of these folders are reserved and cannot be added, modified or deleted.
+
+
+  Currently they are Active, Pending, Deleted, and Trash.
+properties:
+  name:
+    description: Name of the folder to be added.
+    type: string
+required:
+  - name
+type: object

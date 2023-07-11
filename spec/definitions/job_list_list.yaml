@@ -1,0 +1,17 @@
+properties:
+  contact:
+    $ref: '#/definitions/job_list_contact'
+  job_id:
+    type: number
+  perks:
+    $ref: '#/definitions/job_data_patch_perks'
+  position:
+    $ref: '#/definitions/job_list_position'
+  relevance:
+    description: Search relevance score.
+    type: integer
+required:
+  - contact
+  - job_id
+  - position
+type: object

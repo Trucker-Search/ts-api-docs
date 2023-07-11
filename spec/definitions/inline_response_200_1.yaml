@@ -1,0 +1,12 @@
+properties:
+  status:
+    enum:
+      - premium_employer
+      - driver
+      - employer
+      - not_logged_in
+      - overdue_employer
+    type: string
+required:
+  - status
+type: object
