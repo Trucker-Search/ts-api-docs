@@ -652,7 +652,7 @@
           "type" : "string",
           "enum" : [ "local", "OTR" ]
         }, {
-          "name" : "region_preference",
+          "name" : "region",
           "in" : "query",
           "description" : "This is a list of possible regions. This matches the regions from searching and posting a job ad on our website. I am adding it to the API with the assumption that we can expand our resume regions to match. This should aviod some confusion and weirdness. An example would be alert options. ",
           "required" : false,
@@ -1543,8 +1543,8 @@
       "properties" : {
         "search_type" : {
           "type" : "string",
-          "enum" : [ "job", "resume" ],
-          "default" : "resume"
+          "default" : "resume",
+          "enum" : [ "job", "resume" ]
         },
         "notification_medium" : {
           "type" : "string",
@@ -1764,8 +1764,16 @@
     },
     "job_list" : {
       "type" : "object",
-      "required" : [ "list", "page_number", "total_items", "total_pages" ],
+      "required" : [ "display_columns", "list", "page_number", "total_items", "total_pages" ],
       "properties" : {
+        "display_columns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "example" : "",
+            "description" : "list of columns and order to be given display preference."
+          }
+        },
         "list" : {
           "type" : "array",
           "items" : {
@@ -2733,8 +2741,8 @@
         },
         "distance_preference" : {
           "type" : "string",
-          "enum" : [ "OTR", "local" ],
-          "default" : "OTR"
+          "default" : "OTR",
+          "enum" : [ "OTR", "local" ]
         },
         "image_data" : {
           "type" : "string",
@@ -2752,8 +2760,8 @@
         },
         "team_preference" : {
           "type" : "string",
-          "enum" : [ "single", "team" ],
-          "default" : "single"
+          "default" : "single",
+          "enum" : [ "single", "team" ]
         }
       }
     },
