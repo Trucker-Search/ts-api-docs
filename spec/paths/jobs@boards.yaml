@@ -6,7 +6,7 @@ get:
       required: false
       type: string
     - in: query
-      name: 24x7_dispatch
+      name: dispatch_24x7
       required: false
       type: boolean
     - in: query
@@ -41,7 +41,13 @@ get:
       name: health_insurance
       required: false
       type: boolean
-    - in: query
+    - enum:
+        - daily
+        - weekly
+        - biweekly
+        - monthly
+        - other
+      in: query
       name: home
       required: false
       type: string
@@ -57,7 +63,12 @@ get:
       name: no_touch_freight
       required: false
       type: boolean
-    - in: query
+    - enum:
+        - weekly
+        - biweekly
+        - monthly
+        - other
+      in: query
       name: paid
       required: false
       type: string
@@ -93,7 +104,8 @@ get:
       name: safety_bonus
       required: false
       type: boolean
-    - in: query
+    - format: float
+      in: query
       name: sign_on_bonus
       required: false
       type: number
