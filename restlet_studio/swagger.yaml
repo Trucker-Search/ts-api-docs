@@ -530,7 +530,7 @@
           "required" : false,
           "type" : "string"
         }, {
-          "name" : "24x7_dispatch",
+          "name" : "dispatch_24x7",
           "in" : "query",
           "required" : false,
           "type" : "boolean"
@@ -578,7 +578,8 @@
           "name" : "home",
           "in" : "query",
           "required" : false,
-          "type" : "string"
+          "type" : "string",
+          "enum" : [ "daily", "weekly", "biweekly", "monthly", "other" ]
         }, {
           "name" : "lease_purchase_available",
           "in" : "query",
@@ -598,7 +599,8 @@
           "name" : "paid",
           "in" : "query",
           "required" : false,
-          "type" : "string"
+          "type" : "string",
+          "enum" : [ "weekly", "biweekly", "monthly", "other" ]
         }, {
           "name" : "paid_holidays",
           "in" : "query",
@@ -643,7 +645,8 @@
           "name" : "sign_on_bonus",
           "in" : "query",
           "required" : false,
-          "type" : "number"
+          "type" : "number",
+          "format" : "float"
         }, {
           "name" : "distance_preference",
           "in" : "query",
