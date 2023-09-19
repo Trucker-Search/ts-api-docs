@@ -20,7 +20,7 @@
     "/alerts" : {
       "get" : {
         "tags" : [ "alerts" ],
-        "summary" : "STAGE=UNKNOWN Get a list of alerts.",
+        "summary" : "STAGE=UNK Get a list of alerts.",
         "description" : "Get a list of alerts. You can optionally limit the list by specifying alerts by their alert_id.",
         "parameters" : [ {
           "name" : "end-user-token",
@@ -530,7 +530,7 @@
           "required" : false,
           "type" : "string"
         }, {
-          "name" : "24x7_dispatch",
+          "name" : "dispatch_24x7",
           "in" : "query",
           "required" : false,
           "type" : "boolean"
@@ -578,7 +578,8 @@
           "name" : "home",
           "in" : "query",
           "required" : false,
-          "type" : "string"
+          "type" : "string",
+          "enum" : [ "daily", "weekly", "biweekly", "monthly", "other" ]
         }, {
           "name" : "lease_purchase_available",
           "in" : "query",
@@ -598,7 +599,8 @@
           "name" : "paid",
           "in" : "query",
           "required" : false,
-          "type" : "string"
+          "type" : "string",
+          "enum" : [ "weekly", "biweekly", "monthly", "other" ]
         }, {
           "name" : "paid_holidays",
           "in" : "query",
@@ -643,7 +645,8 @@
           "name" : "sign_on_bonus",
           "in" : "query",
           "required" : false,
-          "type" : "number"
+          "type" : "number",
+          "format" : "float"
         }, {
           "name" : "distance_preference",
           "in" : "query",
@@ -652,7 +655,7 @@
           "type" : "string",
           "enum" : [ "local", "OTR" ]
         }, {
-          "name" : "region_preference",
+          "name" : "region",
           "in" : "query",
           "description" : "This is a list of possible regions. This matches the regions from searching and posting a job ad on our website. I am adding it to the API with the assumption that we can expand our resume regions to match. This should aviod some confusion and weirdness. An example would be alert options. ",
           "required" : false,
@@ -1543,8 +1546,8 @@
       "properties" : {
         "search_type" : {
           "type" : "string",
-          "enum" : [ "job", "resume" ],
-          "default" : "resume"
+          "default" : "resume",
+          "enum" : [ "job", "resume" ]
         },
         "notification_medium" : {
           "type" : "string",
@@ -1764,8 +1767,16 @@
     },
     "job_list" : {
       "type" : "object",
-      "required" : [ "list", "page_number", "total_items", "total_pages" ],
+      "required" : [ "display_columns", "list", "page_number", "total_items", "total_pages" ],
       "properties" : {
+        "display_columns" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "example" : "",
+            "description" : "list of columns and order to be given display preference."
+          }
+        },
         "list" : {
           "type" : "array",
           "items" : {
@@ -2733,8 +2744,8 @@
         },
         "distance_preference" : {
           "type" : "string",
-          "enum" : [ "OTR", "local" ],
-          "default" : "OTR"
+          "default" : "OTR",
+          "enum" : [ "OTR", "local" ]
         },
         "image_data" : {
           "type" : "string",
@@ -2752,8 +2763,8 @@
         },
         "team_preference" : {
           "type" : "string",
-          "enum" : [ "single", "team" ],
-          "default" : "single"
+          "default" : "single",
+          "enum" : [ "single", "team" ]
         }
       }
     },
