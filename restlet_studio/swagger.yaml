@@ -20,7 +20,7 @@
     "/alerts" : {
       "get" : {
         "tags" : [ "alerts" ],
-        "summary" : "STAGE=UNKNOWN Get a list of alerts.",
+        "summary" : "STAGE=UNK Get a list of alerts.",
         "description" : "Get a list of alerts. You can optionally limit the list by specifying alerts by their alert_id.",
         "parameters" : [ {
           "name" : "end-user-token",
