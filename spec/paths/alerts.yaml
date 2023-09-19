@@ -57,7 +57,7 @@ get:
       description: Status 200
       schema:
         $ref: '#/definitions/inline_response_200'
-  summary: STAGE=UNKNOWN Get a list of alerts.
+  summary: STAGE=UNK Get a list of alerts.
   tags:
     - alerts
 post:
