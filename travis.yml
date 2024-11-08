@@ -1,0 +1,20 @@
+language: node_js
+os: linux
+arch:
+  - arm64
+#  - ppc64le Partner Credits https://docs.travis-ci.com/user/billing-overview/
+#  - s390x
+node_js:
+  - "11"
+deploy:
+  - skip_cleanup: true
+    provider: script
+    script: npm run deploy
+    'on':
+      branch: master
+  - skip_cleanup: true
+    provider: script
+    script: npm run deploy-branch
+    'on':
+      all_branches: true
+      condition: '"$TRAVIS_BRANCH" != "master" && "$TRAVIS_BRANCH" != "gh-pages"'
