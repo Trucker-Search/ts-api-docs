@@ -12,8 +12,8 @@ properties:
     enum:
       - other
       - student
-      - company
-      - owner/operator
+      - company driver
+      - owner operator
     type: string
   license_type:
     enum:

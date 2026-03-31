@@ -54,9 +54,6 @@ properties:
       trailer_experience:
         $ref: '#/definitions/trailers'
     type: object
-  is_public:
-    description: By marking it false you'll set the resume status to private.
-    type: boolean
   job_preference:
     properties:
       distance_preference:

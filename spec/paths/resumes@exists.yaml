@@ -1,16 +1,16 @@
 get:
-  description: |-
-    Returns the status of a users resume:
-    NOT-FOUND : No resume has been created
-    DELETED : There was a resume but the user deleted it
-    UPDATED : Pending approval
-    APPROVED : Available in search results
+  description: 'Returns: NOT-FOUND,DELETED,UPDATED,APPROVED'
   parameters: []
   responses:
     '200':
       description: Status 200
       schema:
-        $ref: '#/definitions/inline_response_200_9'
+        properties:
+          status:
+            type: string
+        required:
+          - status
+        type: object
   summary: Returns status of a users resume
   tags:
     - resumes

@@ -15,7 +15,12 @@ get:
     '200':
       description: Status 200
       schema:
-        $ref: '#/definitions/inline_response_200_2'
+        properties:
+          count:
+            type: integer
+        required:
+          - count
+        type: object
   summary: STAGE=UNK Get a count of favorites
   tags:
     - favorites

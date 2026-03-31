@@ -22,7 +22,12 @@ get:
     '200':
       description: Status 200
       schema:
-        $ref: '#/definitions/inline_response_200_2'
+        properties:
+          count:
+            type: integer
+        required:
+          - count
+        type: object
   summary: Returns how many unread messages the user has.
   tags:
     - messages

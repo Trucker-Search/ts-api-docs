@@ -21,7 +21,7 @@ get:
     '200':
       description: Status 200
       schema:
-        $ref: '#/definitions/resume_data_optional'
+        $ref: '#/definitions/resume_response_object'
   summary: Get the user's resume.
   tags:
     - resumes

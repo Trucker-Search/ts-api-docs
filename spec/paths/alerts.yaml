@@ -56,7 +56,14 @@ get:
     '200':
       description: Status 200
       schema:
-        $ref: '#/definitions/inline_response_200'
+        properties:
+          list:
+            items:
+              $ref: '#/definitions/alert_response_object'
+            type: array
+        required:
+          - list
+        type: object
   summary: STAGE=UNK Get a list of alerts.
   tags:
     - alerts

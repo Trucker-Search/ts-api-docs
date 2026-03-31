@@ -1,3 +1,4 @@
+description: '**DEPRECATED** This key can be submitted, but will be ignored.'
 enum:
   - Other/Unknown
   - AT&T
