@@ -1,4 +1,10 @@
 properties:
+  display_columns:
+    items:
+      description: list of columns and order to be given display preference.
+      example: ''
+      type: string
+    type: array
   list:
     items:
       $ref: '#/definitions/job_list_list'
@@ -10,6 +16,7 @@ properties:
   total_pages:
     type: integer
 required:
+  - display_columns
   - list
   - page_number
   - total_items
